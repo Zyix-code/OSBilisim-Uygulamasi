@@ -36,6 +36,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sipariskontrolform));
             this.sipariskontrolview = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.üründurumunugüncelle_combobox = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.kullanilacak_malzeme_serino_ekle_btn = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.ürün_seri_no_textbox = new System.Windows.Forms.TextBox();
@@ -58,6 +60,8 @@
             this.siparis_sil_btn = new System.Windows.Forms.Button();
             this.siparis_listesi_güncelle_btn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.satis_tarihi_textbox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ürününsatildigifirmatextbox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -120,7 +124,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.sipariskontrolview.DefaultCellStyle = dataGridViewCellStyle3;
-            this.sipariskontrolview.Location = new System.Drawing.Point(383, 445);
+            this.sipariskontrolview.Location = new System.Drawing.Point(383, 475);
             this.sipariskontrolview.Name = "sipariskontrolview";
             this.sipariskontrolview.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -140,6 +144,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.üründurumunugüncelle_combobox);
+            this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.kullanilacak_malzeme_serino_ekle_btn);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.ürün_seri_no_textbox);
@@ -161,17 +167,43 @@
             this.groupBox1.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.groupBox1.Location = new System.Drawing.Point(383, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(562, 379);
+            this.groupBox1.Size = new System.Drawing.Size(562, 409);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ÜRÜN ÖZELLİKLERİ";
+            // 
+            // üründurumunugüncelle_combobox
+            // 
+            this.üründurumunugüncelle_combobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.üründurumunugüncelle_combobox.FormattingEnabled = true;
+            this.üründurumunugüncelle_combobox.Items.AddRange(new object[] {
+            "Sipariş Beklemede",
+            "Sipariş Onaylandı",
+            "Sipariş Gönderim İçin Hazır",
+            "Sipariş Arızalı",
+            "Sipariş İade"});
+            this.üründurumunugüncelle_combobox.Location = new System.Drawing.Point(161, 157);
+            this.üründurumunugüncelle_combobox.Name = "üründurumunugüncelle_combobox";
+            this.üründurumunugüncelle_combobox.Size = new System.Drawing.Size(180, 24);
+            this.üründurumunugüncelle_combobox.TabIndex = 30;
+            this.üründurumunugüncelle_combobox.SelectedIndexChanged += new System.EventHandler(this.Üründurumunugüncelle_combobox_SelectedIndexChanged);
+            this.üründurumunugüncelle_combobox.Click += new System.EventHandler(this.üründurumunugüncelle_combobox_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(9, 160);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(143, 16);
+            this.label17.TabIndex = 29;
+            this.label17.Text = "Ürün durumunu güncelle:";
             // 
             // kullanilacak_malzeme_serino_ekle_btn
             // 
             this.kullanilacak_malzeme_serino_ekle_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
             this.kullanilacak_malzeme_serino_ekle_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.kullanilacak_malzeme_serino_ekle_btn.ForeColor = System.Drawing.Color.Black;
-            this.kullanilacak_malzeme_serino_ekle_btn.Location = new System.Drawing.Point(400, 260);
+            this.kullanilacak_malzeme_serino_ekle_btn.Location = new System.Drawing.Point(413, 288);
             this.kullanilacak_malzeme_serino_ekle_btn.Name = "kullanilacak_malzeme_serino_ekle_btn";
             this.kullanilacak_malzeme_serino_ekle_btn.Size = new System.Drawing.Size(121, 32);
             this.kullanilacak_malzeme_serino_ekle_btn.TabIndex = 28;
@@ -183,7 +215,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(58, 100);
+            this.label13.Location = new System.Drawing.Point(9, 103);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(77, 16);
             this.label13.TabIndex = 17;
@@ -191,7 +223,7 @@
             // 
             // ürün_seri_no_textbox
             // 
-            this.ürün_seri_no_textbox.Location = new System.Drawing.Point(148, 98);
+            this.ürün_seri_no_textbox.Location = new System.Drawing.Point(161, 100);
             this.ürün_seri_no_textbox.Name = "ürün_seri_no_textbox";
             this.ürün_seri_no_textbox.ReadOnly = true;
             this.ürün_seri_no_textbox.Size = new System.Drawing.Size(180, 21);
@@ -200,15 +232,15 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(23, 306);
+            this.label10.Location = new System.Drawing.Point(9, 326);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(119, 32);
+            this.label10.Size = new System.Drawing.Size(97, 16);
             this.label10.TabIndex = 15;
-            this.label10.Text = "           Ürün\r\n hakkında açıklama: ";
+            this.label10.Text = "Ürün açıklaması: ";
             // 
             // aciklama_textbox
             // 
-            this.aciklama_textbox.Location = new System.Drawing.Point(148, 298);
+            this.aciklama_textbox.Location = new System.Drawing.Point(161, 320);
             this.aciklama_textbox.Multiline = true;
             this.aciklama_textbox.Name = "aciklama_textbox";
             this.aciklama_textbox.ReadOnly = true;
@@ -218,7 +250,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(92, 268);
+            this.label14.Location = new System.Drawing.Point(9, 296);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(49, 16);
             this.label14.TabIndex = 27;
@@ -228,7 +260,7 @@
             // 
             this.kullanilacak_malzemeler_listbox.FormattingEnabled = true;
             this.kullanilacak_malzemeler_listbox.ItemHeight = 16;
-            this.kullanilacak_malzemeler_listbox.Location = new System.Drawing.Point(148, 154);
+            this.kullanilacak_malzemeler_listbox.Location = new System.Drawing.Point(161, 187);
             this.kullanilacak_malzemeler_listbox.Name = "kullanilacak_malzemeler_listbox";
             this.kullanilacak_malzemeler_listbox.Size = new System.Drawing.Size(390, 100);
             this.kullanilacak_malzemeler_listbox.TabIndex = 13;
@@ -236,15 +268,15 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 154);
+            this.label8.Location = new System.Drawing.Point(9, 187);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(140, 32);
+            this.label8.Size = new System.Drawing.Size(142, 16);
             this.label8.TabIndex = 13;
-            this.label8.Text = "           Ürün\'de \r\nkullanılacak malzemeler: ";
+            this.label8.Text = "Kullanılacak malzemeler: ";
             // 
             // ürünstokkodutextbox
             // 
-            this.ürünstokkodutextbox.Location = new System.Drawing.Point(148, 45);
+            this.ürünstokkodutextbox.Location = new System.Drawing.Point(161, 46);
             this.ürünstokkodutextbox.Name = "ürünstokkodutextbox";
             this.ürünstokkodutextbox.ReadOnly = true;
             this.ürünstokkodutextbox.Size = new System.Drawing.Size(180, 21);
@@ -255,7 +287,7 @@
             this.siparis_aciklama_güncelleme_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
             this.siparis_aciklama_güncelleme_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_aciklama_güncelleme_btn.ForeColor = System.Drawing.Color.Black;
-            this.siparis_aciklama_güncelleme_btn.Location = new System.Drawing.Point(400, 298);
+            this.siparis_aciklama_güncelleme_btn.Location = new System.Drawing.Point(413, 326);
             this.siparis_aciklama_güncelleme_btn.Name = "siparis_aciklama_güncelleme_btn";
             this.siparis_aciklama_güncelleme_btn.Size = new System.Drawing.Size(121, 43);
             this.siparis_aciklama_güncelleme_btn.TabIndex = 17;
@@ -266,14 +298,14 @@
             // 
             // kullanilacak_malzemeler_seri_no_textbox
             // 
-            this.kullanilacak_malzemeler_seri_no_textbox.Location = new System.Drawing.Point(148, 265);
+            this.kullanilacak_malzemeler_seri_no_textbox.Location = new System.Drawing.Point(161, 293);
             this.kullanilacak_malzemeler_seri_no_textbox.Name = "kullanilacak_malzemeler_seri_no_textbox";
             this.kullanilacak_malzemeler_seri_no_textbox.Size = new System.Drawing.Size(246, 21);
             this.kullanilacak_malzemeler_seri_no_textbox.TabIndex = 26;
             // 
             // ürünaditextbox
             // 
-            this.ürünaditextbox.Location = new System.Drawing.Point(148, 19);
+            this.ürünaditextbox.Location = new System.Drawing.Point(161, 19);
             this.ürünaditextbox.Name = "ürünaditextbox";
             this.ürünaditextbox.ReadOnly = true;
             this.ürünaditextbox.Size = new System.Drawing.Size(180, 21);
@@ -282,6 +314,7 @@
             // ürünhazirlikdurumu_combobox
             // 
             this.ürünhazirlikdurumu_combobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ürünhazirlikdurumu_combobox.Enabled = false;
             this.ürünhazirlikdurumu_combobox.FormattingEnabled = true;
             this.ürünhazirlikdurumu_combobox.Items.AddRange(new object[] {
             "Sipariş Beklemede",
@@ -289,7 +322,7 @@
             "Sipariş Gönderim İçin Hazır",
             "Sipariş Arızalı",
             "Sipariş İade"});
-            this.ürünhazirlikdurumu_combobox.Location = new System.Drawing.Point(148, 124);
+            this.ürünhazirlikdurumu_combobox.Location = new System.Drawing.Point(161, 127);
             this.ürünhazirlikdurumu_combobox.Name = "ürünhazirlikdurumu_combobox";
             this.ürünhazirlikdurumu_combobox.Size = new System.Drawing.Size(180, 24);
             this.ürünhazirlikdurumu_combobox.TabIndex = 9;
@@ -298,16 +331,16 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(49, 121);
+            this.label9.Location = new System.Drawing.Point(9, 130);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(92, 32);
+            this.label9.Size = new System.Drawing.Size(125, 16);
             this.label9.TabIndex = 8;
-            this.label9.Text = "        Ürün\r\nhazırlık durumu: ";
+            this.label9.Text = "Güncel ürün durumu: ";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(69, 75);
+            this.label5.Location = new System.Drawing.Point(9, 74);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 16);
             this.label5.TabIndex = 5;
@@ -315,7 +348,7 @@
             // 
             // ürünadetitextbox
             // 
-            this.ürünadetitextbox.Location = new System.Drawing.Point(148, 72);
+            this.ürünadetitextbox.Location = new System.Drawing.Point(161, 73);
             this.ürünadetitextbox.Name = "ürünadetitextbox";
             this.ürünadetitextbox.ReadOnly = true;
             this.ürünadetitextbox.Size = new System.Drawing.Size(180, 21);
@@ -325,16 +358,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(43, 48);
+            this.label2.Location = new System.Drawing.Point(9, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 16);
+            this.label2.Size = new System.Drawing.Size(91, 16);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Ürün Stok Kodu: ";
+            this.label2.Text = "Ürün stok kodu: ";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(76, 22);
+            this.label1.Location = new System.Drawing.Point(9, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 16);
             this.label1.TabIndex = 2;
@@ -353,7 +386,7 @@
             this.siparis_sil_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_sil_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.siparis_sil_btn.ForeColor = System.Drawing.Color.Black;
-            this.siparis_sil_btn.Location = new System.Drawing.Point(656, 397);
+            this.siparis_sil_btn.Location = new System.Drawing.Point(638, 427);
             this.siparis_sil_btn.Name = "siparis_sil_btn";
             this.siparis_sil_btn.Size = new System.Drawing.Size(121, 42);
             this.siparis_sil_btn.TabIndex = 14;
@@ -368,7 +401,7 @@
             this.siparis_listesi_güncelle_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_listesi_güncelle_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.siparis_listesi_güncelle_btn.ForeColor = System.Drawing.Color.Black;
-            this.siparis_listesi_güncelle_btn.Location = new System.Drawing.Point(529, 397);
+            this.siparis_listesi_güncelle_btn.Location = new System.Drawing.Point(511, 427);
             this.siparis_listesi_güncelle_btn.Name = "siparis_listesi_güncelle_btn";
             this.siparis_listesi_güncelle_btn.Size = new System.Drawing.Size(121, 42);
             this.siparis_listesi_güncelle_btn.TabIndex = 13;
@@ -379,6 +412,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.satis_tarihi_textbox);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.ürününsatildigifirmatextbox);
             this.groupBox2.Controls.Add(this.label3);
@@ -390,15 +425,32 @@
             this.groupBox2.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.groupBox2.Location = new System.Drawing.Point(951, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(354, 135);
+            this.groupBox2.Size = new System.Drawing.Size(354, 165);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ALICI VE FİRMA BİLGİLERİ";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 130);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(66, 16);
+            this.label15.TabIndex = 19;
+            this.label15.Text = "Satış tarihi: ";
+            // 
+            // satis_tarihi_textbox
+            // 
+            this.satis_tarihi_textbox.Location = new System.Drawing.Point(153, 127);
+            this.satis_tarihi_textbox.Name = "satis_tarihi_textbox";
+            this.satis_tarihi_textbox.ReadOnly = true;
+            this.satis_tarihi_textbox.Size = new System.Drawing.Size(180, 21);
+            this.satis_tarihi_textbox.TabIndex = 18;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(28, 101);
+            this.label4.Location = new System.Drawing.Point(7, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(123, 16);
             this.label4.TabIndex = 17;
@@ -406,7 +458,7 @@
             // 
             // ürününsatildigifirmatextbox
             // 
-            this.ürününsatildigifirmatextbox.Location = new System.Drawing.Point(153, 97);
+            this.ürününsatildigifirmatextbox.Location = new System.Drawing.Point(153, 100);
             this.ürününsatildigifirmatextbox.Name = "ürününsatildigifirmatextbox";
             this.ürününsatildigifirmatextbox.ReadOnly = true;
             this.ürününsatildigifirmatextbox.Size = new System.Drawing.Size(180, 21);
@@ -415,7 +467,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(41, 75);
+            this.label3.Location = new System.Drawing.Point(7, 76);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 16);
             this.label3.TabIndex = 15;
@@ -423,7 +475,7 @@
             // 
             // satisyapilanfirmatextbox
             // 
-            this.satisyapilanfirmatextbox.Location = new System.Drawing.Point(153, 71);
+            this.satisyapilanfirmatextbox.Location = new System.Drawing.Point(153, 73);
             this.satisyapilanfirmatextbox.Name = "satisyapilanfirmatextbox";
             this.satisyapilanfirmatextbox.ReadOnly = true;
             this.satisyapilanfirmatextbox.Size = new System.Drawing.Size(180, 21);
@@ -432,7 +484,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 48);
+            this.label6.Location = new System.Drawing.Point(7, 49);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(138, 16);
             this.label6.TabIndex = 13;
@@ -440,7 +492,7 @@
             // 
             // alicisoyaditextboxt
             // 
-            this.alicisoyaditextboxt.Location = new System.Drawing.Point(153, 45);
+            this.alicisoyaditextboxt.Location = new System.Drawing.Point(153, 46);
             this.alicisoyaditextboxt.Name = "alicisoyaditextboxt";
             this.alicisoyaditextboxt.ReadOnly = true;
             this.alicisoyaditextboxt.Size = new System.Drawing.Size(180, 21);
@@ -449,7 +501,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(25, 22);
+            this.label7.Location = new System.Drawing.Point(7, 22);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(121, 16);
             this.label7.TabIndex = 11;
@@ -474,7 +526,7 @@
             this.groupBox3.Controls.Add(this.malzeme_ekle_btn);
             this.groupBox3.Controls.Add(this.kullanilacak_malzeme_adeti_textbox);
             this.groupBox3.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.groupBox3.Location = new System.Drawing.Point(951, 153);
+            this.groupBox3.Location = new System.Drawing.Point(951, 183);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(674, 286);
             this.groupBox3.TabIndex = 16;
@@ -568,7 +620,7 @@
             this.Siparisi_onayla_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Siparisi_onayla_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.Siparisi_onayla_btn.ForeColor = System.Drawing.Color.Black;
-            this.Siparisi_onayla_btn.Location = new System.Drawing.Point(783, 397);
+            this.Siparisi_onayla_btn.Location = new System.Drawing.Point(765, 427);
             this.Siparisi_onayla_btn.Name = "Siparisi_onayla_btn";
             this.Siparisi_onayla_btn.Size = new System.Drawing.Size(121, 42);
             this.Siparisi_onayla_btn.TabIndex = 17;
@@ -615,7 +667,7 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(377, 742);
+            this.panel2.Size = new System.Drawing.Size(377, 755);
             this.panel2.TabIndex = 25;
             this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseDown);
             this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseMove);
@@ -627,7 +679,7 @@
             this.ana_menü_btnn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ana_menü_btnn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.ana_menü_btnn.ForeColor = System.Drawing.SystemColors.Window;
-            this.ana_menü_btnn.Location = new System.Drawing.Point(12, 673);
+            this.ana_menü_btnn.Location = new System.Drawing.Point(12, 703);
             this.ana_menü_btnn.Name = "ana_menü_btnn";
             this.ana_menü_btnn.Size = new System.Drawing.Size(121, 32);
             this.ana_menü_btnn.TabIndex = 12;
@@ -665,7 +717,7 @@
             this.loginpanel_gelistiren_label.Font = new System.Drawing.Font("Century Gothic", 7F);
             this.loginpanel_gelistiren_label.ForeColor = System.Drawing.Color.White;
             this.loginpanel_gelistiren_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(270, 676);
+            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(258, 705);
             this.loginpanel_gelistiren_label.Name = "loginpanel_gelistiren_label";
             this.loginpanel_gelistiren_label.Size = new System.Drawing.Size(107, 30);
             this.loginpanel_gelistiren_label.TabIndex = 7;
@@ -684,15 +736,14 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Sipariskontrolform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1640, 715);
+            this.ClientSize = new System.Drawing.Size(1640, 747);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.windows_kücültme_label);
             this.Controls.Add(this.logout_label);
@@ -700,9 +751,9 @@
             this.Controls.Add(this.Siparisi_onayla_btn);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.siparis_sil_btn);
             this.Controls.Add(this.ana_menü_btn);
             this.Controls.Add(this.sipariskontrolview);
+            this.Controls.Add(this.siparis_sil_btn);
             this.Controls.Add(this.siparis_listesi_güncelle_btn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -785,5 +836,9 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox satis_tarihi_textbox;
+        private System.Windows.Forms.ComboBox üründurumunugüncelle_combobox;
+        private System.Windows.Forms.Label label17;
     }
 }

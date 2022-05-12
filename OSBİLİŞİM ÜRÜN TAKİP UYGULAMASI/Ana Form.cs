@@ -292,33 +292,6 @@ namespace OSBilişim
             diğer_Malzeme_Grubları.Show();
             Hide();
         }
-        #region veritabanı yedekleme
-        public void VeritabanıYedek()
-        {
-            DateTime thisDay = DateTime.Today;
-            string günlükveritabanıadı = "OSBilişim_veritabanı_yedeği - " + thisDay.ToString("d") + ".bak";
-            int hour = DateTime.Now.TimeOfDay.Hours;
-            if (statü_label.Text == "Ana Bilgisayar" && Kullanicigirisiform.username == "Admin")
-            {
-                if (hour >= 9 && hour <= 18)
-                {
-                    if (connection.State == ConnectionState.Closed)
-                    {
-                        connection.Open();
-                        MessageBox.Show("Veritabanı yedeği alınıyor, lütfen bekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        string komut = "backup database model to disk='" + günlükveritabanıadı + "'";
-                        SqlCommand sqlCommand = new SqlCommand(komut, connection);
-                        sqlCommand.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
-            }
-        }
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            VeritabanıYedek();
-        }
-        #endregion
     }
 }
 

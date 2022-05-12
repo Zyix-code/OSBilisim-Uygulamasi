@@ -7,7 +7,8 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Net;
+using System.Net.Mail;
 
 namespace OSBilişim
 {
@@ -16,10 +17,11 @@ namespace OSBilişim
     {
         SqlDataReader dr;
         SqlCommand com;
-        readonly Anaform anaform = new Anaform();
+        readonly Anaform anaform = new Anaform(); 
+        sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
 
         public static string username;
-        public string versiyon = "4";
+        public string versiyon = "9";
         public string güncelversiyon = "";
         public Kullanicigirisiform()
         {
@@ -85,7 +87,6 @@ namespace OSBilişim
 
         private void Btn_giris_Click(object sender, EventArgs e)
         {
-           
             try
             {
                 if (connection.State == ConnectionState.Closed)
@@ -104,7 +105,6 @@ namespace OSBilişim
                     if (dr.Read())
                     {
                         dr.Close();
-
                         string adi, soyadi;
                         SqlCommand kullanicilar = new SqlCommand("SELECT *FROM kullanicilar where k_adi = '" + Kullanicigirisiform.username + "'", connection);
                         SqlDataReader kullaniciaciklamasi;
@@ -164,7 +164,6 @@ namespace OSBilişim
         }
         private void Yoneticizni()
         {
-           
             if (!Yoneticiznikontrol())
             {
                 ProcessStartInfo program = new ProcessStartInfo
@@ -196,7 +195,7 @@ namespace OSBilişim
         private void Kullanicigirisiform_Load(object sender, EventArgs e)
         {
             sifretextbox.UseSystemPasswordChar = true;
-            //Yoneticizni();
+           // Yoneticizni();
             try
             {
                 if (connection.State == ConnectionState.Closed)
@@ -233,8 +232,7 @@ namespace OSBilişim
             }
         }
 
-      readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True");
-
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True");
         private void Kullanicigirisiform_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
@@ -324,7 +322,9 @@ namespace OSBilişim
             this.Cursor = Cursors.SizeAll;
         }
 
+
         #endregion
+
         #region sifrelemetxt
         /*  string hash = "";
 
@@ -371,5 +371,11 @@ namespace OSBilişim
              // MessageBox.Show(sifrecöz(kullaniciaditextbox.text)); kullanımı
           }*/
         #endregion
+
+       
+        private void şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            sifresıfırlamaforum.Show();
+        }
     }
 }

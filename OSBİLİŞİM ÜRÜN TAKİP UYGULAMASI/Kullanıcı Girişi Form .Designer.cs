@@ -49,6 +49,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.şifremiunuttumlinklabel = new System.Windows.Forms.LinkLabel();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -190,12 +191,20 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
+            // şifremiunuttumlinklabel
+            // 
+            resources.ApplyResources(this.şifremiunuttumlinklabel, "şifremiunuttumlinklabel");
+            this.şifremiunuttumlinklabel.Name = "şifremiunuttumlinklabel";
+            this.şifremiunuttumlinklabel.TabStop = true;
+            this.şifremiunuttumlinklabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.şifremiunuttumlinklabel_LinkClicked);
+            // 
             // Kullanicigirisiform
             // 
             this.AcceptButton = this.btn_giris;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.şifremiunuttumlinklabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label2);
@@ -248,6 +257,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel şifremiunuttumlinklabel;
     }
 }
 

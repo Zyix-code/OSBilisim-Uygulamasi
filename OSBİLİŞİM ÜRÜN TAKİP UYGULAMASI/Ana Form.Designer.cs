@@ -419,15 +419,11 @@
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.UseVisualStyleBackColor = false;
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Click += new System.EventHandler(this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 3600000;
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
             // Anaform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(802, 559);
             this.Controls.Add(this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn);
             this.Controls.Add(this.diğer_malzeme_grubları);

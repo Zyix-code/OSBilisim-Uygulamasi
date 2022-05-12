@@ -312,7 +312,8 @@ namespace OSBilişim
                             yeniürünserinokayitkomut.Parameters.AddWithValue("@urun_durumu", "Kullanılmadı");
                             yeniürünserinokayitkomut.ExecuteNonQuery();
                             MessageBox.Show("Yeni ürün seri numarası oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            int tekrarsec = notebook_ürünler_listbox.SelectedIndex;
+                            notebook_ürünler_listbox.SelectedIndex = tekrarsec;
                             // LOG DOYASI //
                             using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                             {

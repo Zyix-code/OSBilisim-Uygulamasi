@@ -40,6 +40,29 @@ namespace OSBilişim
             }
             System.Windows.Forms.Application.Exit();
         }
+        private readonly string kelime = "SN: ";
+        private readonly string orjinal = "ÜRÜN ORJİNAL GÖNDERİLECEKTİR";
+        private bool snkontrol = true;
+        private void Kullanılacakürünlerinserinokontrolü()
+        {
+            foreach (string item in kullanilacak_malzemeler_listbox.Items)
+            {
+                
+                if (item.ToLower().Contains(kelime.ToLower()))
+                {
+                    snkontrol = false;
+                }
+                else if (item.ToLower().Contains(orjinal.ToLower()))
+                {
+                    snkontrol = false;
+                }
+                else
+                {
+                    snkontrol = true;
+                    break;
+                }
+            }
+        }
         public void Siparisonayla()
         {
             try
@@ -56,7 +79,7 @@ namespace OSBilişim
                             if (çıkacak_olan_parçalar_listesi_listbox.Items.Count > 0)
                             {
 
-                                SqlDataAdapter komut = new SqlDataAdapter("select count(*) from notebook_siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                                 DataTable dtablo = new DataTable();
                                 komut.Fill(dtablo);
                                 if (dtablo.Rows[0][0].ToString() == "1")
@@ -67,13 +90,13 @@ namespace OSBilişim
                                     {
                                         //KULLANILAN MALZEMELERİ SİSTEME AKTARMA
                                         string çıkarılanparcalarlistesi = çıkacak_olan_parçalar_listesi_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
-                                        SqlCommand ürüncikarilanparcalarıgüncelle = new SqlCommand("update notebook_siparisler set urun_cikarilan_parcalar = '" + çıkarılanparcalarlistesi + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                        SqlCommand ürüncikarilanparcalarıgüncelle = new SqlCommand("update siparisler set urun_cikarilan_parcalar = '" + çıkarılanparcalarlistesi + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                                         ürüncikarilanparcalarıgüncelle.ExecuteNonQuery();
 
 
                                         // KULLANILACAK MALZEMELERİN SERİ NUMARALARI GİRİLDİKTEN SONRA SİSTEME AKTARMA
                                         string kullanilacakparçalarlistesi = kullanilacak_malzemeler_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
-                                        SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update notebook_siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                        SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                                         kullanilanparcalarigüncelle.ExecuteNonQuery();
 
                                         // LOG DOYASI //
@@ -143,7 +166,7 @@ namespace OSBilişim
                                         MessageBox.Show("Kullanacağınız parçanın seri numarası başarılı şekilde eklendi.\nGörmek için sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         // SİPARİŞ ONAYLANIRSA SİPARİŞ DURUMUNU DEĞİŞTİRME
-                                        SqlCommand siparisdurumunugüncelle = new SqlCommand("update notebook_siparisler set urun_hazirlik_durumu = '" + "Sipariş Gönderim İçin Hazır" + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                        SqlCommand siparisdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + "Sipariş Gönderim İçin Hazır" + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                                         siparisdurumunugüncelle.ExecuteNonQuery();
                                     }
                                     else
@@ -190,19 +213,18 @@ namespace OSBilişim
             }
             catch (Exception hata)
             {
-                MessageBox.Show("Ürün durumu güncellenirken bir hata oluştu lütfen tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sipariş onaylanırken bir hata oluştu lütfen tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }
         public void Siparisgetir()
         {
-
             try
             {
                 if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
-                    SqlDataAdapter komut = new SqlDataAdapter("select * from notebook_siparisler", connection);
+                    SqlDataAdapter komut = new SqlDataAdapter("select * from siparisler", connection);
                     DataSet datagorev = new DataSet();
                     komut.Fill(datagorev);
                     sipariskontrolview.DataSource = datagorev.Tables[0];
@@ -215,13 +237,14 @@ namespace OSBilişim
                 Application.Exit();
             }
         }
-        private readonly string kelime = "SN: ";
-        private bool snkontrol = true;
+
         readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Sipariskontrol_Load(object sender, EventArgs e)
         {
-            
+
+            üründurumukontrol = false;
             timer1.Start();
+
             Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
             try
             {
@@ -241,7 +264,7 @@ namespace OSBilişim
                     {
 
                     }
-                    connection.Close();
+
                 }
             }
             catch (Exception hata)
@@ -251,21 +274,22 @@ namespace OSBilişim
             }
             try
             {
-                SqlCommand komut = new SqlCommand("SELECT * FROM kullanilacak_malzemeler ", connection);
+                SqlCommand komut = new SqlCommand("SELECT * FROM notebook_kullanilacak_malzemeler ", connection);
                 SqlDataReader veriokuyucu;
-                connection.Open();
+
                 veriokuyucu = komut.ExecuteReader();
                 while (veriokuyucu.Read())
                 {
                     çıkacak_olan_parçalar_listbox.Items.Add(veriokuyucu["malzeme_adi"]);
                 }
-                connection.Close();
+
             }
             catch (Exception hata)
             {
                 MessageBox.Show("Çıkarılan parçalar listesi çekilirken hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
+            connection.Close();
             SipariskontrolviewSetting(sipariskontrolview);
             Siparisgetir();
         }
@@ -293,6 +317,7 @@ namespace OSBilişim
         {
            
             ürünaditextbox.Text = sipariskontrolview.CurrentRow.Cells[1].Value.ToString();
+
             ürünstokkodutextbox.Text = sipariskontrolview.CurrentRow.Cells[2].Value.ToString();
             ürün_seri_no_textbox.Text = sipariskontrolview.CurrentRow.Cells[3].Value.ToString();
             ürünadetitextbox.Text = sipariskontrolview.CurrentRow.Cells[4].Value.ToString();
@@ -302,6 +327,7 @@ namespace OSBilişim
             ürününsatildigifirmatextbox.Text = sipariskontrolview.CurrentRow.Cells[8].Value.ToString();
             ürünhazirlikdurumu_combobox.SelectedItem = sipariskontrolview.CurrentRow.Cells[10].Value.ToString();
             aciklama_textbox.Text = sipariskontrolview.CurrentRow.Cells[11].Value.ToString();
+            satis_tarihi_textbox.Text = sipariskontrolview.CurrentRow.Cells[13].Value.ToString();
             try
             {
                 çıkacak_olan_parçalar_listesi_listbox.Items.Clear();
@@ -309,7 +335,7 @@ namespace OSBilişim
                 {
                     connection.Open();
                     kullanilacak_malzemeler_listbox.Items.Clear();
-                    SqlCommand komut3 = new SqlCommand("SELECT * FROM notebook_siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                    SqlCommand komut3 = new SqlCommand("SELECT * FROM siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                     SqlDataReader veriokuyucu3;
                     veriokuyucu3 = komut3.ExecuteReader();
                     while (veriokuyucu3.Read())
@@ -352,44 +378,6 @@ namespace OSBilişim
         }
         private void Ürünhazirlikdurumu_combobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Kullanılacakürünlerinserinokontrolü();
-            try
-            {
-
-                if (connection.State == ConnectionState.Closed)
-                {
-                    connection.Open();
-                    SqlDataAdapter komut = new SqlDataAdapter("select count(*) from notebook_siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
-                    DataTable dtablo = new DataTable();
-                    komut.Fill(dtablo);
-                    if (dtablo.Rows[0][0].ToString() == "1")
-                    {
-                        SqlCommand ürüngüncelle = new SqlCommand("update notebook_siparisler set urun_hazirlik_durumu = '" + ürünhazirlikdurumu_combobox.SelectedItem + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
-                        ürüngüncelle.ExecuteNonQuery();
-                        kullanilacak_malzeme_adeti_textbox.ReadOnly = false;
-                        cikacakürün_serino_textbox.ReadOnly = false;
-                        çıkacak_olan_parçalar_listesi_listbox.Enabled = true;
-                        malzeme_ekle_btn.Enabled = true;
-                        Siparisi_onayla_btn.Enabled = true;
-                        kullanilmayacak_malzemeyi_sil_btn.Enabled = true;
-                        aciklama_textbox.ReadOnly = true;
-                        siparis_aciklama_güncelleme_btn.Enabled = false;
-                        kullanilacak_malzemeler_seri_no_textbox.ReadOnly = false;
-                        kullanilacak_malzeme_serino_ekle_btn.Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ürün hazırlık durumu güncellenirken bir hata oluştu lütfen tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                    }
-                    connection.Close();
-                }
-            }
-            catch (Exception hata)
-            {
-                MessageBox.Show("Ürün durumu güncellenirken bir hata oluştu lütfen tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-
             if (ürünhazirlikdurumu_combobox.Text == "Sipariş Onaylandı")
             {
                 kullanilacak_malzeme_adeti_textbox.ReadOnly = true;
@@ -465,11 +453,11 @@ namespace OSBilişim
                 kullanilacak_malzeme_serino_ekle_btn.Enabled = true;
                 kullanilacak_malzemeler_listbox.Enabled = true;
                 çıkacak_olan_parçalar_listbox.Enabled = true;
-
             }
         }
         private void Siparis_listesi_güncelle_btn_Click(object sender, EventArgs e)
         {
+
             int siparisadeti, güncelsiparisadet,günceltoplam = 0, toplam = 0;
             try
             {
@@ -484,7 +472,14 @@ namespace OSBilişim
                 }
                 if (toplam < günceltoplam)
                 {
-                    MessageBox.Show("Yeni bir siparişiniz var kontrol ediniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    NotifyIcon trayIcon = new NotifyIcon();
+                    trayIcon.Icon = new Icon(@"alt-logo.ico");
+                    trayIcon.Text = "OS BİLİŞİM";
+                    trayIcon.MouseClick += delegate {
+                        MessageBox.Show("Yeni bir sipariş mevcut kontrol etmeyi unutmayınız.");
+                    };
+                    trayIcon.Visible = true;
+                    trayIcon.ShowBalloonTip(1, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
                 }
                 ürünaditextbox.Text = "";
                 ürünadetitextbox.Text = "0";
@@ -497,7 +492,12 @@ namespace OSBilişim
                 satisyapilanfirmatextbox.Text = "";
                 ürününsatildigifirmatextbox.Text = "";
                 çıkacak_olan_parçalar_listesi_listbox.Items.Clear();
+                çıkacak_olan_parçalar_listbox.SelectedIndex = -1;
+                üründurumunugüncelle_combobox.SelectedIndex = 1;
+                ürünhazirlikdurumu_combobox.SelectedIndex = 1;
+                ürün_seri_no_textbox.Text = "";
                 ürünadetitextbox.Text = "";
+                kullanilacak_malzeme_adeti_textbox.Text = "";
                 cikacakürün_serino_textbox.Text = "";
                 kullanilacak_malzemeler_seri_no_textbox.Text = "";
             }
@@ -518,7 +518,7 @@ namespace OSBilişim
                     if (connection.State == ConnectionState.Closed)
                     {
                         connection.Open();
-                        SqlCommand verisil = new SqlCommand("delete from notebook_siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                        SqlCommand verisil = new SqlCommand("delete from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                         verisil.ExecuteNonQuery();
 
                         // LOG DOYASI //
@@ -544,9 +544,14 @@ namespace OSBilişim
                         satisyapilanfirmatextbox.Text = "";
                         ürününsatildigifirmatextbox.Text = "";
                         çıkacak_olan_parçalar_listesi_listbox.Items.Clear();
-                        ürünadetitextbox.Text = "";
-                        cikacakürün_serino_textbox.Text = "";
+                        çıkacak_olan_parçalar_listbox.SelectedIndex = -1;
+                        üründurumunugüncelle_combobox.SelectedIndex = 1;
+                        ürünhazirlikdurumu_combobox.SelectedIndex = 1;
                         ürün_seri_no_textbox.Text = "";
+                        ürünadetitextbox.Text = "";
+                        kullanilacak_malzeme_adeti_textbox.Text = "";
+                        cikacakürün_serino_textbox.Text = "";
+                        kullanilacak_malzemeler_seri_no_textbox.Text = "";
                         Siparisgetir();
                     }
                 }
@@ -672,12 +677,12 @@ namespace OSBilişim
                     if (connection.State == ConnectionState.Closed)
                     {
                         connection.Open();
-                        SqlDataAdapter komut = new SqlDataAdapter("select count(*) from notebook_siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                        SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                         DataTable dtablo = new DataTable();
                         komut.Fill(dtablo);
                         if (dtablo.Rows[0][0].ToString() == "1")
                         {
-                            SqlCommand ürüngüncelle = new SqlCommand("update notebook_siparisler set urun_hakkinda_aciklama = '" + aciklama_textbox.Text + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                            SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hakkinda_aciklama = '" + aciklama_textbox.Text + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
                             ürüngüncelle.ExecuteNonQuery();
                             MessageBox.Show("Ürün açıklaması değiştirildi, lütfen sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             // LOG DOYASI //
@@ -705,21 +710,7 @@ namespace OSBilişim
                 Application.Exit();
             }
         }
-        private void Kullanılacakürünlerinserinokontrolü()
-        {
-            foreach (string item in kullanilacak_malzemeler_listbox.Items)
-            {
-                if (item.ToLower().Contains(kelime.ToLower()))
-                {
-                    snkontrol = false;
-                }
-                else
-                {
-                    snkontrol = true;
-                    break;
-                }
-            }
-        }
+
         private void Kullanilacak_malzeme_serino_ekle_btn_Click(object sender, EventArgs e)
         {
             if (kullanilacak_malzemeler_seri_no_textbox.Text == "")
@@ -888,7 +879,7 @@ namespace OSBilişim
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(klasorYeri);
             System.IO.FileInfo[] fis = di.GetFiles("*.bak");
             System.IO.FileInfo[] pdf = di.GetFiles("*.pdf");
-            if (fis.Length == 0 || (DateTime.Now - fis.Max(d => d.CreationTime)).TotalDays >= 7 || pdf.Length == 0 || (DateTime.Now - pdf.Max(d => d.CreationTime)).TotalDays >= 7)
+            if (fis.Length == 0 || (DateTime.Now - fis.Max(d => d.CreationTime)).TotalDays >= 1 || pdf.Length == 0 || (DateTime.Now - pdf.Max(d => d.CreationTime)).TotalDays >= 1)
             {
                 string database = connection.Database.ToString();
                 try
@@ -904,6 +895,7 @@ namespace OSBilişim
                         command.ExecuteNonQuery();
                         connection.Close();
                         PDF_Disa_Aktar(sipariskontrolview);
+                        //Excel_Disa_Aktar(sipariskontrolview);
                         MessageBox.Show(DateTime.Now.ToString("dd.MM.yyyy") + " tarihinde sipariş raporu, veritabanı yedeği başarılı şekilde alınmıştır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -926,24 +918,27 @@ namespace OSBilişim
                         mail.To.Add(kime);
                         mail.To.Add("teknik@trentatek.com.tr");
                         mail.To.Add("onur.demir@osbilisim.com.tr");
-                        mail.To.Add("alper.sonmez@osbilisim.com.tr");
+                        mail.To.Add("alper@osbilisim.com.tr");
+                        mail.To.Add("yener.guner@trentatek.com.tr");
                         mail.Subject = konu;
                         mail.IsBodyHtml = true;
                         mail.Body = icerik;
                         mail.Attachments.Add(new Attachment(@"D:\VeritabanıYedek\" + DateTime.Now.ToString("dd.MM.yyyy") + "-OSBilisim_yedek.bak"));
-                        mail.Attachments.Add(new Attachment(@"D:\VeritabanıYedek\" + DateTime.Now.ToString("dd.MM.yyyy") + "-OSBilisim_satisraporu.pdf"));
+                        mail.Attachments.Add(new Attachment(@"D:\VeritabanıYedek\" + DateTime.Now.ToString("dd.MM.yyyy") + "-OSBilisim_satisraporu.pdf"));                        
                         sc.Send(mail);
+
                     }
                 }
                 catch (Exception HATA)
                 {
                     MessageBox.Show(HATA.Message);
-                    return;
-                }
+                    return;                }
             }
         }
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
+            #region sipariskontroleski
+            /*
             int siparisadeti,toplam = 0;
             int güncelsiparisadet, günceltoplam = 0;
             if (Kullanicigirisiform.username == "Admin" || Anaform.statü == "Ana Bilgisayar" || Anaform.isim == "ANA PC")
@@ -959,11 +954,179 @@ namespace OSBilişim
                 }
                 if (toplam < günceltoplam)
                 {
-                    MessageBox.Show("Yeni bir siparişiniz var kontrol ediniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    NotifyIcon trayIcon = new NotifyIcon();
+                    trayIcon.Icon = new Icon(@"alt-logo.ico");
+                    trayIcon.Text = "OS BİLİŞİM";
+                    trayIcon.MouseClick += delegate {
+                        MessageBox.Show("Yeni bir sipariş mevcut kontrol etmeyi unutmayınız.");
+                    };
+                    trayIcon.Visible = true;
+                    trayIcon.ShowBalloonTip(1, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
                 }
-                Veritabanı_SatışRaporu();
-            }
+               
+            }*/
+            #endregion
+            System.Threading.Thread thread = new System.Threading.Thread(SiparisKontrol);
+            thread.Start();
+
+            Veritabanı_SatışRaporu();   
         }
         #endregion
+        /*public static void Excel_Disa_Aktar(DataGridView sipariskontrolview)
+      {
+          SaveFileDialog save = new SaveFileDialog();
+          save.OverwritePrompt = false;
+          save.Title = "Excel Dosyaları";
+          save.DefaultExt = "xlsx";
+          save.Filter = "xlsx Dosyaları (*.xlsx)|*.xlsx|Tüm Dosyalar(*.*)|*.*";
+
+          if (save.ShowDialog() == DialogResult.OK)
+          {
+              Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+              Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+              Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+              app.Visible = true;
+              worksheet = workbook.Sheets["Sayfa1"];
+              worksheet = workbook.ActiveSheet;
+              worksheet.Name = "Excel Dışa Aktarım";
+              for (int i = 1; i < sipariskontrolview.Columns.Count + 1; i++)
+              {
+                  worksheet.Cells[1, i] = sipariskontrolview.Columns[i - 1].HeaderText;
+              }
+              for (int i = 0; i < sipariskontrolview.Rows.Count - 1; i++)
+              {
+                  for (int j = 0; j < sipariskontrolview.Columns.Count; j++)
+                  {
+                      worksheet.Cells[i + 2, j + 1] = sipariskontrolview.Rows[i].Cells[j].Value.ToString();
+                  }
+              }
+              workbook.SaveAs(save.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+              app.Quit();
+          }
+      }*/
+        private void Üründurumunugüncelle_combobox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                    SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                    DataTable dtablo = new DataTable();
+                    komut.Fill(dtablo);
+                    if (dtablo.Rows[0][0].ToString() == "1")
+                    {
+                        if (üründurumukontrol == true)
+                        {
+                            if (üründurumunugüncelle_combobox.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("Lütfen geçerli bir durum seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                            }
+                            else
+                            {
+                                if (üründurumunugüncelle_combobox.SelectedItem == "Sipariş İade" || üründurumunugüncelle_combobox.SelectedItem == "Sipariş Arızalı")
+                                {
+                                    SqlCommand ürümdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                    ürümdurumunugüncelle.ExecuteNonQuery();
+
+                                    string kullanilacakmalzemeler1 = ürün_seri_no_textbox.Text;
+                                    string[] kelimeler1 = kullanilacakmalzemeler1.Split('/');
+                                    foreach (var kelime in kelimeler1)
+                                    {
+                                        SqlCommand ürünserinogüncelle = new SqlCommand("update notebook_urun_seri_no_stok set urun_durumu = '" + "Kullanılmadı" + "' where urun_seri_no = '" + kelime.Trim() + "'", connection);
+                                        ürünserinogüncelle.ExecuteNonQuery();
+                                        SqlCommand digerürünserinogüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Kullanılmadı" + "' where diger_urun_serino = '" + kelime.Trim() + "'", connection);
+                                        digerürünserinogüncelle.ExecuteNonQuery();
+                                    }
+                                }
+                                else
+                                {
+                                    SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                    ürüngüncelle.ExecuteNonQuery();
+
+                                    string kullanilacakmalzemeler1 = ürün_seri_no_textbox.Text;
+                                    string[] kelimeler1 = kullanilacakmalzemeler1.Split('/');
+                                    foreach (var kelime in kelimeler1)
+                                    {
+                                        SqlCommand ürünserinogüncelle = new SqlCommand("update notebook_urun_seri_no_stok set urun_durumu = '" + "Ürün Kullanıldı" + "' where urun_seri_no = '" + kelime.Trim() + "'", connection);
+                                        ürünserinogüncelle.ExecuteNonQuery();
+                                        SqlCommand digerürünserinogüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün Kullanıldı" + "' where diger_urun_serino = '" + kelime.Trim() + "'", connection);
+                                        digerürünserinogüncelle.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ürün hazırlık durumu güncellenirken bir hata oluştu lütfen tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("Ürün durumu güncellenirken bir hata oluştu lütfen tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+        }
+        bool üründurumukontrol = false;
+        private void üründurumunugüncelle_combobox_Click(object sender, EventArgs e)
+        {
+            üründurumukontrol = true;
+        }
+        private int SqldeGirilenTarihtenSonraOlusturulanSiparislerinSorgulandığıMetodun(DateTime sonSiparisKontrolTarihi)
+        {
+            try
+            {
+                using (var scon = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;"))
+                {
+                    scon.Open();
+                    using (var scom = scon.CreateCommand())
+                    {
+                        scom.CommandText = "select count(*) from siparisler where siparis_tarihi >= @tarih;";
+                        scom.Parameters.Add("@tarih", SqlDbType.SmallDateTime).Value = sonSiparisKontrolTarihi;
+
+                        return Convert.ToInt32(scom.ExecuteScalar());
+                    };
+                }
+              
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private void SiparisKontrol()
+        {
+            NotifyIcon trayIcon = new NotifyIcon();
+            while (false == !true)
+            {
+                if (SonSiparisKontrolTarihi >= DateTime.Now)
+                {
+                    int adet = SqldeGirilenTarihtenSonraOlusturulanSiparislerinSorgulandığıMetodun(SonSiparisKontrolTarihi);
+                    if (adet > 0)
+                    {
+                        
+                        trayIcon.Icon = new Icon(@"alt-logo.ico");
+                        trayIcon.Text = "OS BİLİŞİM";
+                        trayIcon.MouseClick += delegate {
+                            MessageBox.Show("Yeni bir sipariş mevcut kontrol etmeyi unutmayınız.");
+                        };
+                        trayIcon.Visible = true;
+                        trayIcon.ShowBalloonTip(1, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
+
+                    }
+                    SonSiparisKontrolTarihi = DateTime.Now;
+                }
+                else
+                {
+                    if (trayIcon.Visible == true)
+                        trayIcon.Visible = false;
+                }
+                System.Threading.Thread.Sleep(TimeSpan.FromMinutes(1));
+            }
+        }
+        private DateTime SonSiparisKontrolTarihi = DateTime.Now.AddMinutes(1);
     }
 }

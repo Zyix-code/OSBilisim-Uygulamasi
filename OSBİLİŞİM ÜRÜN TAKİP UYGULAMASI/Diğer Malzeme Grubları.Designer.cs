@@ -50,6 +50,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.ürünstokkodu = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.ürünadetitextbox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,8 +59,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.aliciaditextbox = new System.Windows.Forms.TextBox();
-            this.ürünstokkodu = new System.Windows.Forms.ComboBox();
-            this.ürünsn_combobox = new System.Windows.Forms.ComboBox();
+            this.ürünserino_checklistbox = new System.Windows.Forms.CheckedListBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -72,7 +72,7 @@
             this.siparis_gonder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_gonder.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.siparis_gonder.ForeColor = System.Drawing.Color.Black;
-            this.siparis_gonder.Location = new System.Drawing.Point(527, 332);
+            this.siparis_gonder.Location = new System.Drawing.Point(527, 367);
             this.siparis_gonder.Name = "siparis_gonder";
             this.siparis_gonder.Size = new System.Drawing.Size(121, 32);
             this.siparis_gonder.TabIndex = 4;
@@ -157,7 +157,7 @@
             this.ana_menü_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ana_menü_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.ana_menü_btn.ForeColor = System.Drawing.SystemColors.Window;
-            this.ana_menü_btn.Location = new System.Drawing.Point(14, 395);
+            this.ana_menü_btn.Location = new System.Drawing.Point(14, 401);
             this.ana_menü_btn.Name = "ana_menü_btn";
             this.ana_menü_btn.Size = new System.Drawing.Size(121, 32);
             this.ana_menü_btn.TabIndex = 12;
@@ -196,7 +196,7 @@
             this.loginpanel_gelistiren_label.Font = new System.Drawing.Font("Century Gothic", 7F);
             this.loginpanel_gelistiren_label.ForeColor = System.Drawing.Color.White;
             this.loginpanel_gelistiren_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(267, 397);
+            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(267, 403);
             this.loginpanel_gelistiren_label.Name = "loginpanel_gelistiren_label";
             this.loginpanel_gelistiren_label.Size = new System.Drawing.Size(107, 30);
             this.loginpanel_gelistiren_label.TabIndex = 7;
@@ -251,7 +251,7 @@
             // 
             // ürün_hazirlik_durumu_textbox
             // 
-            this.ürün_hazirlik_durumu_textbox.Location = new System.Drawing.Point(131, 130);
+            this.ürün_hazirlik_durumu_textbox.Location = new System.Drawing.Point(131, 164);
             this.ürün_hazirlik_durumu_textbox.Name = "ürün_hazirlik_durumu_textbox";
             this.ürün_hazirlik_durumu_textbox.ReadOnly = true;
             this.ürün_hazirlik_durumu_textbox.Size = new System.Drawing.Size(180, 21);
@@ -260,7 +260,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.ürünsn_combobox);
+            this.groupBox1.Controls.Add(this.ürünserino_checklistbox);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.ürün_hazirlik_durumu_textbox);
@@ -273,7 +273,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.groupBox1.Location = new System.Drawing.Point(396, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(331, 167);
+            this.groupBox1.Size = new System.Drawing.Size(331, 202);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ÜRÜN BİLGİLERİ";
@@ -281,36 +281,45 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(41, 77);
+            this.label11.Location = new System.Drawing.Point(25, 79);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(55, 16);
+            this.label11.Size = new System.Drawing.Size(74, 16);
             this.label11.TabIndex = 11;
-            this.label11.Text = "Ürün SN: ";
+            this.label11.Text = "Ürün seri no: ";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 125);
+            this.label9.Location = new System.Drawing.Point(26, 167);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(92, 32);
+            this.label9.Size = new System.Drawing.Size(83, 16);
             this.label9.TabIndex = 8;
-            this.label9.Text = "Ürün\r\nhazırlık durumu: ";
+            this.label9.Text = "Ürün durumu: ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ürünstokkodu
+            // 
+            this.ürünstokkodu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ürünstokkodu.FormattingEnabled = true;
+            this.ürünstokkodu.Location = new System.Drawing.Point(131, 49);
+            this.ürünstokkodu.Name = "ürünstokkodu";
+            this.ürünstokkodu.Size = new System.Drawing.Size(180, 24);
+            this.ürünstokkodu.TabIndex = 6;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(30, 104);
+            this.label5.Location = new System.Drawing.Point(40, 140);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 16);
+            this.label5.Size = new System.Drawing.Size(70, 16);
             this.label5.TabIndex = 5;
-            this.label5.Text = "Ürün Adeti: ";
+            this.label5.Text = "Ürün adeti: ";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ürünadetitextbox
             // 
-            this.ürünadetitextbox.Location = new System.Drawing.Point(131, 103);
+            this.ürünadetitextbox.Location = new System.Drawing.Point(131, 137);
             this.ürünadetitextbox.Name = "ürünadetitextbox";
             this.ürünadetitextbox.Size = new System.Drawing.Size(180, 21);
             this.ürünadetitextbox.TabIndex = 4;
@@ -320,17 +329,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 49);
+            this.label2.Location = new System.Drawing.Point(17, 52);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 16);
+            this.label2.Size = new System.Drawing.Size(91, 16);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Ürün Stok Kodu: ";
+            this.label2.Text = "Ürün stok kodu: ";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 25);
+            this.label1.Location = new System.Drawing.Point(40, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 16);
             this.label1.TabIndex = 2;
@@ -359,7 +368,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.aliciaditextbox);
             this.groupBox2.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.groupBox2.Location = new System.Drawing.Point(396, 188);
+            this.groupBox2.Location = new System.Drawing.Point(396, 223);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(348, 135);
             this.groupBox2.TabIndex = 26;
@@ -383,23 +392,13 @@
             this.aliciaditextbox.TabIndex = 6;
             this.aliciaditextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Aliciaditextbox_KeyPress);
             // 
-            // ürünstokkodu
+            // ürünserino_checklistbox
             // 
-            this.ürünstokkodu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ürünstokkodu.FormattingEnabled = true;
-            this.ürünstokkodu.Location = new System.Drawing.Point(131, 46);
-            this.ürünstokkodu.Name = "ürünstokkodu";
-            this.ürünstokkodu.Size = new System.Drawing.Size(180, 24);
-            this.ürünstokkodu.TabIndex = 6;
-            // 
-            // ürünsn_combobox
-            // 
-            this.ürünsn_combobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ürünsn_combobox.FormattingEnabled = true;
-            this.ürünsn_combobox.Location = new System.Drawing.Point(131, 74);
-            this.ürünsn_combobox.Name = "ürünsn_combobox";
-            this.ürünsn_combobox.Size = new System.Drawing.Size(180, 24);
-            this.ürünsn_combobox.TabIndex = 12;
+            this.ürünserino_checklistbox.FormattingEnabled = true;
+            this.ürünserino_checklistbox.Location = new System.Drawing.Point(131, 79);
+            this.ürünserino_checklistbox.Name = "ürünserino_checklistbox";
+            this.ürünserino_checklistbox.Size = new System.Drawing.Size(180, 52);
+            this.ürünserino_checklistbox.TabIndex = 26;
             // 
             // Diğer_Malzeme_Grubları
             // 
@@ -407,7 +406,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(799, 435);
+            this.ClientSize = new System.Drawing.Size(799, 441);
             this.Controls.Add(this.siparis_gonder);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.windows_kücültme_label);
@@ -464,7 +463,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox aliciaditextbox;
-        private System.Windows.Forms.ComboBox ürünsn_combobox;
         private System.Windows.Forms.ComboBox ürünstokkodu;
+        private System.Windows.Forms.CheckedListBox ürünserino_checklistbox;
     }
 }

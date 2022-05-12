@@ -346,7 +346,7 @@
             this.diger_ürün_serino_listbox.Size = new System.Drawing.Size(191, 404);
             this.diger_ürün_serino_listbox.Sorted = true;
             this.diger_ürün_serino_listbox.TabIndex = 52;
-            this.diger_ürün_serino_listbox.SelectedIndexChanged += new System.EventHandler(this.diger_ürün_serino_listbox_SelectedIndexChanged);
+            this.diger_ürün_serino_listbox.SelectedIndexChanged += new System.EventHandler(this.Diger_ürün_serino_listbox_SelectedIndexChanged);
             // 
             // label3
             // 
