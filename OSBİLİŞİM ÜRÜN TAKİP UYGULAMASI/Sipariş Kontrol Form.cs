@@ -988,6 +988,16 @@ namespace OSBilişim
                                         digerürünserinogüncelle.ExecuteNonQuery();
                                     }
                                 }
+                                // LOG DOYASI //
+                                using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                {
+                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " ürününün, " + ürünhazirlikdurumu_combobox.SelectedItem + " durumundan " + üründurumunugüncelle_combobox.SelectedItem + " durumuna çevirdi.", w);
+                                }
+                                using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                {
+                                    Kullanicigirisiform.DumpLog(r);
+                                }
+                                // LOG DOSYASI //
                             }
                         }
                     }
@@ -1024,7 +1034,6 @@ namespace OSBilişim
                         return Convert.ToInt32(scom.ExecuteScalar());
                     };
                 }
-              
             }
             catch (Exception)
             {
@@ -1041,7 +1050,7 @@ namespace OSBilişim
                     trayIcon.Icon = new Icon(@"alt-logo.ico");
                     trayIcon.Text = "OS BİLİŞİM";
                     trayIcon.Visible = true;
-                    trayIcon.ShowBalloonTip(100000, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
+                    trayIcon.ShowBalloonTip(100000, "Bilgi", "Yeni bir sipariş geldi, kontrol etmek için sipariş listesini güncelleyiniz.", ToolTipIcon.Info);
                 }));
                 Thread.Sleep(TimeSpan.FromMinutes(2));
 

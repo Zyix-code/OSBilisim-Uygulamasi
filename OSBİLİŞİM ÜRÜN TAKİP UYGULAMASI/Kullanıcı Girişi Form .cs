@@ -21,7 +21,7 @@ namespace OSBilişim
         sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
 
         public static string username;
-        public string versiyon = "10";
+        public string versiyon = "11";
         public string güncelversiyon = "";
         public Kullanicigirisiform()
         {
