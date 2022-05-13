@@ -226,7 +226,7 @@ namespace OSBilişim
                         kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", ürünadi.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
-                        kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now.ToString());
+                        kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
                         kayitkomut.Parameters.AddWithValue("@urun_hakkinda_aciklama", "Bu ürün tek parça olarak satılmıştır.");
                         string serino = "";
                         foreach (object item in ürünserino_checklistbox.CheckedItems)

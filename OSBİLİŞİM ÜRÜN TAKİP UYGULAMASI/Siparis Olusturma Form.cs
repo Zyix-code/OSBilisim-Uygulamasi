@@ -219,7 +219,7 @@ namespace OSBilişim
                         kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", kullanilacak_malzemeler_listesi.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}"));
                         kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
-                        kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now.ToString());
+                        kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
                         string serino = "";
                         foreach (object item in ürünserino_checklistbox.CheckedItems)
                         {

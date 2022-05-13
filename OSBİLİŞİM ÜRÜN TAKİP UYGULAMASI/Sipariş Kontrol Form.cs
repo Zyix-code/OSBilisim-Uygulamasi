@@ -9,6 +9,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Net.Mail;
 using System.Net;
+using System.Threading;
 
 namespace OSBilişim
 {
@@ -38,7 +39,7 @@ namespace OSBilişim
                 MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            System.Windows.Forms.Application.Exit();
+            Application.Exit();
         }
         private readonly string kelime = "SN: ";
         private readonly string orjinal = "ÜRÜN ORJİNAL GÖNDERİLECEKTİR";
@@ -186,7 +187,7 @@ namespace OSBilişim
                         }
                         else
                         {
-                            MessageBox.Show("Seri numaraları girilmemiş parçalar mevcut, seri numaraları girip tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Takılan ya da çıkarılan parçalar arasında seri numaraları girilmemiş parçalar mevcut, seri numaraları girip tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         }
                     }
@@ -241,6 +242,8 @@ namespace OSBilişim
         readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Sipariskontrol_Load(object sender, EventArgs e)
         {
+            Thread thread = new Thread(SiparisKontrol);
+            thread.Start();
 
             üründurumukontrol = false;
             timer1.Start();
@@ -457,10 +460,9 @@ namespace OSBilişim
         }
         private void Siparis_listesi_güncelle_btn_Click(object sender, EventArgs e)
         {
-
-            int siparisadeti, güncelsiparisadet,günceltoplam = 0, toplam = 0;
             try
             {
+                int siparisadeti, güncelsiparisadet,günceltoplam = 0, toplam = 0;
                 for (siparisadeti = 0; sipariskontrolview.Rows.Count > siparisadeti; siparisadeti++)
                 {
                     toplam += siparisadeti;
@@ -480,6 +482,7 @@ namespace OSBilişim
                     };
                     trayIcon.Visible = true;
                     trayIcon.ShowBalloonTip(1, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
+               
                 }
                 ürünaditextbox.Text = "";
                 ürünadetitextbox.Text = "0";
@@ -493,13 +496,14 @@ namespace OSBilişim
                 ürününsatildigifirmatextbox.Text = "";
                 çıkacak_olan_parçalar_listesi_listbox.Items.Clear();
                 çıkacak_olan_parçalar_listbox.SelectedIndex = -1;
-                üründurumunugüncelle_combobox.SelectedIndex = 1;
-                ürünhazirlikdurumu_combobox.SelectedIndex = 1;
+                ürünhazirlikdurumu_combobox.SelectedIndex = -1;
+                üründurumunugüncelle_combobox.SelectedIndex = -1;
                 ürün_seri_no_textbox.Text = "";
                 ürünadetitextbox.Text = "";
                 kullanilacak_malzeme_adeti_textbox.Text = "";
                 cikacakürün_serino_textbox.Text = "";
                 kullanilacak_malzemeler_seri_no_textbox.Text = "";
+                satis_tarihi_textbox.Text = "";
             }
             catch (Exception hata)
             {
@@ -507,7 +511,6 @@ namespace OSBilişim
                 Application.Exit();
             }
         }
-
         private void Siparis_sil_btn_Click(object sender, EventArgs e)
         {
             DialogResult dialog = MessageBox.Show("Sipariş silinecektir onaylıyor musunuz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -524,7 +527,7 @@ namespace OSBilişim
                         // LOG DOYASI //
                         using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                         {
-                            Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " / " + ürün_seri_no_textbox + " / " + ürünstokkodutextbox.Text + " ürünün siparişini sildi.", w);
+                            Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " / " + ürün_seri_no_textbox.Text + " / " + ürünstokkodutextbox.Text + " ürünün siparişini sildi.", w);
                         }
                         using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
                         {
@@ -545,13 +548,14 @@ namespace OSBilişim
                         ürününsatildigifirmatextbox.Text = "";
                         çıkacak_olan_parçalar_listesi_listbox.Items.Clear();
                         çıkacak_olan_parçalar_listbox.SelectedIndex = -1;
-                        üründurumunugüncelle_combobox.SelectedIndex = 1;
-                        ürünhazirlikdurumu_combobox.SelectedIndex = 1;
+                        ürünhazirlikdurumu_combobox.SelectedIndex = -1;
+                        üründurumunugüncelle_combobox.SelectedIndex = -1;
                         ürün_seri_no_textbox.Text = "";
                         ürünadetitextbox.Text = "";
                         kullanilacak_malzeme_adeti_textbox.Text = "";
                         cikacakürün_serino_textbox.Text = "";
                         kullanilacak_malzemeler_seri_no_textbox.Text = "";
+                        satis_tarihi_textbox.Text = "";
                         Siparisgetir();
                     }
                 }
@@ -827,18 +831,13 @@ namespace OSBilişim
         }
         #endregion
 
-        #region veritabanı_satışraporu_rapor_alıp_gmail_gönderme
         public void PDF_Disa_Aktar(DataGridView sipariskontrolview)
         {
             PdfPTable pdfTable = new PdfPTable(sipariskontrolview.ColumnCount);
-
-            // Bu alanlarla oynarak tasarımı iyileştirebilirsiniz.
-            pdfTable.DefaultCell.Padding = 3; // hücre duvarı ve veri arasında mesafe
-            pdfTable.WidthPercentage = 100; // hücre genişliği
-            pdfTable.HorizontalAlignment = Element.ALIGN_LEFT; // yazı hizalaması
-            pdfTable.DefaultCell.BorderWidth = 1; // kenarlık kalınlığı
-             // Bu alanlarla oynarak tasarımı iyileştirebilirsiniz.
-
+            pdfTable.DefaultCell.Padding = 3;
+            pdfTable.WidthPercentage = 100; 
+            pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
+            pdfTable.DefaultCell.BorderWidth = 1;
             foreach (DataGridViewColumn column in sipariskontrolview.Columns)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText))
@@ -937,73 +936,11 @@ namespace OSBilişim
         }
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            #region sipariskontroleski
-            /*
-            int siparisadeti,toplam = 0;
-            int güncelsiparisadet, günceltoplam = 0;
             if (Kullanicigirisiform.username == "Admin" || Anaform.statü == "Ana Bilgisayar" || Anaform.isim == "ANA PC")
-            {
-                for ( siparisadeti = 0; sipariskontrolview.Rows.Count > siparisadeti; siparisadeti++)
-                {
-                    toplam += siparisadeti;
-                }
-                Siparisgetir();
-                for (güncelsiparisadet = 0; sipariskontrolview.Rows.Count > güncelsiparisadet; güncelsiparisadet++)
-                {
-                    günceltoplam += güncelsiparisadet;
-                }
-                if (toplam < günceltoplam)
-                {
-                    NotifyIcon trayIcon = new NotifyIcon();
-                    trayIcon.Icon = new Icon(@"alt-logo.ico");
-                    trayIcon.Text = "OS BİLİŞİM";
-                    trayIcon.MouseClick += delegate {
-                        MessageBox.Show("Yeni bir sipariş mevcut kontrol etmeyi unutmayınız.");
-                    };
-                    trayIcon.Visible = true;
-                    trayIcon.ShowBalloonTip(1, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
-                }
-               
-            }*/
-            #endregion
-            System.Threading.Thread thread = new System.Threading.Thread(SiparisKontrol);
-            thread.Start();
-
-            Veritabanı_SatışRaporu();   
+            {   
+              Veritabanı_SatışRaporu();
+            }
         }
-        #endregion
-        /*public static void Excel_Disa_Aktar(DataGridView sipariskontrolview)
-      {
-          SaveFileDialog save = new SaveFileDialog();
-          save.OverwritePrompt = false;
-          save.Title = "Excel Dosyaları";
-          save.DefaultExt = "xlsx";
-          save.Filter = "xlsx Dosyaları (*.xlsx)|*.xlsx|Tüm Dosyalar(*.*)|*.*";
-
-          if (save.ShowDialog() == DialogResult.OK)
-          {
-              Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
-              Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
-              Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
-              app.Visible = true;
-              worksheet = workbook.Sheets["Sayfa1"];
-              worksheet = workbook.ActiveSheet;
-              worksheet.Name = "Excel Dışa Aktarım";
-              for (int i = 1; i < sipariskontrolview.Columns.Count + 1; i++)
-              {
-                  worksheet.Cells[1, i] = sipariskontrolview.Columns[i - 1].HeaderText;
-              }
-              for (int i = 0; i < sipariskontrolview.Rows.Count - 1; i++)
-              {
-                  for (int j = 0; j < sipariskontrolview.Columns.Count; j++)
-                  {
-                      worksheet.Cells[i + 2, j + 1] = sipariskontrolview.Rows[i].Cells[j].Value.ToString();
-                  }
-              }
-              workbook.SaveAs(save.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-              app.Quit();
-          }
-      }*/
         private void Üründurumunugüncelle_combobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -1018,10 +955,7 @@ namespace OSBilişim
                     {
                         if (üründurumukontrol == true)
                         {
-                            if (üründurumunugüncelle_combobox.SelectedIndex == -1)
-                            {
-                                MessageBox.Show("Lütfen geçerli bir durum seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                            }
+                            if (üründurumunugüncelle_combobox.SelectedIndex == -1) { }
                             else
                             {
                                 if (üründurumunugüncelle_combobox.SelectedItem == "Sipariş İade" || üründurumunugüncelle_combobox.SelectedItem == "Sipariş Arızalı")
@@ -1100,31 +1034,19 @@ namespace OSBilişim
         private void SiparisKontrol()
         {
             NotifyIcon trayIcon = new NotifyIcon();
-            while (false == !true)
+            while (!this.IsDisposed)
             {
-                if (SonSiparisKontrolTarihi >= DateTime.Now)
+                BeginInvoke(new Action(() =>
                 {
-                    int adet = SqldeGirilenTarihtenSonraOlusturulanSiparislerinSorgulandığıMetodun(SonSiparisKontrolTarihi);
-                    if (adet > 0)
-                    {
-                        
-                        trayIcon.Icon = new Icon(@"alt-logo.ico");
-                        trayIcon.Text = "OS BİLİŞİM";
-                        trayIcon.MouseClick += delegate {
-                            MessageBox.Show("Yeni bir sipariş mevcut kontrol etmeyi unutmayınız.");
-                        };
-                        trayIcon.Visible = true;
-                        trayIcon.ShowBalloonTip(1, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
+                    trayIcon.Icon = new Icon(@"alt-logo.ico");
+                    trayIcon.Text = "OS BİLİŞİM";
+                    trayIcon.Visible = true;
+                    trayIcon.ShowBalloonTip(100000, "Bilgi", "Yeni bir sipariş geldi, lütfen kontrol ediniz.", ToolTipIcon.Info);
+                }));
+                Thread.Sleep(TimeSpan.FromMinutes(2));
 
-                    }
-                    SonSiparisKontrolTarihi = DateTime.Now;
-                }
-                else
-                {
-                    if (trayIcon.Visible == true)
-                        trayIcon.Visible = false;
-                }
-                System.Threading.Thread.Sleep(TimeSpan.FromMinutes(1));
+                if (trayIcon?.Visible == true)
+                    trayIcon.Visible = false;
             }
         }
         private DateTime SonSiparisKontrolTarihi = DateTime.Now.AddMinutes(1);

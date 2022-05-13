@@ -51,15 +51,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.güvenliksorusutextbox = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.güvenlikonaykodutextbox = new System.Windows.Forms.TextBox();
             this.btn_onaykodugönder = new System.Windows.Forms.Button();
+            this.kullanıcıadıtextbox = new System.Windows.Forms.TextBox();
+            this.sifre_goster_gizle_checkbox = new System.Windows.Forms.CheckBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.kullanıcıadıtextbox = new System.Windows.Forms.TextBox();
             this.şifremiunuttumlinklabel = new System.Windows.Forms.LinkLabel();
-            this.sifre_goster_gizle_checkbox = new System.Windows.Forms.CheckBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -305,26 +305,6 @@
             this.güvenliksorusutextbox.TabIndex = 31;
             this.toolTip1.SetToolTip(this.güvenliksorusutextbox, "Hesabınıza ait güvenlik sorunuzu gireceğiniz alan.");
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
-            this.panel5.Location = new System.Drawing.Point(563, 266);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(200, 1);
-            this.panel5.TabIndex = 36;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
-            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label6.Location = new System.Drawing.Point(397, 248);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(160, 19);
-            this.label6.TabIndex = 35;
-            this.label6.Text = "Güvenlik onay kodu:  ";
-            // 
             // güvenlikonaykodutextbox
             // 
             this.güvenlikonaykodutextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -354,6 +334,54 @@
             this.btn_onaykodugönder.UseVisualStyleBackColor = false;
             this.btn_onaykodugönder.Click += new System.EventHandler(this.btn_onaykodugönder_Click);
             // 
+            // kullanıcıadıtextbox
+            // 
+            this.kullanıcıadıtextbox.BackColor = System.Drawing.SystemColors.Window;
+            this.kullanıcıadıtextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.kullanıcıadıtextbox.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.kullanıcıadıtextbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.kullanıcıadıtextbox.Location = new System.Drawing.Point(563, 127);
+            this.kullanıcıadıtextbox.Name = "kullanıcıadıtextbox";
+            this.kullanıcıadıtextbox.Size = new System.Drawing.Size(200, 17);
+            this.kullanıcıadıtextbox.TabIndex = 38;
+            this.toolTip1.SetToolTip(this.kullanıcıadıtextbox, "Yeni şifrenizi girmeniz gereken alan.");
+            // 
+            // sifre_goster_gizle_checkbox
+            // 
+            this.sifre_goster_gizle_checkbox.AutoSize = true;
+            this.sifre_goster_gizle_checkbox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sifre_goster_gizle_checkbox.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.sifre_goster_gizle_checkbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.sifre_goster_gizle_checkbox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.sifre_goster_gizle_checkbox.Location = new System.Drawing.Point(665, 325);
+            this.sifre_goster_gizle_checkbox.Name = "sifre_goster_gizle_checkbox";
+            this.sifre_goster_gizle_checkbox.Size = new System.Drawing.Size(98, 20);
+            this.sifre_goster_gizle_checkbox.TabIndex = 42;
+            this.sifre_goster_gizle_checkbox.Text = "Göster / Gizle";
+            this.toolTip1.SetToolTip(this.sifre_goster_gizle_checkbox, "Girdiğiniz şifrenizi gizleyip, görmenizi sağlar.");
+            this.sifre_goster_gizle_checkbox.UseVisualStyleBackColor = true;
+            this.sifre_goster_gizle_checkbox.CheckedChanged += new System.EventHandler(this.sifre_goster_gizle_checkbox_CheckedChanged);
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.panel5.Location = new System.Drawing.Point(563, 266);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(200, 1);
+            this.panel5.TabIndex = 36;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label6.Location = new System.Drawing.Point(397, 248);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(160, 19);
+            this.label6.TabIndex = 35;
+            this.label6.Text = "Güvenlik onay kodu:  ";
+            // 
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
@@ -374,18 +402,6 @@
             this.label7.TabIndex = 39;
             this.label7.Text = "Kullanıcı adı: ";
             // 
-            // kullanıcıadıtextbox
-            // 
-            this.kullanıcıadıtextbox.BackColor = System.Drawing.SystemColors.Window;
-            this.kullanıcıadıtextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.kullanıcıadıtextbox.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.kullanıcıadıtextbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
-            this.kullanıcıadıtextbox.Location = new System.Drawing.Point(563, 127);
-            this.kullanıcıadıtextbox.Name = "kullanıcıadıtextbox";
-            this.kullanıcıadıtextbox.Size = new System.Drawing.Size(200, 17);
-            this.kullanıcıadıtextbox.TabIndex = 38;
-            this.toolTip1.SetToolTip(this.kullanıcıadıtextbox, "Yeni şifrenizi girmeniz gereken alan.");
-            // 
             // şifremiunuttumlinklabel
             // 
             this.şifremiunuttumlinklabel.AutoSize = true;
@@ -397,22 +413,6 @@
             this.şifremiunuttumlinklabel.TabStop = true;
             this.şifremiunuttumlinklabel.Text = "Güvenlik sorusunun cevabını unuttum?";
             this.şifremiunuttumlinklabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.şifremiunuttumlinklabel_LinkClicked);
-            // 
-            // sifre_goster_gizle_checkbox
-            // 
-            this.sifre_goster_gizle_checkbox.AutoSize = true;
-            this.sifre_goster_gizle_checkbox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.sifre_goster_gizle_checkbox.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.sifre_goster_gizle_checkbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
-            this.sifre_goster_gizle_checkbox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.sifre_goster_gizle_checkbox.Location = new System.Drawing.Point(665, 325);
-            this.sifre_goster_gizle_checkbox.Name = "sifre_goster_gizle_checkbox";
-            this.sifre_goster_gizle_checkbox.Size = new System.Drawing.Size(98, 20);
-            this.sifre_goster_gizle_checkbox.TabIndex = 42;
-            this.sifre_goster_gizle_checkbox.Text = "Göster / Gizle";
-            this.toolTip1.SetToolTip(this.sifre_goster_gizle_checkbox, "Girdiğiniz şifrenizi gizleyip, görmenizi sağlar.");
-            this.sifre_goster_gizle_checkbox.UseVisualStyleBackColor = true;
-            this.sifre_goster_gizle_checkbox.CheckedChanged += new System.EventHandler(this.sifre_goster_gizle_checkbox_CheckedChanged);
             // 
             // sifresıfırlamaforum
             // 
@@ -448,6 +448,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "sifresıfırlamaforum";
+            this.Opacity = 0.95D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Şifre Sıfırlama Forum";
             this.Load += new System.EventHandler(this.sifresıfırlamaforum_Load);

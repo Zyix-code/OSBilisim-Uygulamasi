@@ -224,7 +224,6 @@ namespace OSBilişim
             Ürüneklemedüzenlemeform.Show();
             Hide();
         }
-
         new
         #region forumharaketettirme
         int Move;

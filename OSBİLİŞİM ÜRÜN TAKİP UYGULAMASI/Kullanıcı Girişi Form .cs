@@ -21,7 +21,7 @@ namespace OSBilişim
         sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
 
         public static string username;
-        public string versiyon = "9";
+        public string versiyon = "10";
         public string güncelversiyon = "";
         public Kullanicigirisiform()
         {
@@ -225,11 +225,11 @@ namespace OSBilişim
                 Application.Exit();
             }
 
-            if (System.Diagnostics.Process.GetProcessesByName("OSBilişim").Length > 1)
+           /* if (System.Diagnostics.Process.GetProcessesByName("OSBilişim").Length > 1)
             {
                 MessageBox.Show("OSBilişim uygulaması çalışıyor açık olan uygulamayı kapatıp tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-            }
+            }*/
         }
 
         readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True");
