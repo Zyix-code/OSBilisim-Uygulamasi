@@ -988,7 +988,7 @@ namespace OSBilişim
                                         digerürünserinogüncelle.ExecuteNonQuery();
                                     }
                                 }
-                                // LOG DOYASI //
+                                // LOG DOSYASI
                                 using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                                 {
                                     Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " ürününün, " + ürünhazirlikdurumu_combobox.SelectedItem + " durumundan " + üründurumunugüncelle_combobox.SelectedItem + " durumuna çevirdi.", w);
@@ -997,7 +997,7 @@ namespace OSBilişim
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
-                                // LOG DOSYASI //
+                                // OS BİLİŞİM
                             }
                         }
                     }
