@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Diagnostics;
 
 namespace OSBilişim
 {
@@ -42,7 +43,10 @@ namespace OSBilişim
                 MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            Application.Exit();
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
 
         }
 
@@ -383,5 +387,30 @@ namespace OSBilişim
             this.Cursor = Cursors.SizeAll;
         }
         #endregion
+
+        private void Diğer_Malzeme_Grubları_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                    kullanicidurumgüncelle.ExecuteNonQuery();
+                    kullanicigirisiform.Show();
+                    Hide();
+                }
+            }
+            catch (Exception kullaniciaktifligi)
+            {
+                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
+        }
     }
 }

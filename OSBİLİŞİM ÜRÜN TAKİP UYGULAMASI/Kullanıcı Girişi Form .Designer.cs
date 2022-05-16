@@ -112,6 +112,10 @@
             this.beni_hatirla_checkbox.UseVisualStyleBackColor = true;
             this.beni_hatirla_checkbox.CheckedChanged += new System.EventHandler(this.Beni_hatirla_checkbox_CheckedChanged);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // logout_label
             // 
             resources.ApplyResources(this.logout_label, "logout_label");
@@ -196,6 +200,7 @@
             resources.ApplyResources(this.şifremiunuttumlinklabel, "şifremiunuttumlinklabel");
             this.şifremiunuttumlinklabel.Name = "şifremiunuttumlinklabel";
             this.şifremiunuttumlinklabel.TabStop = true;
+            this.toolTip1.SetToolTip(this.şifremiunuttumlinklabel, resources.GetString("şifremiunuttumlinklabel.ToolTip"));
             this.şifremiunuttumlinklabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.şifremiunuttumlinklabel_LinkClicked);
             // 
             // Kullanicigirisiform

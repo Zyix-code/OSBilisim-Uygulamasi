@@ -387,6 +387,10 @@
             this.siparis_olustur_btn.UseVisualStyleBackColor = false;
             this.siparis_olustur_btn.Click += new System.EventHandler(this.Siparis_olustur_btn_Click);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // diğer_malzeme_grubları
             // 
             this.diğer_malzeme_grubları.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));

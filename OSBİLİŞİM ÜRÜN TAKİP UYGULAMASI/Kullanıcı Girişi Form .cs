@@ -21,7 +21,7 @@ namespace OSBilişim
         sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
 
         public static string username;
-        public string versiyon = "11";
+        public string versiyon = "12";
         public string güncelversiyon = "";
         public Kullanicigirisiform()
         {
@@ -195,7 +195,7 @@ namespace OSBilişim
         private void Kullanicigirisiform_Load(object sender, EventArgs e)
         {
             sifretextbox.UseSystemPasswordChar = true;
-           // Yoneticizni();
+            Yoneticizni();
             try
             {
                 if (connection.State == ConnectionState.Closed)
@@ -210,10 +210,20 @@ namespace OSBilişim
                         güncelversiyon = ((string)üründurumusorgulama["version"]);
                         if (Convert.ToInt16(versiyon) <= Convert.ToInt16(güncelversiyon))
                         {
-                            MessageBox.Show(((string)üründurumusorgulama["versiyon_aciklama"]),"OS BİLİŞİM",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                            Process.Start((string)üründurumusorgulama["yeni_program_indirme_linki"]);
-                            Application.Exit();
-                            break;
+                            DialogResult dialog = new DialogResult();
+                            dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (dialog == DialogResult.Yes)
+                            {
+                                MessageBox.Show(((string)üründurumusorgulama["versiyon_aciklama"]), "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                Process.Start((string)üründurumusorgulama["yeni_program_indirme_linki"]);
+                                Application.Exit();
+                                break;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Uygulamanızı güncellemediğiniz için, program çalışmayacaktır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Application.Exit();
+                            }
                         }
                     }
                     connection.Close();
@@ -225,11 +235,11 @@ namespace OSBilişim
                 Application.Exit();
             }
 
-           /* if (System.Diagnostics.Process.GetProcessesByName("OSBilişim").Length > 1)
+            if (Process.GetProcessesByName("OSBilişim").Length > 1)
             {
                 MessageBox.Show("OSBilişim uygulaması çalışıyor açık olan uygulamayı kapatıp tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-            }*/
+            }
         }
 
         readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True");
@@ -256,7 +266,10 @@ namespace OSBilişim
 
         private void Logout_label_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
         }
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -324,7 +337,6 @@ namespace OSBilişim
 
 
         #endregion
-
         #region sifrelemetxt
         /*  string hash = "";
 
@@ -371,8 +383,6 @@ namespace OSBilişim
              // MessageBox.Show(sifrecöz(kullaniciaditextbox.text)); kullanımı
           }*/
         #endregion
-
-       
         private void şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             sifresıfırlamaforum.Show();

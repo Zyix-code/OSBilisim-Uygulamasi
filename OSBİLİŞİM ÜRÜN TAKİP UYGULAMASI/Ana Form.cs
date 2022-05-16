@@ -106,21 +106,13 @@ namespace OSBilişim
 
             if (statü_label.Text == "Teknik Görevli" || statü_label.Text == "Teknisyen" || statü_label.Text == "Teknik")
             {
-                siparis_kontrol_btn.Location = new System.Drawing.Point(533, 216);
-                siparis_olustur_btn.Visible = false;
-                ürün_ekle_ve_düzenle_btn.Visible = false;
-                diğer_malzeme_grubları.Visible = false;
-                Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Visible = false;
-                if (isim_label.Text == "Selçuk")
-                {
-                    diğer_malzeme_grubları.Visible = true;
-                    siparis_olustur_btn.Visible = true;
-                    ürün_ekle_ve_düzenle_btn.Visible = true;
-                    Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Visible = true;
-                    siparis_kontrol_btn.Location = new System.Drawing.Point(591, 216);
-                    siparis_olustur_btn.Location = new System.Drawing.Point(474, 216);
-                    ürün_ekle_ve_düzenle_btn.Location = new System.Drawing.Point(474, 267);
-                }
+                diğer_malzeme_grubları.Visible = true;
+                siparis_olustur_btn.Visible = true;
+                ürün_ekle_ve_düzenle_btn.Visible = true;
+                Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Visible = true;
+                siparis_kontrol_btn.Location = new System.Drawing.Point(591, 216);
+                siparis_olustur_btn.Location = new System.Drawing.Point(474, 216);
+                ürün_ekle_ve_düzenle_btn.Location = new System.Drawing.Point(474, 267);
             }
             if (statü_label.Text == "Ana Bilgisayar" || isim_label.Text == "ANA PC")
             {
@@ -147,7 +139,27 @@ namespace OSBilişim
         }
         private void Anaform_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                    kullanicidurumgüncelle.ExecuteNonQuery();
+                    kullanicigirisiform.Show();
+                    Hide();
+                }
+            }
+            catch (Exception kullaniciaktifligi)
+            {
+                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
         }
         private void Logout_label_Click(object sender, EventArgs e)
         {
@@ -156,18 +168,22 @@ namespace OSBilişim
                 if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
-                    Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
+                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
                     SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
                     kullanicidurumgüncelle.ExecuteNonQuery();
-                    Kullanicigirisiform.Show();
+                    kullanicigirisiform.Show();
                     Hide();
                 }
             }
             catch (Exception kullaniciaktifligi)
             {
-                MessageBox.Show("Kullanıcı bilgileri alınırken hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
-            Application.Exit();
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
         }
         private void Label3_Click(object sender, EventArgs e)
         {

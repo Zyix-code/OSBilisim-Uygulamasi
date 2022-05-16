@@ -504,6 +504,10 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // windows_kücültme_label
             // 
             this.windows_kücültme_label.AutoSize = true;

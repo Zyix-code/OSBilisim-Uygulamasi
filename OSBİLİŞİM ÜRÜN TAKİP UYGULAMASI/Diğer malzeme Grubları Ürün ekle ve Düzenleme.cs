@@ -2,6 +2,7 @@
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -650,9 +651,33 @@ namespace OSBilişim
             Mouse_Y = e.Y;
             this.Cursor = Cursors.SizeAll;
         }
+
         #endregion
 
-       
+        private void Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                    kullanicidurumgüncelle.ExecuteNonQuery();
+                    kullanicigirisiform.Show();
+                    Hide();
+                }
+            }
+            catch (Exception kullaniciaktifligi)
+            {
+                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
+        }
     }
 }
             

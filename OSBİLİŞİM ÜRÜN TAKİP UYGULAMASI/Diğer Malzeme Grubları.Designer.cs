@@ -48,6 +48,7 @@
             this.alicisoyaditextboxt = new System.Windows.Forms.TextBox();
             this.ürün_hazirlik_durumu_textbox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ürünserino_checklistbox = new System.Windows.Forms.CheckedListBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.ürünstokkodu = new System.Windows.Forms.ComboBox();
@@ -59,7 +60,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.aliciaditextbox = new System.Windows.Forms.TextBox();
-            this.ürünserino_checklistbox = new System.Windows.Forms.CheckedListBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -213,6 +213,10 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // windows_kücültme_label
             // 
             this.windows_kücültme_label.AutoSize = true;
@@ -277,6 +281,14 @@
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ÜRÜN BİLGİLERİ";
+            // 
+            // ürünserino_checklistbox
+            // 
+            this.ürünserino_checklistbox.FormattingEnabled = true;
+            this.ürünserino_checklistbox.Location = new System.Drawing.Point(131, 79);
+            this.ürünserino_checklistbox.Name = "ürünserino_checklistbox";
+            this.ürünserino_checklistbox.Size = new System.Drawing.Size(180, 52);
+            this.ürünserino_checklistbox.TabIndex = 26;
             // 
             // label11
             // 
@@ -392,14 +404,6 @@
             this.aliciaditextbox.TabIndex = 6;
             this.aliciaditextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Aliciaditextbox_KeyPress);
             // 
-            // ürünserino_checklistbox
-            // 
-            this.ürünserino_checklistbox.FormattingEnabled = true;
-            this.ürünserino_checklistbox.Location = new System.Drawing.Point(131, 79);
-            this.ürünserino_checklistbox.Name = "ürünserino_checklistbox";
-            this.ürünserino_checklistbox.Size = new System.Drawing.Size(180, 52);
-            this.ürünserino_checklistbox.TabIndex = 26;
-            // 
             // Diğer_Malzeme_Grubları
             // 
             this.AcceptButton = this.siparis_gonder;
@@ -418,6 +422,7 @@
             this.Name = "Diğer_Malzeme_Grubları";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Diğer_Malzeme_Grubları";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Diğer_Malzeme_Grubları_FormClosed);
             this.Load += new System.EventHandler(this.Diğer_Malzeme_Grubları_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Diğer_Malzeme_Grubları_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Diğer_Malzeme_Grubları_MouseMove);

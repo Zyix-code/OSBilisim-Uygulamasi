@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Diagnostics;
 
 namespace OSBilişim
 {
@@ -382,7 +383,10 @@ namespace OSBilişim
                 MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            Application.Exit();
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
         }
         public string urunkontrol;
         private void Logout_label_Click(object sender, EventArgs e)

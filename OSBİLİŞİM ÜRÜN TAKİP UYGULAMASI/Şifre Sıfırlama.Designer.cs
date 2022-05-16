@@ -305,6 +305,10 @@
             this.güvenliksorusutextbox.TabIndex = 31;
             this.toolTip1.SetToolTip(this.güvenliksorusutextbox, "Hesabınıza ait güvenlik sorunuzu gireceğiniz alan.");
             // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // güvenlikonaykodutextbox
             // 
             this.güvenlikonaykodutextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;

@@ -11,6 +11,7 @@ using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Threading;
 using System.IO;
+using System.Diagnostics;
 
 namespace OSBilişim
 {
@@ -212,7 +213,10 @@ namespace OSBilişim
                 MessageBox.Show("Kullanıcı bilgileri alınırken bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            Application.Exit();
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
         }
         private void Yeni_ürün_ekle_btn_Click(object sender, EventArgs e)
         {

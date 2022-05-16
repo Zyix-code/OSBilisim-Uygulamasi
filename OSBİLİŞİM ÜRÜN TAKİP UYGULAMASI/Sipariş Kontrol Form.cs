@@ -10,6 +10,7 @@ using iTextSharp.text;
 using System.Net.Mail;
 using System.Net;
 using System.Threading;
+using System.Diagnostics;
 
 namespace OSBilişim
 {
@@ -39,7 +40,10 @@ namespace OSBilişim
                 MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            Application.Exit();
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
         }
         private readonly string kelime = "SN: ";
         private readonly string orjinal = "ÜRÜN ORJİNAL GÖNDERİLECEKTİR";
@@ -1019,7 +1023,7 @@ namespace OSBilişim
         {
             üründurumukontrol = true;
         }
-        private int SqldeGirilenTarihtenSonraOlusturulanSiparislerinSorgulandığıMetodun(DateTime sonSiparisKontrolTarihi)
+       /* private int SqldeGirilenTarihtenSonraOlusturulanSiparislerinSorgulandığıMetodun(DateTime sonSiparisKontrolTarihi)
         {
             try
             {
@@ -1029,7 +1033,7 @@ namespace OSBilişim
                     using (var scom = scon.CreateCommand())
                     {
                         scom.CommandText = "select count(*) from siparisler where siparis_tarihi >= @tarih;";
-                        scom.Parameters.Add("@tarih", SqlDbType.SmallDateTime).Value = sonSiparisKontrolTarihi;
+                        scom.Parameters.Add("@tarih", SqlDbType.DateTime).Value = sonSiparisKontrolTarihi;
 
                         return Convert.ToInt32(scom.ExecuteScalar());
                     };
@@ -1039,7 +1043,7 @@ namespace OSBilişim
             {
                 throw;
             }
-        }
+        }*/
         private void SiparisKontrol()
         {
             NotifyIcon trayIcon = new NotifyIcon();
@@ -1047,17 +1051,17 @@ namespace OSBilişim
             {
                 BeginInvoke(new Action(() =>
                 {
+                    trayIcon.Visible = true;
                     trayIcon.Icon = new Icon(@"alt-logo.ico");
                     trayIcon.Text = "OS BİLİŞİM";
-                    trayIcon.Visible = true;
                     trayIcon.ShowBalloonTip(100000, "Bilgi", "Yeni bir sipariş geldi, kontrol etmek için sipariş listesini güncelleyiniz.", ToolTipIcon.Info);
                 }));
-                Thread.Sleep(TimeSpan.FromMinutes(2));
+                Thread.Sleep(TimeSpan.FromMinutes(5));
 
                 if (trayIcon?.Visible == true)
                     trayIcon.Visible = false;
             }
         }
-        private DateTime SonSiparisKontrolTarihi = DateTime.Now.AddMinutes(1);
+        private DateTime SonSiparisKontrolTarihi = DateTime.Now.AddMinutes(5);
     }
 }

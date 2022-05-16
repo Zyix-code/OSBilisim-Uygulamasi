@@ -1502,6 +1502,10 @@ bir -eposta mesaji gönderebilirsiniz
   <data name="şifremiunuttumlinklabel.Text" xml:space="preserve">
     <value>Şifremi unuttum</value>
   </data>
+  <data name="şifremiunuttumlinklabel.ToolTip" xml:space="preserve">
+    <value>Kullanıcı şifrenizi sıfırlayabileceğiniz bir sayfaya yönlendirir.
+</value>
+  </data>
   <data name="&gt;&gt;şifremiunuttumlinklabel.Name" xml:space="preserve">
     <value>şifremiunuttumlinklabel</value>
   </data>

@@ -74,6 +74,10 @@
             this.label2.Text = "Bu uygulamaya ilgili \r\nherhangi bir sorun, şikayet ve öneri için\r\nbir -eposta mes" +
     "aji gönderebilirsiniz";
             // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // secili_ürünün_kod_seri_no_sil_btn
             // 
             this.secili_ürünün_kod_seri_no_sil_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
@@ -404,6 +408,7 @@
             this.Name = "Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_FormClosed);
             this.Load += new System.EventHandler(this.Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_MouseMove);
