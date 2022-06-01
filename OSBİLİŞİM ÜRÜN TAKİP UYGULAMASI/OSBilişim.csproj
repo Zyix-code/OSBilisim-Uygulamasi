@@ -244,6 +244,7 @@
   <ItemGroup>
     <Content Include="alt-logo.ico" />
     <Content Include="Resources\alt-logo.ico" />
+    <None Include="Resources\logo.bmp" />
     <None Include="Resources\Adsız.png" />
     <None Include="Resources\business-ions-g2d4da277c_640.png" />
     <None Include="Resources\laptop-5820171_960_720.png" />
@@ -279,6 +280,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />

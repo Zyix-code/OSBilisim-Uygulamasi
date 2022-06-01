@@ -409,8 +409,6 @@
             this.MinimizeBox = false;
             this.Name = "Ürüneklemedüzenlemeform";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "000000000000000000000000000000000000000000000000000000000000000000000000000000000" +
-    "0000000000000000000000000000000000000000000000000000000000000000000000";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Ürün_Ekle_ve_Düzenleme_FormClosed);
             this.Load += new System.EventHandler(this.Ürün_Ekle_ve_Düzenleme_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Ürün_Ekle_ve_Düzenleme_MouseDown);

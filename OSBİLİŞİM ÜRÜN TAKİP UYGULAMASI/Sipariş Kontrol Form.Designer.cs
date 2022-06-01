@@ -60,6 +60,8 @@
             this.siparis_sil_btn = new System.Windows.Forms.Button();
             this.siparis_listesi_güncelle_btn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.siparis_numarasi_textbox = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.satis_tarihi_textbox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -124,7 +126,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.sipariskontrolview.DefaultCellStyle = dataGridViewCellStyle3;
-            this.sipariskontrolview.Location = new System.Drawing.Point(383, 475);
+            this.sipariskontrolview.Location = new System.Drawing.Point(383, 487);
             this.sipariskontrolview.Name = "sipariskontrolview";
             this.sipariskontrolview.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -138,7 +140,7 @@
             this.sipariskontrolview.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
             this.sipariskontrolview.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.sipariskontrolview.RowTemplate.Height = 40;
-            this.sipariskontrolview.Size = new System.Drawing.Size(1242, 260);
+            this.sipariskontrolview.Size = new System.Drawing.Size(1242, 280);
             this.sipariskontrolview.TabIndex = 0;
             this.sipariskontrolview.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.Sipariskontrolview_CellEnter);
             // 
@@ -187,7 +189,7 @@
             this.üründurumunugüncelle_combobox.Size = new System.Drawing.Size(180, 24);
             this.üründurumunugüncelle_combobox.TabIndex = 30;
             this.üründurumunugüncelle_combobox.SelectedIndexChanged += new System.EventHandler(this.Üründurumunugüncelle_combobox_SelectedIndexChanged);
-            this.üründurumunugüncelle_combobox.Click += new System.EventHandler(this.üründurumunugüncelle_combobox_Click);
+            this.üründurumunugüncelle_combobox.Click += new System.EventHandler(this.Üründurumunugüncelle_combobox_Click);
             // 
             // label17
             // 
@@ -263,6 +265,7 @@
             this.kullanilacak_malzemeler_listbox.Location = new System.Drawing.Point(161, 187);
             this.kullanilacak_malzemeler_listbox.Name = "kullanilacak_malzemeler_listbox";
             this.kullanilacak_malzemeler_listbox.Size = new System.Drawing.Size(390, 100);
+            this.kullanilacak_malzemeler_listbox.Sorted = true;
             this.kullanilacak_malzemeler_listbox.TabIndex = 13;
             // 
             // label8
@@ -386,7 +389,7 @@
             this.siparis_sil_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_sil_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.siparis_sil_btn.ForeColor = System.Drawing.Color.Black;
-            this.siparis_sil_btn.Location = new System.Drawing.Point(638, 427);
+            this.siparis_sil_btn.Location = new System.Drawing.Point(639, 439);
             this.siparis_sil_btn.Name = "siparis_sil_btn";
             this.siparis_sil_btn.Size = new System.Drawing.Size(121, 42);
             this.siparis_sil_btn.TabIndex = 14;
@@ -401,7 +404,7 @@
             this.siparis_listesi_güncelle_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_listesi_güncelle_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.siparis_listesi_güncelle_btn.ForeColor = System.Drawing.Color.Black;
-            this.siparis_listesi_güncelle_btn.Location = new System.Drawing.Point(511, 427);
+            this.siparis_listesi_güncelle_btn.Location = new System.Drawing.Point(512, 439);
             this.siparis_listesi_güncelle_btn.Name = "siparis_listesi_güncelle_btn";
             this.siparis_listesi_güncelle_btn.Size = new System.Drawing.Size(121, 42);
             this.siparis_listesi_güncelle_btn.TabIndex = 13;
@@ -412,6 +415,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Controls.Add(this.siparis_numarasi_textbox);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.satis_tarihi_textbox);
             this.groupBox2.Controls.Add(this.label4);
@@ -425,10 +430,27 @@
             this.groupBox2.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.groupBox2.Location = new System.Drawing.Point(951, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(354, 165);
+            this.groupBox2.Size = new System.Drawing.Size(354, 181);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ALICI VE FİRMA BİLGİLERİ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(7, 157);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(89, 16);
+            this.label18.TabIndex = 21;
+            this.label18.Text = "Satış numarası: ";
+            // 
+            // siparis_numarasi_textbox
+            // 
+            this.siparis_numarasi_textbox.Location = new System.Drawing.Point(153, 154);
+            this.siparis_numarasi_textbox.Name = "siparis_numarasi_textbox";
+            this.siparis_numarasi_textbox.ReadOnly = true;
+            this.siparis_numarasi_textbox.Size = new System.Drawing.Size(180, 21);
+            this.siparis_numarasi_textbox.TabIndex = 20;
             // 
             // label15
             // 
@@ -526,7 +548,7 @@
             this.groupBox3.Controls.Add(this.malzeme_ekle_btn);
             this.groupBox3.Controls.Add(this.kullanilacak_malzeme_adeti_textbox);
             this.groupBox3.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.groupBox3.Location = new System.Drawing.Point(951, 183);
+            this.groupBox3.Location = new System.Drawing.Point(951, 195);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(674, 286);
             this.groupBox3.TabIndex = 16;
@@ -620,7 +642,7 @@
             this.Siparisi_onayla_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Siparisi_onayla_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.Siparisi_onayla_btn.ForeColor = System.Drawing.Color.Black;
-            this.Siparisi_onayla_btn.Location = new System.Drawing.Point(765, 427);
+            this.Siparisi_onayla_btn.Location = new System.Drawing.Point(766, 439);
             this.Siparisi_onayla_btn.Name = "Siparisi_onayla_btn";
             this.Siparisi_onayla_btn.Size = new System.Drawing.Size(121, 42);
             this.Siparisi_onayla_btn.TabIndex = 17;
@@ -667,7 +689,7 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(377, 755);
+            this.panel2.Size = new System.Drawing.Size(377, 783);
             this.panel2.TabIndex = 25;
             this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseDown);
             this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseMove);
@@ -679,7 +701,7 @@
             this.ana_menü_btnn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ana_menü_btnn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.ana_menü_btnn.ForeColor = System.Drawing.SystemColors.Window;
-            this.ana_menü_btnn.Location = new System.Drawing.Point(12, 703);
+            this.ana_menü_btnn.Location = new System.Drawing.Point(12, 732);
             this.ana_menü_btnn.Name = "ana_menü_btnn";
             this.ana_menü_btnn.Size = new System.Drawing.Size(121, 32);
             this.ana_menü_btnn.TabIndex = 12;
@@ -717,7 +739,7 @@
             this.loginpanel_gelistiren_label.Font = new System.Drawing.Font("Century Gothic", 7F);
             this.loginpanel_gelistiren_label.ForeColor = System.Drawing.Color.White;
             this.loginpanel_gelistiren_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(258, 705);
+            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(267, 737);
             this.loginpanel_gelistiren_label.Name = "loginpanel_gelistiren_label";
             this.loginpanel_gelistiren_label.Size = new System.Drawing.Size(107, 30);
             this.loginpanel_gelistiren_label.TabIndex = 7;
@@ -747,7 +769,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1640, 747);
+            this.ClientSize = new System.Drawing.Size(1640, 776);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.windows_kücültme_label);
             this.Controls.Add(this.logout_label);
@@ -844,5 +866,7 @@
         private System.Windows.Forms.TextBox satis_tarihi_textbox;
         private System.Windows.Forms.ComboBox üründurumunugüncelle_combobox;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox siparis_numarasi_textbox;
     }
 }

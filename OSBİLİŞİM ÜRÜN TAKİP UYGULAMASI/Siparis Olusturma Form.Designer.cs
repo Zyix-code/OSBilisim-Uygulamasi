@@ -44,6 +44,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.sipariş_numarası_textbox = new System.Windows.Forms.TextBox();
             this.ürünün_satıldığı_firma = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.satış_yapılan_firma = new System.Windows.Forms.ComboBox();
@@ -215,6 +217,8 @@
             // groupBox2
             // 
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.sipariş_numarası_textbox);
             this.groupBox2.Controls.Add(this.ürünün_satıldığı_firma);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.satış_yapılan_firma);
@@ -226,10 +230,26 @@
             this.groupBox2.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.groupBox2.Location = new System.Drawing.Point(744, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(348, 144);
+            this.groupBox2.Size = new System.Drawing.Size(348, 184);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ALICI VE FİRMA BİLGİLERİ";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(10, 139);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(98, 16);
+            this.label13.TabIndex = 16;
+            this.label13.Text = "Sipariş numarası: ";
+            // 
+            // sipariş_numarası_textbox
+            // 
+            this.sipariş_numarası_textbox.Location = new System.Drawing.Point(158, 136);
+            this.sipariş_numarası_textbox.Name = "sipariş_numarası_textbox";
+            this.sipariş_numarası_textbox.Size = new System.Drawing.Size(162, 21);
+            this.sipariş_numarası_textbox.TabIndex = 15;
             // 
             // ürünün_satıldığı_firma
             // 
@@ -347,7 +367,7 @@
             this.malzeme_ekle_btn.Name = "malzeme_ekle_btn";
             this.malzeme_ekle_btn.Size = new System.Drawing.Size(121, 32);
             this.malzeme_ekle_btn.TabIndex = 1;
-            this.malzeme_ekle_btn.Text = "Malzeme seç";
+            this.malzeme_ekle_btn.Text = "Malzeme ekle";
             this.toolTip1.SetToolTip(this.malzeme_ekle_btn, "Yukardaki malzemeleri sağ taraftaki gönderilecek malzemeler bölümüne eklemenizi s" +
         "ağlar.");
             this.malzeme_ekle_btn.UseVisualStyleBackColor = false;
@@ -399,6 +419,7 @@
             this.kullanilacak_malzemeler_listbox.Location = new System.Drawing.Point(17, 19);
             this.kullanilacak_malzemeler_listbox.Name = "kullanilacak_malzemeler_listbox";
             this.kullanilacak_malzemeler_listbox.Size = new System.Drawing.Size(314, 164);
+            this.kullanilacak_malzemeler_listbox.Sorted = true;
             this.kullanilacak_malzemeler_listbox.TabIndex = 0;
             // 
             // kullanilacak_malzemeler_listesi
@@ -615,5 +636,7 @@
         private System.Windows.Forms.Label windows_kücültme_label;
         private System.Windows.Forms.Label logout_label;
         private System.Windows.Forms.CheckedListBox ürünserino_checklistbox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox sipariş_numarası_textbox;
     }
 }

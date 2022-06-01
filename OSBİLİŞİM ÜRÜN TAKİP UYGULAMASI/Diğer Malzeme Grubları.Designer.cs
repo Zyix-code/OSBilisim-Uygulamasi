@@ -60,6 +60,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.aliciaditextbox = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.sipariş_numarası_textbox = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -72,7 +74,7 @@
             this.siparis_gonder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_gonder.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.siparis_gonder.ForeColor = System.Drawing.Color.Black;
-            this.siparis_gonder.Location = new System.Drawing.Point(527, 367);
+            this.siparis_gonder.Location = new System.Drawing.Point(527, 397);
             this.siparis_gonder.Name = "siparis_gonder";
             this.siparis_gonder.Size = new System.Drawing.Size(121, 32);
             this.siparis_gonder.TabIndex = 4;
@@ -90,8 +92,8 @@
             "Gittigidiyor",
             "Trendyol",
             "N11",
-            "Elden Teslim"});
-            this.ürünün_satıldığı_firma.Location = new System.Drawing.Point(158, 101);
+            "Diğer"});
+            this.ürünün_satıldığı_firma.Location = new System.Drawing.Point(158, 106);
             this.ürünün_satıldığı_firma.Name = "ürünün_satıldığı_firma";
             this.ürünün_satıldığı_firma.Size = new System.Drawing.Size(162, 24);
             this.ürünün_satıldığı_firma.TabIndex = 14;
@@ -99,7 +101,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(29, 104);
+            this.label8.Location = new System.Drawing.Point(17, 109);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(123, 16);
             this.label8.TabIndex = 13;
@@ -112,7 +114,7 @@
             this.satış_yapılan_firma.Items.AddRange(new object[] {
             "OS BİLİŞİM",
             "TRENTA TEKNOLOJİ"});
-            this.satış_yapılan_firma.Location = new System.Drawing.Point(158, 74);
+            this.satış_yapılan_firma.Location = new System.Drawing.Point(158, 76);
             this.satış_yapılan_firma.Name = "satış_yapılan_firma";
             this.satış_yapılan_firma.Size = new System.Drawing.Size(162, 24);
             this.satış_yapılan_firma.TabIndex = 12;
@@ -120,7 +122,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(47, 77);
+            this.label7.Location = new System.Drawing.Point(17, 79);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(110, 16);
             this.label7.TabIndex = 11;
@@ -129,7 +131,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 51);
+            this.label4.Location = new System.Drawing.Point(14, 52);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(138, 16);
             this.label4.TabIndex = 9;
@@ -247,7 +249,7 @@
             // 
             // alicisoyaditextboxt
             // 
-            this.alicisoyaditextboxt.Location = new System.Drawing.Point(158, 48);
+            this.alicisoyaditextboxt.Location = new System.Drawing.Point(158, 49);
             this.alicisoyaditextboxt.Name = "alicisoyaditextboxt";
             this.alicisoyaditextboxt.Size = new System.Drawing.Size(162, 21);
             this.alicisoyaditextboxt.TabIndex = 8;
@@ -293,7 +295,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(25, 79);
+            this.label11.Location = new System.Drawing.Point(17, 79);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(74, 16);
             this.label11.TabIndex = 11;
@@ -303,7 +305,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(26, 167);
+            this.label9.Location = new System.Drawing.Point(17, 167);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(83, 16);
             this.label9.TabIndex = 8;
@@ -322,7 +324,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(40, 140);
+            this.label5.Location = new System.Drawing.Point(17, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 16);
             this.label5.TabIndex = 5;
@@ -351,7 +353,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 22);
+            this.label1.Location = new System.Drawing.Point(17, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 16);
             this.label1.TabIndex = 2;
@@ -371,18 +373,20 @@
             // groupBox2
             // 
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.ürünün_satıldığı_firma);
             this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.sipariş_numarası_textbox);
             this.groupBox2.Controls.Add(this.satış_yapılan_firma);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.alicisoyaditextboxt);
-            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.aliciaditextbox);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.groupBox2.Location = new System.Drawing.Point(396, 223);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(348, 135);
+            this.groupBox2.Size = new System.Drawing.Size(331, 168);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ALICI VE FİRMA BİLGİLERİ";
@@ -390,7 +394,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(31, 25);
+            this.label3.Location = new System.Drawing.Point(14, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 16);
             this.label3.TabIndex = 7;
@@ -403,6 +407,22 @@
             this.aliciaditextbox.Size = new System.Drawing.Size(162, 21);
             this.aliciaditextbox.TabIndex = 6;
             this.aliciaditextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Aliciaditextbox_KeyPress);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(17, 139);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(98, 16);
+            this.label13.TabIndex = 18;
+            this.label13.Text = "Sipariş numarası: ";
+            // 
+            // sipariş_numarası_textbox
+            // 
+            this.sipariş_numarası_textbox.Location = new System.Drawing.Point(158, 136);
+            this.sipariş_numarası_textbox.Name = "sipariş_numarası_textbox";
+            this.sipariş_numarası_textbox.Size = new System.Drawing.Size(162, 21);
+            this.sipariş_numarası_textbox.TabIndex = 17;
             // 
             // Diğer_Malzeme_Grubları
             // 
@@ -470,5 +490,7 @@
         private System.Windows.Forms.TextBox aliciaditextbox;
         private System.Windows.Forms.ComboBox ürünstokkodu;
         private System.Windows.Forms.CheckedListBox ürünserino_checklistbox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox sipariş_numarası_textbox;
     }
 }

@@ -67,7 +67,7 @@ namespace OSBilişim
             }
             else { MessageBox.Show("Girdiğiniz şifreler birbiriyle uyuşmamaktadır. Lütfen düzeltiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void sifresıfırlamaforum_Load(object sender, EventArgs e)
         {
             yenisifretekrartextbox.UseSystemPasswordChar = true;

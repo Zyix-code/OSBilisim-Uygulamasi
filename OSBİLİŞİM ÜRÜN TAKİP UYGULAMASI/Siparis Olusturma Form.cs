@@ -5,6 +5,9 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
 using System.Diagnostics;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace OSBilişim
 {
@@ -19,7 +22,6 @@ namespace OSBilişim
         readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Siparisolusturmaform_Load(object sender, EventArgs e)
         {
-
             Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
             try
             {
@@ -198,6 +200,21 @@ namespace OSBilişim
             {
                 MessageBox.Show("Lütfen ürün hangi firma adı altında satılıyor seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if (sipariş_numarası_textbox.Text.Length < 4)
+            {
+                MessageBox.Show("Girdiğiniz sipariş numarası 4 hane'den küçük olmamalıdır.\n Eğer sipariş numaranız yoksa lütfen 'Bulunmuyor' olarak giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (sipariş_numarası_textbox.Text == "")
+            {
+                if (ürünün_satıldığı_firma.SelectedItem.ToString() == "Diğer")
+                {
+                    MessageBox.Show("Elden teslim ettiğiniz siparişler için sipariş numarası mevcut değilse 'Bulunmuyor' olarak giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen geçerli bir sipariş numarası giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
             else
             {
@@ -207,10 +224,16 @@ namespace OSBilişim
                 {
                     try
                     {
+                        if (ürünün_satıldığı_firma.SelectedItem.ToString() == "Diğer")
+                        {
+
+                        }
                         if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        string sipariskayit = "insert into siparisler(urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
+                        connection.Open();
+                       
+                        string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
                         SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
+                        kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
                         kayitkomut.Parameters.AddWithValue("@urun_adi", ürünadi.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@urun_stok_kodu", ürünstokkodu.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@urun_adeti", ürünadetitextbox.Text);
@@ -293,21 +316,27 @@ namespace OSBilişim
             }
             else { }
         }
-
         private void Malzeme_ekle_btn_Click(object sender, EventArgs e)
         {
             string kullanilackamalzemekontrol;
             if (kullanilacak_malzeme_adeti_textbox.Text == "")
             {
-                if (kullanilacak_malzemeler_listbox.SelectedItems.ToString() == "ÜRÜN ORJİNAL GÖNDERİLECEKTİR")
+                if (kullanilacak_malzemeler_listbox.SelectedItem.ToString() == "Ürün orjinal hali ile gönderilecektir")
                 {
-                    kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem);
+                    if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilacak_malzemeler_listbox.SelectedItem))
+                    {
+                        MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem);
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Kullanılacak malzeme adetini giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
             }
             else if (kullanilacak_malzemeler_listbox.SelectedIndex == -1)
             {
@@ -319,9 +348,16 @@ namespace OSBilişim
             }
             else if (Convert.ToInt32(kullanilacak_malzeme_adeti_textbox.Text) < 1)
             {
-                if (kullanilacak_malzemeler_listbox.Text == "ÜRÜN ORJİNAL GÖNDERİLECEKTİR")
+                if (kullanilacak_malzemeler_listbox.SelectedItem.ToString() == "Ürün orjinal hali ile gönderilecektir")
                 {
-                    kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem);
+                    if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilacak_malzemeler_listbox.SelectedItem))
+                    {
+                        MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem);
+                    }
                 }
                 else
                 {
@@ -330,15 +366,63 @@ namespace OSBilişim
             }
             else
             {
-                kullanilackamalzemekontrol = kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Takılacak";
-                if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilackamalzemekontrol))
+                string mouse = "Mouse";
+                string canta = "Çanta";
+                string lisans = "Windows";
+
+                foreach (string item in kullanilacak_malzemeler_listbox.SelectedItems)
                 {
-                    MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (item.ToLower().Contains(mouse.ToLower()))
+                    {
+                        kullanilackamalzemekontrol = kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Verildi";
+                        if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilackamalzemekontrol))
+                        {
+                            MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Verildi");
+                        }
+
+                    }
+                    else if (item.ToLower().Contains(canta.ToLower()))
+                    {
+                        kullanilackamalzemekontrol = kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Verildi";
+                        if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilackamalzemekontrol))
+                        {
+                            MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Verildi");
+                        }
+                    }
+                    else if (item.ToLower().Contains(lisans.ToLower()))
+                    {
+                        kullanilackamalzemekontrol = kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Kullanıldı";
+                        if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilackamalzemekontrol))
+                        {
+                            MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Kullanıldı");
+                        }
+                    }
+                    else
+                    {
+                        kullanilackamalzemekontrol = kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Takılacak";
+                        if (kullanilacak_malzemeler_listesi.Items.Contains(kullanilackamalzemekontrol))
+                        {
+                            MessageBox.Show("Malzemeler listesinde aynı ürün mevcut ürünü silip güncelledikten sonra tekrar ekleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Takılacak");
+                        }
+                    }
                 }
-                else
-                {
-                    kullanilacak_malzemeler_listesi.Items.Add(kullanilacak_malzemeler_listbox.SelectedItem + " (" + kullanilacak_malzeme_adeti_textbox.Text + " Adet)" + " Takılacak");
-                }
+
             }
         }
         private void Aliciaditextbox_KeyPress(object sender, KeyPressEventArgs e)

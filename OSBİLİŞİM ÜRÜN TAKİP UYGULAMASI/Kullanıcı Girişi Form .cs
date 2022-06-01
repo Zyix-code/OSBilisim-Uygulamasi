@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Drawing;
 
 namespace OSBilişim
 {
@@ -18,10 +19,10 @@ namespace OSBilişim
         SqlDataReader dr;
         SqlCommand com;
         readonly Anaform anaform = new Anaform(); 
-        sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
+        readonly sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
 
         public static string username;
-        public string versiyon = "12";
+        public string versiyon = "17";
         public string güncelversiyon = "";
         public Kullanicigirisiform()
         {
@@ -195,7 +196,7 @@ namespace OSBilişim
         private void Kullanicigirisiform_Load(object sender, EventArgs e)
         {
             sifretextbox.UseSystemPasswordChar = true;
-            Yoneticizni();
+            //Yoneticizni();
             try
             {
                 if (connection.State == ConnectionState.Closed)
@@ -235,14 +236,14 @@ namespace OSBilişim
                 Application.Exit();
             }
 
-            if (Process.GetProcessesByName("OSBilişim").Length > 1)
+            /*if (Process.GetProcessesByName("OSBilişim").Length > 1)
             {
                 MessageBox.Show("OSBilişim uygulaması çalışıyor açık olan uygulamayı kapatıp tekrar deneyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
-            }
+            }*/
         }
 
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Kullanicigirisiform_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
@@ -383,9 +384,52 @@ namespace OSBilişim
              // MessageBox.Show(sifrecöz(kullaniciaditextbox.text)); kullanımı
           }*/
         #endregion
-        private void şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             sifresıfırlamaforum.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog1.ShowDialog();
+
+        }
+
+        private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            try
+            {
+                
+                //Yazı fontumu ve çizgi çizmek için fırçamı ve kalem nesnemi oluşturdum
+                Font myFont = new Font("Calibri", 20, FontStyle.Bold);
+                Font tarihfont = new Font("Calibri", 9, FontStyle.Bold);
+                SolidBrush sbrush = new SolidBrush(Color.Black);
+                Pen myPen = new Pen(Color.Black);
+                StringFormat ortala = new StringFormat();
+                ortala.Alignment = StringAlignment.Center;
+         
+                e.Graphics.DrawRectangle(myPen, 12,5,Width,160);
+                e.Graphics.DrawImage(Properties.Resources.footer, 15,15,220,150);
+                e.Graphics.DrawLine(myPen, new Point(250, 165), new Point(250,5));
+                e.Graphics.DrawString("ÜRÜN/HİZMET\nSİPARİŞ FORMU", myFont, sbrush ,320, 46);
+                e.Graphics.DrawLine(myPen, new Point(570, 165), new Point(570, 5));
+                e.Graphics.DrawString($"Oruç Reis Mah. Tekstil Kent Cad. Tekstilkent Sit.\nA 13 Blok No:63 Esenler / İSTANBUL\n+90 531 263 89 16\nwww.osbilisim.com.tr\ninfo@osbilisim.com.tr\nTarih: {DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")} ", tarihfont,sbrush, 693, 50,ortala);
+                //  e.Graphics.DrawLine(myPen, 120, 180, 750, 180);
+                // e.Graphics.DrawString("SİPARİŞ FORMU", myFont, sbrush, 200, 120);
+
+
+                myFont = new Font("Calibri", 12, FontStyle.Bold);
+                e.Graphics.DrawString("Adet", myFont, sbrush, 140, 328);
+                e.Graphics.DrawString("Ürün Adı", myFont, sbrush, 240, 328);
+                e.Graphics.DrawString("Birim Fiyatı", myFont, sbrush, 440, 328);
+                e.Graphics.DrawString("Fiyat", myFont, sbrush, 640, 328);
+                
+
+            }
+            catch
+            {
+
+            }
         }
     }
 }

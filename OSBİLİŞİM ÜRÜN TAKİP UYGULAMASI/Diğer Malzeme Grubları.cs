@@ -210,6 +210,21 @@ namespace OSBilişim
             {
                 MessageBox.Show("Ürün stok kodu mevcut değildir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if (sipariş_numarası_textbox.Text.Length < 4)
+            {
+                MessageBox.Show("Girdiğiniz sipariş numarası 4 hane'den küçük olmamalıdır.\n Eğer sipariş numaranız yoksa lütfen 'Bulunmuyor' olarak giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (sipariş_numarası_textbox.Text == "")
+            {
+                if (ürünün_satıldığı_firma.SelectedItem.ToString() == "Diğer")
+                {
+                    MessageBox.Show("Elden teslim ettiğiniz siparişler için sipariş numarası mevcut değilse 'Bulunmuyor' olarak giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen geçerli bir sipariş numarası giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             else
             {
                 DialogResult dialog = MessageBox.Show("Ürün siparişi oluşturulacaktır siparişin doğruluğunu onaylıyor musunuz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -219,8 +234,9 @@ namespace OSBilişim
                     {
                         if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                        string sipariskayit = "insert into siparisler(urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
+                        string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
                         SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
+                        kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
                         kayitkomut.Parameters.AddWithValue("@urun_adi", ürünadi.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@urun_stok_kodu", ürünstokkodu.SelectedItem);
                         kayitkomut.Parameters.AddWithValue("@urun_adeti", ürünadetitextbox.Text);
