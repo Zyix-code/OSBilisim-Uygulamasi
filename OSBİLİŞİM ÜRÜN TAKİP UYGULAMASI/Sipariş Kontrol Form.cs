@@ -287,7 +287,7 @@ namespace OSBilişim
                    .First();
             lastId = maxId == null ? -1 : (int)maxId;
 
-            var siparisControlTimer = new System.Timers.Timer( 10 * 1000) { Enabled = false };
+            var siparisControlTimer = new System.Timers.Timer( 5 * 1000) { Enabled = false };
             siparisControlTimer.Elapsed += Handle_SiparisControl;
             siparisControlTimer.Start();
 
