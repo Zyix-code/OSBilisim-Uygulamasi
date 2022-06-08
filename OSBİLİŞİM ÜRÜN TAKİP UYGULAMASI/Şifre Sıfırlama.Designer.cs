@@ -75,9 +75,9 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(376, 438);
             this.panel2.TabIndex = 14;
-            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseDown);
-            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseMove);
-            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseUp);
+            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseDown);
+            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseMove);
+            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseUp);
             // 
             // label1
             // 
@@ -138,7 +138,7 @@
             this.label3.TabIndex = 19;
             this.label3.Text = "-";
             this.toolTip1.SetToolTip(this.label3, "Formu küçültmenizi sağlar.");
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.Click += new System.EventHandler(this.Label3_Click);
             // 
             // logout_label
             // 
@@ -152,7 +152,7 @@
             this.logout_label.TabIndex = 18;
             this.logout_label.Text = "X";
             this.toolTip1.SetToolTip(this.logout_label, "Formu kapatmanızı sağlar.");
-            this.logout_label.Click += new System.EventHandler(this.logout_label_Click);
+            this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
             // 
             // linkLabel1
             // 
@@ -166,7 +166,7 @@
             this.linkLabel1.TabIndex = 21;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "selcuksahin158@gmail.com";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
             // 
             // label2
             // 
@@ -272,7 +272,7 @@
             this.toolTip1.SetToolTip(this.btn_sıfırla, "Güvenlik sorunuzu doğru şekilde girdiyseniz, yeni şifreleriniz hatalı değil ise ş" +
         "ifrenizi sıfırlamanızı sağlar.");
             this.btn_sıfırla.UseVisualStyleBackColor = false;
-            this.btn_sıfırla.Click += new System.EventHandler(this.btn_giris_Click);
+            this.btn_sıfırla.Click += new System.EventHandler(this.Btn_giris_Click);
             // 
             // panel4
             // 
@@ -336,7 +336,7 @@
             this.toolTip1.SetToolTip(this.btn_onaykodugönder, "Güvenlik sorunuzu doğru şekilde girdiyseniz, yeni şifreleriniz hatalı değil ise ş" +
         "ifrenizi sıfırlamanızı sağlar.");
             this.btn_onaykodugönder.UseVisualStyleBackColor = false;
-            this.btn_onaykodugönder.Click += new System.EventHandler(this.btn_onaykodugönder_Click);
+            this.btn_onaykodugönder.Click += new System.EventHandler(this.Btn_onaykodugönder_Click);
             // 
             // kullanıcıadıtextbox
             // 
@@ -364,7 +364,7 @@
             this.sifre_goster_gizle_checkbox.Text = "Göster / Gizle";
             this.toolTip1.SetToolTip(this.sifre_goster_gizle_checkbox, "Girdiğiniz şifrenizi gizleyip, görmenizi sağlar.");
             this.sifre_goster_gizle_checkbox.UseVisualStyleBackColor = true;
-            this.sifre_goster_gizle_checkbox.CheckedChanged += new System.EventHandler(this.sifre_goster_gizle_checkbox_CheckedChanged);
+            this.sifre_goster_gizle_checkbox.CheckedChanged += new System.EventHandler(this.Sifre_goster_gizle_checkbox_CheckedChanged);
             // 
             // panel5
             // 
@@ -416,7 +416,7 @@
             this.şifremiunuttumlinklabel.TabIndex = 41;
             this.şifremiunuttumlinklabel.TabStop = true;
             this.şifremiunuttumlinklabel.Text = "Güvenlik sorusunun cevabını unuttum?";
-            this.şifremiunuttumlinklabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.şifremiunuttumlinklabel_LinkClicked);
+            this.şifremiunuttumlinklabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Sifremiunuttumlinklabel_LinkClicked);
             // 
             // sifresıfırlamaforum
             // 
@@ -455,10 +455,10 @@
             this.Opacity = 0.95D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Şifre Sıfırlama Forum";
-            this.Load += new System.EventHandler(this.sifresıfırlamaforum_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sifresıfırlamaforum_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sifresıfırlamaforum_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.sifresıfırlamaforum_MouseUp);
+            this.Load += new System.EventHandler(this.Sifresıfırlamaforum_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Sifresıfırlamaforum_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Sifresıfırlamaforum_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Sifresıfırlamaforum_MouseUp);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

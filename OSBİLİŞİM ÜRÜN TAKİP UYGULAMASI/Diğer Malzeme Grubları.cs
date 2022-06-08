@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace OSBilişim
 {
@@ -15,7 +15,7 @@ namespace OSBilişim
             InitializeComponent();
         }
 
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
 
         private void Ana_menü_btn_Click(object sender, EventArgs e)
         {
@@ -61,22 +61,33 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    SqlCommand versiyonkontrol = new SqlCommand("Select * From version where version='" + Kullanicigirisiform.versiyon + "'", connection);
-                    SqlDataReader versiyonkontrolokuyucu;
-                    versiyonkontrolokuyucu = versiyonkontrol.ExecuteReader();
-                    if (versiyonkontrolokuyucu.Read())
-                    {
-                        MessageBox.Show(versiyonkontrolokuyucu["versiyon_aciklama"].ToString(), "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        System.Diagnostics.Process.Start(versiyonkontrolokuyucu["yeni_program_indirme_linki"].ToString());
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
 
+                FileVersionInfo programversion = FileVersionInfo.GetVersionInfo(@"OSBilişim.exe");
+                SqlCommand üründurum = new SqlCommand("select version,versiyon_aciklama,yeni_program_indirme_linki from version", connection);
+                SqlDataReader üründurumusorgulama;
+                üründurumusorgulama = üründurum.ExecuteReader();
+                if (üründurumusorgulama.Read())
+                {
+                    Kullanicigirisiform.güncelversiyon = ((string)üründurumusorgulama["version"]);
+                    if (Convert.ToInt32(Kullanicigirisiform.güncelversiyon) >= Convert.ToInt32(programversion.FileVersion))
+                    {
+                        DialogResult dialog = new DialogResult();
+                        dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialog == DialogResult.Yes)
+                        {
+                            string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
+                            File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.132/Update/OSUpdate.exe"));
+                            Process.Start("OSUpdate.exe");
+                            System.Threading.Thread.Sleep(1000);
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Uygulamanızı güncellemediğiniz için, program çalışmayacaktır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Application.Exit();
+                        }
                     }
-                    connection.Close();
                 }
             }
             catch (Exception hata)
@@ -210,20 +221,9 @@ namespace OSBilişim
             {
                 MessageBox.Show("Ürün stok kodu mevcut değildir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (sipariş_numarası_textbox.Text.Length < 4)
-            {
-                MessageBox.Show("Girdiğiniz sipariş numarası 4 hane'den küçük olmamalıdır.\n Eğer sipariş numaranız yoksa lütfen 'Bulunmuyor' olarak giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             else if (sipariş_numarası_textbox.Text == "")
             {
-                if (ürünün_satıldığı_firma.SelectedItem.ToString() == "Diğer")
-                {
-                    MessageBox.Show("Elden teslim ettiğiniz siparişler için sipariş numarası mevcut değilse 'Bulunmuyor' olarak giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Lütfen geçerli bir sipariş numarası giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Sipariş numarasını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -232,67 +232,149 @@ namespace OSBilişim
                 {
                     try
                     {
-                        if (connection.State == ConnectionState.Closed)
-                        connection.Open();
-                        string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
-                        SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
-                        kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
-                        kayitkomut.Parameters.AddWithValue("@urun_adi", ürünadi.SelectedItem);
-                        kayitkomut.Parameters.AddWithValue("@urun_stok_kodu", ürünstokkodu.SelectedItem);
-                        kayitkomut.Parameters.AddWithValue("@urun_adeti", ürünadetitextbox.Text);
-                        kayitkomut.Parameters.AddWithValue("@teslim_alacak_kisi_adi", aliciaditextbox.Text);
-                        kayitkomut.Parameters.AddWithValue("@teslim_alacak_kisi_soyadi", alicisoyaditextboxt.Text);
-                        kayitkomut.Parameters.AddWithValue("@satis_yapilan_firma", satış_yapılan_firma.SelectedItem);
-                        kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
-                        kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", ürünadi.SelectedItem);
-                        kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
-                        kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
-                        kayitkomut.Parameters.AddWithValue("@urun_hakkinda_aciklama", "Bu ürün tek parça olarak satılmıştır.");
-                        string serino = "";
-                        foreach (object item in ürünserino_checklistbox.CheckedItems)
+                        if (ürünün_satıldığı_firma.SelectedItem.ToString() == "Diğer")
                         {
-                            string checkedItem = item.ToString();
-                            serino = serino + checkedItem + " / ";
-                        }
-                        kayitkomut.Parameters.AddWithValue("@urun_seri_no", serino.Trim(new Char[] { ' ', '/', '.' }));
-                        kayitkomut.ExecuteNonQuery();
+                            using (var cn = new SqlConnection("server=192.168.1.132,1433;database=OSBİLİSİM;UId=Admin;Pwd=1;MultipleActiveResultSets=True;"))
+                            using (var cmd = new SqlCommand(@"select max(try_cast(sip_no as int)) from siparisler where urunun_satildigi_firma = 'Diğer'", cn))
+                            {
+                                cn.Open();
+                                var id = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        for (int i = 0; i < ürünserino_checklistbox.CheckedItems.Count; i++)
-                        {
-                            SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
-                            ürüngüncelle.ExecuteNonQuery();
+                                if (id >= Convert.ToUInt16(sipariş_numarası_textbox.Text))
+                                {
+                                    MessageBox.Show($"Girdiğiniz sipariş numarası geçersizdir girebileceğiniz en düşük sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    sipariş_numarası_textbox.Text = $"{id + 1}";
+                                }
+                                else
+                                {
+                                    PrintDialog printDialog1 = new PrintDialog
+                                    {
+                                        Document = printDocument1
+                                    };
+                                    DialogResult result = printDialog1.ShowDialog();
+                                    if (result == DialogResult.OK)
+                                    {
+                                        printDocument1.Print();
+                                    }
+                                    if (connection.State == ConnectionState.Closed)
+                                        connection.Open();
+                                    string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
+                                    SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
+                                    kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
+                                    kayitkomut.Parameters.AddWithValue("@urun_adi", ürünadi.SelectedItem);
+                                    kayitkomut.Parameters.AddWithValue("@urun_stok_kodu", ürünstokkodu.SelectedItem);
+                                    kayitkomut.Parameters.AddWithValue("@urun_adeti", ürünadetitextbox.Text);
+                                    kayitkomut.Parameters.AddWithValue("@teslim_alacak_kisi_adi", aliciaditextbox.Text);
+                                    kayitkomut.Parameters.AddWithValue("@teslim_alacak_kisi_soyadi", alicisoyaditextboxt.Text);
+                                    kayitkomut.Parameters.AddWithValue("@satis_yapilan_firma", satış_yapılan_firma.SelectedItem);
+                                    kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
+                                    kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", ürünadi.SelectedItem);
+                                    kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
+                                    kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
+                                    kayitkomut.Parameters.AddWithValue("@urun_hakkinda_aciklama", "Bu ürün tek parça olarak satılmıştır.");
+                                    string serino = "";
+                                    foreach (object item in ürünserino_checklistbox.CheckedItems)
+                                    {
+                                        string checkedItem = item.ToString();
+                                        serino = serino + checkedItem + " / ";
+                                    }
+                                    kayitkomut.Parameters.AddWithValue("@urun_seri_no", serino.Trim(new Char[] { ' ', '/', '.' }));
+                                    kayitkomut.ExecuteNonQuery();
+
+                                    for (int i = 0; i < ürünserino_checklistbox.CheckedItems.Count; i++)
+                                    {
+                                        SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
+                                        ürüngüncelle.ExecuteNonQuery();
+                                    }
+                                    connection.Close();
+                                    // LOG DOYASI //
+                                    using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                    {
+                                        Kullanicigirisiform.Log(aliciaditextbox.Text + " " + alicisoyaditextboxt.Text + " adlı alıcı " + ürünadi.SelectedItem.ToString() + " ürününün " + serino.Trim(new Char[] { ' ', '/', '.' }) + " seri numarasını girerek, " + Kullanicigirisiform.username + " tarafından alıcı için sipariş oluşturuldu.", w);
+                                    }
+                                    using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                    {
+                                        Kullanicigirisiform.DumpLog(r);
+                                    }
+                                    // LOG DOSYASI //
+                                    ürünadetitextbox.Text = "0";
+                                    ürünadi.SelectedIndex = -1;
+                                    ürünstokkodu.SelectedIndex = -1;
+                                    aliciaditextbox.Text = "";
+                                    alicisoyaditextboxt.Text = "";
+                                    satış_yapılan_firma.SelectedIndex = -1;
+                                    ürünün_satıldığı_firma.SelectedIndex = -1;
+                                    ürünserino_checklistbox.Items.Clear();
+                                    sipariş_numarası_textbox.Text = "";
+                                    ürünadetitextbox.Text = "";
+
+                                    ürünadetitextbox.Text = "";
+                                    MessageBox.Show("Sipariş oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
                         }
-                        connection.Close();
-                        // LOG DOYASI //
-                        using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                        else
                         {
-                            Kullanicigirisiform.Log(aliciaditextbox.Text + " " + alicisoyaditextboxt.Text + " adlı alıcı " + ürünadi.SelectedItem.ToString() + " ürününün " + serino.Trim(new Char[] { ' ', '/', '.' })  + " seri numarasını girerek, " + Kullanicigirisiform.username + " tarafından alıcı için sipariş oluşturuldu.", w);
+                            if (connection.State == ConnectionState.Closed)
+                                connection.Open();
+                            string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
+                            SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
+                            kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
+                            kayitkomut.Parameters.AddWithValue("@urun_adi", ürünadi.SelectedItem);
+                            kayitkomut.Parameters.AddWithValue("@urun_stok_kodu", ürünstokkodu.SelectedItem);
+                            kayitkomut.Parameters.AddWithValue("@urun_adeti", ürünadetitextbox.Text);
+                            kayitkomut.Parameters.AddWithValue("@teslim_alacak_kisi_adi", aliciaditextbox.Text);
+                            kayitkomut.Parameters.AddWithValue("@teslim_alacak_kisi_soyadi", alicisoyaditextboxt.Text);
+                            kayitkomut.Parameters.AddWithValue("@satis_yapilan_firma", satış_yapılan_firma.SelectedItem);
+                            kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
+                            kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", ürünadi.SelectedItem);
+                            kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
+                            kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
+                            kayitkomut.Parameters.AddWithValue("@urun_hakkinda_aciklama", "Bu ürün tek parça olarak satılmıştır.");
+                            string serino = "";
+                            foreach (object item in ürünserino_checklistbox.CheckedItems)
+                            {
+                                string checkedItem = item.ToString();
+                                serino = serino + checkedItem + " / ";
+                            }
+                            kayitkomut.Parameters.AddWithValue("@urun_seri_no", serino.Trim(new Char[] { ' ', '/', '.' }));
+                            kayitkomut.ExecuteNonQuery();
+
+                            for (int i = 0; i < ürünserino_checklistbox.CheckedItems.Count; i++)
+                            {
+                                SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
+                                ürüngüncelle.ExecuteNonQuery();
+                            }
+                            connection.Close();
+                            // LOG DOYASI //
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                            {
+                                Kullanicigirisiform.Log(aliciaditextbox.Text + " " + alicisoyaditextboxt.Text + " adlı alıcı " + ürünadi.SelectedItem.ToString() + " ürününün " + serino.Trim(new Char[] { ' ', '/', '.' }) + " seri numarasını girerek, " + Kullanicigirisiform.username + " tarafından alıcı için sipariş oluşturuldu.", w);
+                            }
+                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            {
+                                Kullanicigirisiform.DumpLog(r);
+                            }
+                            // LOG DOSYASI //
+                            ürünadetitextbox.Text = "0";
+                            ürünadi.SelectedIndex = -1;
+                            ürünstokkodu.SelectedIndex = -1;
+                            aliciaditextbox.Text = "";
+                            alicisoyaditextboxt.Text = "";
+                            satış_yapılan_firma.SelectedIndex = -1;
+                            ürünün_satıldığı_firma.SelectedIndex = -1;
+                            ürünserino_checklistbox.Items.Clear();
+                            sipariş_numarası_textbox.Text = "";
+                            ürünadetitextbox.Text = "";
+                            MessageBox.Show("Sipariş oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
-                        {
-                            Kullanicigirisiform.DumpLog(r);
-                        }
-                        // LOG DOSYASI //
-                        ürünadetitextbox.Text = "0";
-                        ürünadi.SelectedIndex = -1;
-                        ürünstokkodu.SelectedIndex = -1;
-                        aliciaditextbox.Text = "";
-                        alicisoyaditextboxt.Text = "";
-                        satış_yapılan_firma.SelectedIndex = -1;
-                        ürünün_satıldığı_firma.SelectedIndex = -1;
-                        ürünserino_checklistbox.Items.Clear();
-                      
-                        ürünadetitextbox.Text = "";
-                        MessageBox.Show("Sipariş oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
                     catch (Exception hata)
                     {
                         MessageBox.Show("Siparişiniz oluşturulmadı.\nİnternet bağlantınızı ya da server bağlantınızı kontrol ediniz.\n Hata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Application.Exit();
                     }
-                }
-
+                }   
                 else
                 {
                     MessageBox.Show("Sipariş oluşturulmadı, gerekli bilgileri tekrar tamamlayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -426,6 +508,80 @@ namespace OSBilişim
             foreach (var process in Process.GetProcessesByName("OSBilişim"))
             {
                 process.Kill();
+            }
+        }
+
+        private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            try
+            {
+                Font myFont = new Font("Calibri", 20, FontStyle.Bold);
+                Font tarihfont = new Font("Calibri", 8, FontStyle.Bold);
+                SolidBrush sbrush = new SolidBrush(Color.Black);
+                Pen myPen = new Pen(Color.Black);
+                StringFormat ortala = new StringFormat
+                {
+                    Alignment = StringAlignment.Center
+                };
+
+                e.Graphics.DrawRectangle(myPen, 10, 10, 785, 160);
+                e.Graphics.DrawImage(Properties.Resources.footer, 15, 15, 220, 150);
+                e.Graphics.DrawLine(myPen, new Point(250, 170), new Point(250, 10));
+                e.Graphics.DrawString("ÜRÜN/HİZMET\nSİPARİŞ FORMU", myFont, sbrush, 320, 55);
+                e.Graphics.DrawLine(myPen, new Point(570, 170), new Point(570, 10));
+                e.Graphics.DrawString($"Oruç Reis Mah. Tekstil Kent Cad. Tekstilkent Sit.\nA 13 Blok No:63 Esenler / İSTANBUL\n+90 531 263 89 16\nwww.osbilisim.com.tr\ninfo@osbilisim.com.tr\nTarih: {DateTime.Now:dd.MM.yyyy HH:mm:ss} ", tarihfont, sbrush, 683, 55, ortala);
+
+                myFont = new Font("Calibri", 20, FontStyle.Bold);
+                e.Graphics.DrawString("MÜŞTERİ BİLGİLERİ", myFont, sbrush, 300, 200);
+                myFont = new Font("Calibri", 12, FontStyle.Bold);
+                e.Graphics.DrawRectangle(myPen, 15, 240, 785, 35);
+                e.Graphics.DrawString("Müşteri Adı:", myFont, sbrush, 250, 250);
+                e.Graphics.DrawRectangle(myPen, 15, 275, 785, 35);
+                e.Graphics.DrawString("Sipariş No:", myFont, sbrush, 250, 285);
+                e.Graphics.DrawRectangle(myPen, 15, 310, 785, 35);
+                e.Graphics.DrawString("Sipariş Tarihi:", myFont, sbrush, 250, 320);
+
+
+                e.Graphics.DrawString(aliciaditextbox.Text.ToUpper() + " " + alicisoyaditextboxt.Text.ToUpper(), myFont, sbrush, 342, 250);
+                e.Graphics.DrawString(sipariş_numarası_textbox.Text.ToUpper(), myFont, sbrush, 329, 285);
+                e.Graphics.DrawString($"{ DateTime.Now:dd.MM.yyyy HH:mm}", myFont, sbrush, 348, 320);
+
+                myFont = new Font("Calibri", 20, FontStyle.Bold);
+                e.Graphics.DrawString("ÜRÜN BİLGİLERİ", myFont, sbrush, 300, 355);
+                myFont = new Font("Calibri", 12, FontStyle.Bold);
+                e.Graphics.DrawRectangle(myPen, 15, 395, 785, 35);
+                e.Graphics.DrawString("Ürün Adı:", myFont, sbrush, 250, 405);
+                e.Graphics.DrawRectangle(myPen, 15, 430, 785, 35);
+                e.Graphics.DrawString("Ürün Stok Kodu:", myFont, sbrush, 250, 440);
+                e.Graphics.DrawRectangle(myPen, 15, 465, 785, 35);
+                e.Graphics.DrawString("Ürün Seri No:", myFont, sbrush, 250, 475);
+                e.Graphics.DrawRectangle(myPen, 15, 500, 785, 35);
+                e.Graphics.DrawString("Ürün Adeti:", myFont, sbrush, 250, 510);
+
+                if (ürünadi.MaxLength > 10)
+                {
+
+                }
+                e.Graphics.DrawString(ürünadi.SelectedItem.ToString().ToUpper(), myFont, sbrush, 322, 405);
+                e.Graphics.DrawString(ürünstokkodu.SelectedItem.ToString().ToUpper(), myFont, sbrush, 371, 440);
+                string serino = "";
+                foreach (object item in ürünserino_checklistbox.CheckedItems)
+                {
+                    string checkedItem = item.ToString();
+                    serino = serino + checkedItem + " / ";
+                }
+                e.Graphics.DrawString(serino.ToUpper().Trim(new Char[] { ' ', '/', '.' }), myFont, sbrush, 348, 475);
+                e.Graphics.DrawString(ürünadetitextbox.Text, myFont, sbrush, 336, 510);
+
+
+                e.Graphics.DrawRectangle(myPen, 15, 587, 785, 200);
+                e.Graphics.DrawString("Teslim Eden", myFont, sbrush, 93, 600);
+                e.Graphics.DrawString("Teslim Alan", myFont, sbrush, 600, 600);
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("Yazıcı çıktısı alınırken bir hata oluştu.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
     }

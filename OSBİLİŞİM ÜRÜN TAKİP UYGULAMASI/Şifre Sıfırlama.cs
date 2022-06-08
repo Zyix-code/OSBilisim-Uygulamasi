@@ -4,6 +4,9 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Mail;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Mime;
 
 namespace OSBilişim
 {
@@ -15,24 +18,24 @@ namespace OSBilişim
            
         }
 
-        private void logout_label_Click(object sender, EventArgs e)
+        private void Logout_label_Click(object sender, EventArgs e)
         {
             this.Hide();
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void Label3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://mail.google.com/");
         }
         public string güvenliksorusucevabı;
         string onaykodu, eposta = "deneme@gmail.com";
         string kullanicieskisifre;
-        private void btn_giris_Click(object sender, EventArgs e)
+        private void Btn_giris_Click(object sender, EventArgs e)
         {
             Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
             if (yenisifretextbox.Text == yenisifretekrartextbox.Text)
@@ -59,6 +62,7 @@ namespace OSBilişim
                             SqlCommand ürümdurumunugüncelle = new SqlCommand("update kullanicilar set sifre= '" + yenisifretextbox.Text + "' where k_adi = '" + kullanıcıadıtextbox.Text + "'", connection);
                             ürümdurumunugüncelle.ExecuteNonQuery();
                             MessageBox.Show("Şifreniz başarılı şekilde sıfırlanmıştır, lütfen tekrar giriş yapınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Onaykoduolustur();
                         }
                     }
                     else { MessageBox.Show("Girdiğiniz onay kodu yanlıştır. Lütfen düzeltiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -67,12 +71,41 @@ namespace OSBilişim
             }
             else { MessageBox.Show("Girdiğiniz şifreler birbiriyle uyuşmamaktadır. Lütfen düzeltiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
-        private void sifresıfırlamaforum_Load(object sender, EventArgs e)
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
+        private void Sifresıfırlamaforum_Load(object sender, EventArgs e)
         {
             yenisifretekrartextbox.UseSystemPasswordChar = true;
             yenisifretextbox.UseSystemPasswordChar = true;
             Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
+            
+            connection.Open();
+
+            FileVersionInfo programversion = FileVersionInfo.GetVersionInfo(@"OSBilişim.exe");
+            SqlCommand üründurum = new SqlCommand("select version,versiyon_aciklama,yeni_program_indirme_linki from version", connection);
+            SqlDataReader üründurumusorgulama;
+            üründurumusorgulama = üründurum.ExecuteReader();
+            if (üründurumusorgulama.Read())
+            {
+                Kullanicigirisiform.güncelversiyon = ((string)üründurumusorgulama["version"]);
+                if (Convert.ToInt32(Kullanicigirisiform.güncelversiyon) >= Convert.ToInt32(programversion.FileVersion))
+                {
+                    DialogResult dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
+                        File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.132/Update/OSUpdate.exe"));
+                        Process.Start("OSUpdate.exe");
+                        System.Threading.Thread.Sleep(1000);
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Uygulamanızı güncellemediğiniz için, program çalışmayacaktır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.Exit();
+                    }
+                }
+            }
+            connection.Close();
         }
 
         new
@@ -80,13 +113,13 @@ namespace OSBilişim
         int Move;
         int Mouse_X;
         int Mouse_Y;
-        private void sifresıfırlamaforum_MouseUp(object sender, MouseEventArgs e)
+        private void Sifresıfırlamaforum_MouseUp(object sender, MouseEventArgs e)
         {
             Move = 0;
             this.Cursor = Cursors.Default;
         }
 
-        private void sifresıfırlamaforum_MouseMove(object sender, MouseEventArgs e)
+        private void Sifresıfırlamaforum_MouseMove(object sender, MouseEventArgs e)
         {
             if (Move == 1)
             {
@@ -94,7 +127,7 @@ namespace OSBilişim
             }
         }
 
-        private void sifresıfırlamaforum_MouseDown(object sender, MouseEventArgs e)
+        private void Sifresıfırlamaforum_MouseDown(object sender, MouseEventArgs e)
         {
             Move = 1;
             Mouse_X = e.X;
@@ -103,7 +136,7 @@ namespace OSBilişim
         }
      
 
-        private void panel2_MouseMove(object sender, MouseEventArgs e)
+        private void Panel2_MouseMove(object sender, MouseEventArgs e)
         {
             if (Move == 1)
             {
@@ -111,13 +144,13 @@ namespace OSBilişim
             }
         }
 
-        private void panel2_MouseUp(object sender, MouseEventArgs e)
+        private void Panel2_MouseUp(object sender, MouseEventArgs e)
         {
             Move = 0;
             this.Cursor = Cursors.Default;
         }
 
-        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        private void Panel2_MouseDown(object sender, MouseEventArgs e)
         {
             Move = 1;
             Mouse_X = e.X;
@@ -125,7 +158,7 @@ namespace OSBilişim
             this.Cursor = Cursors.SizeAll;
         }
         #endregion
-        private void şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Sifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
@@ -154,7 +187,7 @@ namespace OSBilişim
                     if (kullanıcısorgula.Read())
                     {
                         kullanıcısorgula.Close();
-                     
+
                         SqlCommand komut3 = new SqlCommand("SELECT * FROM kullanicilar where k_adi ='" + kullanıcıadıtextbox.Text + "'", connection);
                         SqlDataReader veriokuyucu3;
                         veriokuyucu3 = komut3.ExecuteReader();
@@ -165,9 +198,7 @@ namespace OSBilişim
                         }
                         veriokuyucu3.Close();
                         string kime = eposta;
-                        string konu = "OSBilişim Güvenlik Sorusu";
-                        string icerik = kullanıcıadıtextbox.Text + " adlı kullanıcı güvenlik sorusu cevabı talebinde bulunmuştur, güvenlik sorusunun cevabı: " + güvenliksorusucevabı;
-
+                        string konu = "OSBİLİŞİM - Güvenlik Sorusu";
                         sc.Credentials = new NetworkCredential("teknik@trentatek.com.tr", "H35nYH63RS");
                         MailMessage mail = new MailMessage
                         {
@@ -176,7 +207,77 @@ namespace OSBilişim
                         mail.To.Add(kime);
                         mail.Subject = konu;
                         mail.IsBodyHtml = true;
-                        mail.Body = icerik;
+                        string htmlString = "<html>" +
+                            " <head>" +
+                            " <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
+                            " <style type='text/css'>" +
+                            " .sayfa" +
+                            " {" +
+                            " background: white;" +
+                            " text-align:center;" +
+                            " width: 605px;" +
+                            " border: solid 2px solid black;" +
+                            " border-radius: 5px;" +
+                            " font: small/1.5 Arial,Helvetica,sans-serif;" +
+                            " font-weight: bold;" +
+                            " }" +
+                            " .fotograf" +
+                            " {" +
+                            " text-align:left;" +
+                            " margin-bottom: -200px;" +
+                            " height: 0px;" +
+                            " }" +
+                            " .üstalan" +
+                            " {" +
+                            " background: #3ea2e6;" +
+                            " height:2px;" +
+                            " color: #3ea2e6;" +
+                            " border-radius: 5px;" +
+                            " }" +
+                            " .teknikservis" +
+                            " {" +
+                            " border-left: 4px solid #3ea2e6;" +
+                            " height: 180px;" +
+                            " margin-left: 312px;" +
+                            " margin-bottom: 20px;" +
+                            " }" +
+                            " .altalan" +
+                            " {" +
+                            " background: #3ea2e6;" +
+                            " height:2px;" +
+                            " color: #3ea2e6;" +
+                            " border-radius: 5px;" +
+                            " color: red;" +
+                            " }" +
+                            " .tarih" +
+                            " {" +
+                            " text-align:right;" +
+                            " margin-bottom: -20px;" +
+                            " }" +
+                            " </style>" +
+                            " </head>" +
+                            " <body>" +
+                            " <div class='sayfa'>" +
+                            " <div class='üstalan'> </div>" +
+                            " <div class='tarih'>" +
+                            " <p>Tarih: " + DateTime.Now + " </p>" +
+                            " </div>" +
+                            " <div class= 'fotograf'>" +
+                            " <img style = ' margin-left: -430px; ' src=\"https://www.osbilisim.com.tr/wp-content/uploads/2021/05/footer.png\" />" +
+                            " </div>"+
+                            " <div class='teknikservis'>"+
+                            " <p style = 'font-size: 19px; text-align: center;  padding-top: 70px;' > SELÇUK ŞAHİN <br> teknik@trentatek.com.tr</br> </p>" +
+                            " </div> "+
+                            " <p> " + kullanıcıadıtextbox.Text + " adlı kullanıcı güvenlik sorusu cevabı talebinde bulunmuştur.<br>Güvenlik sorusu cevabınız: " + güvenliksorusucevabı + " </br></p> " +
+                            " <div class='altalan'></div>" +
+                            " <p>" +
+                            " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz.<br>" +
+                            " OS BİLİŞİM ile ilgili her türlü sorunuz için selcuksahin158@gmail.com’a e-mail atabilirsiniz." +
+                            " </p>" +
+                            " </div>" +
+                            " </body>" +
+                            " </html>";
+                        mail.Body = htmlString;
                         sc.Send(mail);
                         MessageBox.Show("Kullanıcı adınıza ait e-mail adresini kontrol ediniz, güvenlik sorusu cevabı gönderilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -191,7 +292,7 @@ namespace OSBilişim
             connection.Close();
         }
 
-        private void sifre_goster_gizle_checkbox_CheckedChanged(object sender, EventArgs e)
+        private void Sifre_goster_gizle_checkbox_CheckedChanged(object sender, EventArgs e)
         {
             if (sifre_goster_gizle_checkbox.Checked == true)
             {
@@ -204,27 +305,29 @@ namespace OSBilişim
                 yenisifretekrartextbox.UseSystemPasswordChar = true;
             }
         }
-
-        private void btn_onaykodugönder_Click(object sender, EventArgs e)
+        public void Onaykoduolustur()
+        {
+            Random random = new Random();
+            int s1, s2, s3, s4;
+            int h1, h2, h3;
+            s1 = random.Next(1, 10);
+            s2 = random.Next(10, 20);
+            s3 = random.Next(20, 30);
+            s4 = random.Next(30, 40);
+            h1 = random.Next(65, 91);
+            h2 = random.Next(65, 91);
+            h3 = random.Next(65, 91);
+            char k1, k2, k3;
+            k1 = Convert.ToChar(h1);
+            k2 = Convert.ToChar(h2);
+            k3 = Convert.ToChar(h3);
+            onaykodu = s1.ToString() + s2.ToString() + k1 + s3.ToString() + k2 + s4.ToString() + k3;
+        }
+        private void Btn_onaykodugönder_Click(object sender, EventArgs e)
         {
             try
             {
-                Random random = new Random();
-                int s1, s2, s3, s4;
-                int h1, h2, h3;
-                s1 = random.Next(1, 10);
-                s2 = random.Next(10, 20);
-                s3 = random.Next(20, 30);
-                s4 = random.Next(30, 40);
-                h1 = random.Next(65, 91);
-                h2 = random.Next(65, 91);
-                h3 = random.Next(65, 91);
-                char k1, k2, k3;
-                k1 = Convert.ToChar(h1);
-                k2 = Convert.ToChar(h2);
-                k3 = Convert.ToChar(h3);
-                onaykodu = s1.ToString() + s2.ToString() + k1 + s3.ToString() + k2 + s4.ToString() + k3;
-
+                Onaykoduolustur();
                 SmtpClient sc = new SmtpClient
                 {
                     Port = 587,
@@ -261,8 +364,7 @@ namespace OSBilişim
                         }
                         veriokuyucu3.Close();
                         string kime = eposta;
-                        string konu = "OSBilişim Şifre Sıfırlama";
-                        string icerik = kullanıcıadıtextbox.Text + " adlı kullanıcı şifre sıfırlama talebinde bulunmuştur, şifre sıfırlama onay kodunuz: " + onaykodu;
+                        string konu = "OSBİLİŞİM - Parola Sıfırlama";
 
                         sc.Credentials = new NetworkCredential("teknik@trentatek.com.tr", "H35nYH63RS");
                         MailMessage mail = new MailMessage
@@ -272,7 +374,77 @@ namespace OSBilişim
                         mail.To.Add(kime);
                         mail.Subject = konu;
                         mail.IsBodyHtml = true;
-                        mail.Body = icerik;
+                        string htmlString = "<html>" +
+                            " <head>" +
+                            " <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
+                            " <style type='text/css'>" +
+                            " .sayfa" +
+                            " {" +
+                            " background: white;" +
+                            " text-align:center;" +
+                            " width: 605px;" +
+                            " border: solid 2px solid black;" +
+                            " border-radius: 5px;" +
+                            " font: small/1.5 Arial,Helvetica,sans-serif;" +
+                            " font-weight: bold;" +
+                            " }" +
+                            " .fotograf" +
+                            " {" +
+                            " text-align:left;" +
+                            " margin-bottom: -200px;" +
+                            " height: 0px;" +
+                            " }" +
+                            " .üstalan" +
+                            " {" +
+                            " background: #3ea2e6;" +
+                            " height:2px;" +
+                            " color: #3ea2e6;" +
+                            " border-radius: 5px;" +
+                            " }" +
+                            " .teknikservis" +
+                            " {" +
+                            " border-left: 4px solid #3ea2e6;" +
+                            " height: 180px;" +
+                            " margin-left: 312px;" +
+                            " margin-bottom: 20px;" +
+                            " }" +
+                            " .altalan" +
+                            " {" +
+                            " background: #3ea2e6;" +
+                            " height:2px;" +
+                            " color: #3ea2e6;" +
+                            " border-radius: 5px;" +
+                            " color: red;" +
+                            " }" +
+                            " .tarih" +
+                            " {" +
+                            " text-align:right;" +
+                            " margin-bottom: -20px;" +
+                            " }" +
+                            " </style>" +
+                            " </head>" +
+                            " <body>" +
+                            " <div class='sayfa'>" +
+                            " <div class='üstalan'> </div>" +
+                            " <div class='tarih'>" +
+                            " <p>Tarih: " + DateTime.Now + " </p>" +
+                            " </div>" +
+                            " <div class= 'fotograf'>" +
+                            " <img style = ' margin-left: -430px; ' src=\"https://www.osbilisim.com.tr/wp-content/uploads/2021/05/footer.png\" />" +
+                            " </div>" +
+                            " <div class='teknikservis'>" +
+                            " <p style = 'font-size: 19px; text-align: center;  padding-top: 70px;' > SELÇUK ŞAHİN <br> teknik@trentatek.com.tr</br> </p>" +
+                            " </div> " +
+                            " <p> " + kullanıcıadıtextbox.Text + " adlı kullanıcı şifre sıfırlama talebinde bulunmuştur.<br>Şifre sıfırlama onay kodunuz: " + onaykodu + " </br></p> " +
+                            " <div class='altalan'></div>" +
+                            " <p>" +
+                            " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz.<br>" +
+                            " OS BİLİŞİM ile ilgili her türlü sorunuz için selcuksahin158@gmail.com’a e-mail atabilirsiniz." +
+                            " </p>" +
+                            " </div>" +
+                            " </body>" +
+                            " </html>";
+                        mail.Body = htmlString;
                         sc.Send(mail);
                         MessageBox.Show("Kullanıcı adınıza ait e-mail adresini kontrol ediniz, onay kodu gönderilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }

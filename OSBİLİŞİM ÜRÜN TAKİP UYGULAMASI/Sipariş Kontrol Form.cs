@@ -9,10 +9,8 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Net.Mail;
 using System.Net;
-using System.Threading;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Data.Linq;
 
 namespace OSBilişim
@@ -84,13 +82,14 @@ namespace OSBilişim
         }
         public void Siparisonayla()
         {
+            var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
             try
             {
                 if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
 
-                    if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Beklemede")
+                    if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Beklemede")
                     {
                         Kullanılacakürünlerinserinokontrolü();
                         if (snkontrol == false)
@@ -98,7 +97,7 @@ namespace OSBilişim
                             if (çıkacak_olan_parçalar_listesi_listbox.Items.Count > 0)
                             {
 
-                                SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                 DataTable dtablo = new DataTable();
                                 komut.Fill(dtablo);
                                 if (dtablo.Rows[0][0].ToString() == "1")
@@ -109,13 +108,13 @@ namespace OSBilişim
                                     {
                                         //KULLANILAN MALZEMELERİ SİSTEME AKTARMA
                                         string çıkarılanparcalarlistesi = çıkacak_olan_parçalar_listesi_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
-                                        SqlCommand ürüncikarilanparcalarıgüncelle = new SqlCommand("update siparisler set urun_cikarilan_parcalar = '" + çıkarılanparcalarlistesi + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                        SqlCommand ürüncikarilanparcalarıgüncelle = new SqlCommand("update siparisler set urun_cikarilan_parcalar = '" + çıkarılanparcalarlistesi + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                         ürüncikarilanparcalarıgüncelle.ExecuteNonQuery();
 
 
                                         // KULLANILACAK MALZEMELERİN SERİ NUMARALARI GİRİLDİKTEN SONRA SİSTEME AKTARMA
                                         string kullanilacakparçalarlistesi = kullanilacak_malzemeler_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
-                                        SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                        SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" +(int)row["siparis_id"] + "'", connection);
                                         kullanilanparcalarigüncelle.ExecuteNonQuery();
 
 
@@ -187,7 +186,7 @@ namespace OSBilişim
                                         MessageBox.Show("Kullanacağınız parçanın seri numarası başarılı şekilde eklendi.\nGörmek için sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         // SİPARİŞ ONAYLANIRSA SİPARİŞ DURUMUNU DEĞİŞTİRME
-                                        SqlCommand siparisdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + "Sipariş Gönderim İçin Hazır" + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                        SqlCommand siparisdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + "Sipariş Gönderim İçin Hazır" + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
 
                                         siparisdurumunugüncelle.ExecuteNonQuery();
                                         var items = kullanilacak_malzemeler_listbox.Items.Cast<string>();
@@ -230,20 +229,20 @@ namespace OSBilişim
                     Siparisgetir();
                     connection.Close();
                 }
-                else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Onaylandı")
+                else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Onaylandı")
                 {
 
                     MessageBox.Show("Sipariş onaylandı. Malzeme çıkartmak için çok geç!", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Gönderim İçin Hazır")
+                else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Gönderim İçin Hazır")
                 {
                     MessageBox.Show("Sipariş gönderim için hazırlandı. Malzeme çıkartmak için çok geç!", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş İade")
+                else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş İade")
                 {
                     MessageBox.Show("Sipariş iade olmuş. Ürünü orjinal haline getirip siparişin açıklamasını değiştirebilirsin.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Arızalı")
+                else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Arızalı")
                 {
                     MessageBox.Show("Sipariş arızalı. Ürünü orjinal haline getirip siparişin açıklmasını değiştirebilirsin.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -260,12 +259,15 @@ namespace OSBilişim
             {
                 if (connection.State == ConnectionState.Closed)
                 {
+
                     connection.Open();
                     SqlDataAdapter komut = new SqlDataAdapter("select * from siparisler", connection);
-                    DataSet datagorev = new DataSet();
+                    DataTable datagorev = new DataTable();
                     komut.Fill(datagorev);
-                    sipariskontrolview.DataSource = datagorev.Tables[0];
+                    sipariskontrolview.DataSource = datagorev;
                     connection.Close();
+
+
                 }
             }
             catch (Exception hata)
@@ -275,12 +277,9 @@ namespace OSBilişim
             }
         }
 
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Sipariskontrol_Load(object sender, EventArgs e)
         {
-            // Thread thread = new Thread(SiparisKontrol);
-            //thread.Start();
-
             string connectionString = connection.ConnectionString;
             var maxId = new DataContext(connectionString)
                    .ExecuteQuery<int?>("select max(siparis_id) from siparisler")
@@ -290,9 +289,7 @@ namespace OSBilişim
             var siparisControlTimer = new System.Timers.Timer( 5 * 1000) { Enabled = false };
             siparisControlTimer.Elapsed += Handle_SiparisControl;
             siparisControlTimer.Start();
-
             //MessageBox.Show($"Son ID:{lastId}");
-
             üründurumukontrol = false;
             timer1.Start();
 
@@ -300,23 +297,34 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    SqlCommand versiyonkontrol = new SqlCommand("Select * From version where version='" + Kullanicigirisiform.versiyon + "'", connection);
-                    SqlDataReader versiyonkontrolokuyucu;
-                    versiyonkontrolokuyucu = versiyonkontrol.ExecuteReader();
-                    if (versiyonkontrolokuyucu.Read())
-                    {
-                        MessageBox.Show(versiyonkontrolokuyucu["versiyon_aciklama"].ToString(), "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        System.Diagnostics.Process.Start(versiyonkontrolokuyucu["yeni_program_indirme_linki"].ToString());
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
 
+                FileVersionInfo programversion = FileVersionInfo.GetVersionInfo(@"OSBilişim.exe");
+                SqlCommand üründurum = new SqlCommand("select version,versiyon_aciklama,yeni_program_indirme_linki from version", connection);
+                SqlDataReader üründurumusorgulama;
+                üründurumusorgulama = üründurum.ExecuteReader();
+                if (üründurumusorgulama.Read())
+                {
+                    Kullanicigirisiform.güncelversiyon = ((string)üründurumusorgulama["version"]);
+                    if (Convert.ToInt32(Kullanicigirisiform.güncelversiyon) >= Convert.ToInt32(programversion.FileVersion))
+                    {
+                        DialogResult dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialog == DialogResult.Yes)
+                        {
+                            string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
+                            File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.132/Update/OSUpdate.exe"));
+                            Process.Start("OSUpdate.exe");
+                            System.Threading.Thread.Sleep(1000);
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Uygulamanızı güncellemediğiniz için, program çalışmayacaktır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Application.Exit();
+                        }
                     }
-
                 }
+                connection.Close();
             }
             catch (Exception hata)
             {
@@ -325,6 +333,9 @@ namespace OSBilişim
             }
             try
             {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+
                 SqlCommand komut = new SqlCommand("SELECT * FROM notebook_cikartilacak_malzemeler ", connection);
                 SqlDataReader veriokuyucu;
 
@@ -345,9 +356,9 @@ namespace OSBilişim
             Siparisgetir();
         }
 
-        private void Handle_SiparisControl(object sender, System.Timers.ElapsedEventArgs e)
+        public void Handle_SiparisControl(object sender, System.Timers.ElapsedEventArgs e)
         {
-            string connectionString = "server=192.168.1.118,1433;database=OSBİLİSİM;UId=Admin;Pwd=1;MultipleActiveResultSets=True;";
+            string connectionString = "server=192.168.1.132,1433;database=OSBİLİSİM;UId=Admin;Pwd=1;MultipleActiveResultSets=True;";
 
             var siparisler = new DataContext(connectionString)
                    .ExecuteQuery<int>("select siparis_id from siparisler where siparis_id > {0}", lastId)
@@ -357,10 +368,12 @@ namespace OSBilişim
             if (siparisler.Count() > 0)
             {
                 lastId = siparisler.Max(s => s);
-                NotifyIcon trayIcon = new NotifyIcon();
-                trayIcon.Icon = new Icon(@"alt-logo.ico");
-                trayIcon.Text = "OS BİLİŞİM";
-                trayIcon.Visible = true;
+                NotifyIcon trayIcon = new NotifyIcon
+                {
+                    Icon = new Icon(@"alt-logo.ico"),
+                    Text = "OS BİLİŞİM",
+                    Visible = true
+                };
                 trayIcon.ShowBalloonTip(1000, "Bilgi", "Yeni sipariş bulunuyor, sipariş listesini güncelleyin!", ToolTipIcon.Info);
             }
         }
@@ -387,18 +400,20 @@ namespace OSBilişim
 
         private void Sipariskontrolview_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            siparis_numarasi_textbox.Text = sipariskontrolview.CurrentRow.Cells[0].Value.ToString();
-            ürünaditextbox.Text = sipariskontrolview.CurrentRow.Cells[2].Value.ToString();
-            ürünstokkodutextbox.Text = sipariskontrolview.CurrentRow.Cells[3].Value.ToString();
-            ürün_seri_no_textbox.Text = sipariskontrolview.CurrentRow.Cells[4].Value.ToString();
-            ürünadetitextbox.Text = sipariskontrolview.CurrentRow.Cells[5].Value.ToString();
-            aliciaditextbox.Text = sipariskontrolview.CurrentRow.Cells[6].Value.ToString();
-            alicisoyaditextboxt.Text = sipariskontrolview.CurrentRow.Cells[7].Value.ToString();
-            satisyapilanfirmatextbox.Text = sipariskontrolview.CurrentRow.Cells[8].Value.ToString();
-            ürününsatildigifirmatextbox.Text = sipariskontrolview.CurrentRow.Cells[9].Value.ToString();
-            ürünhazirlikdurumu_combobox.SelectedItem = sipariskontrolview.CurrentRow.Cells[11].Value.ToString();
-            aciklama_textbox.Text = sipariskontrolview.CurrentRow.Cells[12].Value.ToString();
-            satis_tarihi_textbox.Text = sipariskontrolview.CurrentRow.Cells[14].Value.ToString();
+            var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
+
+            siparis_numarasi_textbox.Text = row["sip_no"].ToString();
+            ürünaditextbox.Text = row["urun_adi"].ToString();
+            ürünstokkodutextbox.Text = row["urun_stok_kodu"].ToString();
+            ürün_seri_no_textbox.Text = row["urun_seri_no"].ToString();
+            ürünadetitextbox.Text = row["urun_adeti"].ToString();
+            aliciaditextbox.Text = row["teslim_alacak_kisi_adi"].ToString();
+            alicisoyaditextboxt.Text = row["teslim_alacak_kisi_soyadi"].ToString();
+            satisyapilanfirmatextbox.Text = row["satis_yapilan_firma"].ToString();
+            ürününsatildigifirmatextbox.Text = row["urunun_satildigi_firma"].ToString();
+            ürünhazirlikdurumu_combobox.SelectedItem = row["urun_hazirlik_durumu"].ToString();
+            aciklama_textbox.Text = row["urun_hakkinda_aciklama"].ToString();
+            satis_tarihi_textbox.Text = row["siparis_tarihi"].ToString();
             try
             {
                 çıkacak_olan_parçalar_listesi_listbox.Items.Clear();
@@ -411,7 +426,7 @@ namespace OSBilişim
                 using (var komut3 = new SqlCommand("SELECT kullanilacak_malzemeler, urun_cikarilan_parcalar FROM siparisler where siparis_id = @sipId", connection))
                 {
                     //komut3.Parameters.Add("@sipId", SqlDbType.Int).Value = sipariskontrolview.CurrentRow.Cells["siparis_id"].Value;
-                    var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
+                    
                     komut3.Parameters.Add("@sipId", SqlDbType.Int).Value = (int)row["siparis_id"];
                     // yapılacak ^^
 
@@ -578,6 +593,7 @@ namespace OSBilişim
                 cikacakürün_serino_textbox.Text = "";
                 kullanilacak_malzemeler_seri_no_textbox.Text = "";
                 satis_tarihi_textbox.Text = "";
+                siparis_numarasi_textbox.Text = "";
                 
             }
             catch (Exception hata)
@@ -588,6 +604,8 @@ namespace OSBilişim
         }
         private void Siparis_sil_btn_Click(object sender, EventArgs e)
         {
+            var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
+
             DialogResult dialog = MessageBox.Show("Sipariş silinecektir onaylıyor musunuz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialog == DialogResult.Yes)
             {
@@ -606,7 +624,7 @@ namespace OSBilişim
                             digerürünserinogüncelle.ExecuteNonQuery();
                         }
 
-                        SqlCommand verisil = new SqlCommand("delete from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                        SqlCommand verisil = new SqlCommand("delete from siparisler where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                         verisil.ExecuteNonQuery();
 
                         MessageBox.Show("Siparişiniz başarılı ile silindi ve stok olarak geri eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -642,6 +660,7 @@ namespace OSBilişim
                         cikacakürün_serino_textbox.Text = "";
                         kullanilacak_malzemeler_seri_no_textbox.Text = "";
                         satis_tarihi_textbox.Text = "";
+                        siparis_numarasi_textbox.Text = "";
                         Siparisgetir();
                     }
                 }
@@ -659,8 +678,9 @@ namespace OSBilişim
 
         private void Malzeme_ekle_btn_Click(object sender, EventArgs e)
         {
+            var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
             string cikarilacakmalzemekontrol;
-            if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Beklemede")
+            if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Beklemede")
             {
                 if (kullanilacak_malzeme_adeti_textbox.Text == "")
                 {
@@ -745,20 +765,20 @@ namespace OSBilişim
                 kullanilacak_malzeme_adeti_textbox.Text = "";
                 cikacakürün_serino_textbox.Text = "";
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Onaylandı")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Onaylandı")
             {
                 çıkacak_olan_parçalar_listesi_listbox.Enabled = true;
                 MessageBox.Show("Sipariş onaylandı. Malzeme çıkartmak için çok geç!", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Gönderim İçin Hazır")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Gönderim İçin Hazır")
             {
                 MessageBox.Show("Sipariş gönderim için hazırlandı. Malzeme çıkartmak için çok geç!", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş İade")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş İade")
             {
                 MessageBox.Show("Sipariş iade olmuş. Ürünü orjinal haline getirip siparişin açıklamasını değiştirebilirsin.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Arızalı")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Arızalı")
             {
                 MessageBox.Show("Sipariş arızalı. Ürünü orjinal haline getirip siparişin açıklmasını değiştirebilirsin.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -769,29 +789,30 @@ namespace OSBilişim
         }
         private void Kullanilmayacak_malzemeyi_sil_btn_Click(object sender, EventArgs e)
         {
-            if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Beklemede")
+            var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
+            if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Beklemede")
             {
                 if (çıkacak_olan_parçalar_listesi_listbox.SelectedIndex > -1)
                     çıkacak_olan_parçalar_listesi_listbox.Items.RemoveAt(çıkacak_olan_parçalar_listesi_listbox.SelectedIndex);
                 else if (çıkacak_olan_parçalar_listesi_listbox.SelectedIndex == -1)
                     MessageBox.Show("Kullanmayacağınız malzemeyi seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Onaylandı")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Onaylandı")
             {
 
                 MessageBox.Show("Sipariş onaylandı. Çıkarılan parçaları silemezsiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Gönderim İçin Hazır")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Gönderim İçin Hazır")
             {
 
                 MessageBox.Show("Sipariş gönderim için hazırlandı. Çıkarılan parçaları silemezsiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş İade")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş İade")
             {
 
                 MessageBox.Show("Sipariş iade olmuş. Üründen çıkarılan parçaları silemezsiniz, ürünün iade olduğuna dair kısa bir ürün açıklaması girebilirsiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (sipariskontrolview.CurrentRow.Cells[11].Value.ToString() == "Sipariş Arızalı")
+            else if (row["urun_hazirlik_durumu"].ToString() == "Sipariş Arızalı")
             {
 
                 MessageBox.Show("Sipariş arızalı. Siparişten çıkarılan parçaları silemezsiniz, ürünün arızalı olduğuna dair ürün açıklamasını değiştiriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -803,6 +824,7 @@ namespace OSBilişim
 
             try
             {
+                var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
                 if (aciklama_textbox.Text == "")
                 {
                     MessageBox.Show("Sipariş açıklamasını değiştirmek için sipariş açıklaması girmen gerekmez mi?", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -812,12 +834,12 @@ namespace OSBilişim
                     if (connection.State == ConnectionState.Closed)
                     {
                         connection.Open();
-                        SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                        SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                         DataTable dtablo = new DataTable();
                         komut.Fill(dtablo);
                         if (dtablo.Rows[0][0].ToString() == "1")
                         {
-                            SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hakkinda_aciklama = '" + aciklama_textbox.Text + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                            SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hakkinda_aciklama = '" + aciklama_textbox.Text + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                             ürüngüncelle.ExecuteNonQuery();
                             MessageBox.Show("Ürün açıklaması değiştirildi, lütfen sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             // LOG DOYASI //
@@ -1039,9 +1061,7 @@ namespace OSBilişim
                         };
 
                         string kime = "selcuksahin158@gmail.com";
-                        string konu = "OSBilişim Satış, veritabanı yedeği";
-                        string icerik = "Bu mesaj sistem tarafından otamatik olarak gönderilmektedir. " + DateTime.Now.ToString("dd.MM.yyyy") + " tarihinde OS BİLİŞİM satış raporu, veritabanı yedeği kullanıcılara bilgi amaçlı yedek olarak gönderilmiştir.";
-
+                        string konu = "OSBİLİŞİM - Yedek Dosyaları";
                         sc.Credentials = new NetworkCredential("teknik@trentatek.com.tr", "H35nYH63RS");
                         MailMessage mail = new MailMessage
                         {
@@ -1054,7 +1074,77 @@ namespace OSBilişim
                         mail.To.Add("yener.guner@trentatek.com.tr");
                         mail.Subject = konu;
                         mail.IsBodyHtml = true;
-                        mail.Body = icerik;
+                        string htmlString = "<html>" +
+                             " <head>" +
+                             " <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
+                             " <style type='text/css'>" +
+                             " .sayfa" +
+                             " {" +
+                             " background: white;" +
+                             " text-align:center;" +
+                             " width: 605px;" +
+                             " border: solid 2px solid black;" +
+                             " border-radius: 5px;" +
+                             " font: small/1.5 Arial,Helvetica,sans-serif;" +
+                             " font-weight: bold;" +
+                             " }" +
+                             " .fotograf" +
+                             " {" +
+                             " text-align:left;" +
+                             " margin-bottom: -200px;" +
+                             " height: 0px;" +
+                             " }" +
+                             " .üstalan" +
+                             " {" +
+                             " background: #3ea2e6;" +
+                             " height:2px;" +
+                             " color: #3ea2e6;" +
+                             " border-radius: 5px;" +
+                             " }" +
+                             " .teknikservis" +
+                             " {" +
+                             " border-left: 4px solid #3ea2e6;" +
+                             " height: 180px;" +
+                             " margin-left: 312px;" +
+                             " margin-bottom: 20px;" +
+                             " }" +
+                             " .altalan" +
+                             " {" +
+                             " background: #3ea2e6;" +
+                             " height:2px;" +
+                             " color: #3ea2e6;" +
+                             " border-radius: 5px;" +
+                             " color: red;" +
+                             " }" +
+                             " .tarih" +
+                             " {" +
+                             " text-align:right;" +
+                             " margin-bottom: -20px;" +
+                             " }" +
+                             " </style>" +
+                             " </head>" +
+                             " <body>" +
+                             " <div class='sayfa'>" +
+                             " <div class='üstalan'> </div>" +
+                             " <div class='tarih'>" +
+                             " <p>Tarih: " + DateTime.Now + " </p>" +
+                             " </div>" +
+                             " <div class= 'fotograf'>" +
+                             " <img style = ' margin-left: -430px; ' src=\"https://www.osbilisim.com.tr/wp-content/uploads/2021/05/footer.png\" />" +
+                             " </div>" +
+                             " <div class='teknikservis'>" +
+                             " <p style = 'font-size: 19px; text-align: center;  padding-top: 70px;' > SELÇUK ŞAHİN <br> teknik@trentatek.com.tr</br> </p>" +
+                             " </div> " +
+                             " <p> OS BİLİŞİM tarafından kullanıcılara bilgi amaçlı satış raporu ve veritabanı dosyaları gönderilmiştir.</p> " +
+                             " <div class='altalan'></div>" +
+                             " <p>" +
+                             " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz.<br>" +
+                             " OS BİLİŞİM ile ilgili her türlü sorunuz için selcuksahin158@gmail.com’a e-mail atabilirsiniz." +
+                             " </p>" +
+                             " </div>" +
+                             " </body>" +
+                             " </html>";
+                        mail.Body = htmlString;
                         mail.Attachments.Add(new Attachment(@"D:\VeritabanıYedek\" + DateTime.Now.ToString("dd.MM.yyyy") + "-OSBilisim_yedek.bak"));
                         mail.Attachments.Add(new Attachment(@"D:\VeritabanıYedek\" + DateTime.Now.ToString("dd.MM.yyyy") + "-OSBilisim_satisraporu.pdf"));
                         sc.Send(mail);
@@ -1079,10 +1169,11 @@ namespace OSBilişim
         {
             try
             {
+                var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
                 if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
-                    SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                    SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + (int)row["siparis_id"]+ "'", connection);
                     DataTable dtablo = new DataTable();
                     komut.Fill(dtablo);
                     if (dtablo.Rows[0][0].ToString() == "1")
@@ -1094,7 +1185,7 @@ namespace OSBilişim
                             {
                                 if (üründurumunugüncelle_combobox.SelectedItem == "Sipariş İade" || üründurumunugüncelle_combobox.SelectedItem == "Sipariş Arızalı")
                                 {
-                                    SqlCommand ürümdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                    SqlCommand ürümdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                     ürümdurumunugüncelle.ExecuteNonQuery();
 
                                     string kullanilacakmalzemeler1 = ürün_seri_no_textbox.Text;
@@ -1109,7 +1200,7 @@ namespace OSBilişim
                                 }
                                 else
                                 {
-                                    SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + sipariskontrolview.CurrentRow.Cells[0].Value.ToString() + "'", connection);
+                                    SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                     ürüngüncelle.ExecuteNonQuery();
 
                                     string kullanilacakmalzemeler1 = ürün_seri_no_textbox.Text;
@@ -1131,7 +1222,6 @@ namespace OSBilişim
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
-                                // OS BİLİŞİM
                             }
                         }
                     }

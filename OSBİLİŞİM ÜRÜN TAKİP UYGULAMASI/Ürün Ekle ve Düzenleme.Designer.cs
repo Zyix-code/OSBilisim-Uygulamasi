@@ -295,6 +295,7 @@
             this.ürün_seri_no_textbox.Name = "ürün_seri_no_textbox";
             this.ürün_seri_no_textbox.Size = new System.Drawing.Size(200, 18);
             this.ürün_seri_no_textbox.TabIndex = 31;
+            this.ürün_seri_no_textbox.TextChanged += new System.EventHandler(this.ürün_seri_no_textbox_TextChanged);
             // 
             // panel4
             // 

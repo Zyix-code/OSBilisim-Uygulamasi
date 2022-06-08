@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Reflection;
-using System.Security.Principal;
-using System.Windows;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.IO;
-using System.Net.Mail;
-using System.Net;
+
 
 namespace OSBilişim
 {
@@ -27,36 +16,44 @@ namespace OSBilişim
             InitializeComponent();
         }
 
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Anaform_Load(object sender, EventArgs e)
         {
             isim = isim_label.Text;
             statü = statü_label.Text;
-
             Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
             timer1.Start();
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    Kullanicigirisiform.username = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Kullanicigirisiform.username);
-                    isim_label.Text = Kullanicigirisiform.username;
 
-                    SqlCommand versiyonkontrol = new SqlCommand("Select * From version where version='" + Kullanicigirisiform.versiyon + "'", connection);
-                    SqlDataReader versiyonkontrolokuyucu;
-                    versiyonkontrolokuyucu = versiyonkontrol.ExecuteReader();
-                    if (versiyonkontrolokuyucu.Read())
+                FileVersionInfo programversion = FileVersionInfo.GetVersionInfo(@"OSBilişim.exe");
+                SqlCommand üründurum = new SqlCommand("select version,versiyon_aciklama,yeni_program_indirme_linki from version", connection);
+                SqlDataReader üründurumusorgulama;
+                üründurumusorgulama = üründurum.ExecuteReader();
+                if (üründurumusorgulama.Read())
+                {
+                    Kullanicigirisiform.güncelversiyon = ((string)üründurumusorgulama["version"]);
+                    if (Convert.ToInt32(Kullanicigirisiform.güncelversiyon) >= Convert.ToInt32(programversion.FileVersion))
                     {
-                        MessageBox.Show(versiyonkontrolokuyucu["versiyon_aciklama"].ToString(), "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        System.Diagnostics.Process.Start(versiyonkontrolokuyucu["yeni_program_indirme_linki"].ToString());
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
-
+                        DialogResult dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialog == DialogResult.Yes)
+                        {
+                            string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
+                            File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.132/Update/OSUpdate.exe"));
+                            Process.Start("OSUpdate.exe");
+                            System.Threading.Thread.Sleep(1000);
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Uygulamanızı güncellemediğiniz için, program çalışmayacaktır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Application.Exit();
+                        }
                     }
                 }
+                connection.Close();
             }
             catch (Exception hata)
             {
@@ -66,6 +63,9 @@ namespace OSBilişim
             try
             {
                 aktifkullanicilar_listbox.Items.Clear();
+                if (connection.State == ConnectionState.Closed)
+                connection.Open();
+
                 SqlCommand kullaniciaktifligi = new SqlCommand("SELECT *FROM kullanicilar where durum = '1' ", connection);
                 SqlDataReader aktifkullanicilar;
                 aktifkullanicilar = kullaniciaktifligi.ExecuteReader();
@@ -189,17 +189,10 @@ namespace OSBilişim
         {
             this.WindowState = FormWindowState.Minimized;
         }
-        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://mail.google.com/");
         }
-
-
-        private void LinkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://mail.google.com/");
-        }
-    
         private void Btn_cikis_Click(object sender, EventArgs e)
         {
             try

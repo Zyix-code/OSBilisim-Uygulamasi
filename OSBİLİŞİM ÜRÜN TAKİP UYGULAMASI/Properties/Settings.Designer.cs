@@ -26,7 +26,8 @@ namespace OSBilişim.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-ONOET8B;Initial Catalog=OSBİLİSİM;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİ" +
+            "M;User Id=Admin; Password=1; MultipleActiveResultSets=True;")]
         public string OSBİLİSİMConnectionString {
             get {
                 return ((string)(this["OSBİLİSİMConnectionString"]));

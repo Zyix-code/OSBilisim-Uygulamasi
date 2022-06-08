@@ -58,10 +58,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ürünadi = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.aliciaditextbox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.sipariş_numarası_textbox = new System.Windows.Forms.TextBox();
+            this.aliciaditextbox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -391,23 +393,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ALICI VE FİRMA BİLGİLERİ";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 16);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Teslim alacak kişi adı: ";
-            // 
-            // aliciaditextbox
-            // 
-            this.aliciaditextbox.Location = new System.Drawing.Point(158, 22);
-            this.aliciaditextbox.Name = "aliciaditextbox";
-            this.aliciaditextbox.Size = new System.Drawing.Size(162, 21);
-            this.aliciaditextbox.TabIndex = 6;
-            this.aliciaditextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Aliciaditextbox_KeyPress);
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -423,6 +408,38 @@
             this.sipariş_numarası_textbox.Name = "sipariş_numarası_textbox";
             this.sipariş_numarası_textbox.Size = new System.Drawing.Size(162, 21);
             this.sipariş_numarası_textbox.TabIndex = 17;
+            // 
+            // aliciaditextbox
+            // 
+            this.aliciaditextbox.Location = new System.Drawing.Point(158, 22);
+            this.aliciaditextbox.Name = "aliciaditextbox";
+            this.aliciaditextbox.Size = new System.Drawing.Size(162, 21);
+            this.aliciaditextbox.TabIndex = 6;
+            this.aliciaditextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Aliciaditextbox_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(121, 16);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Teslim alacak kişi adı: ";
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Text = "Baskı önizleme";
+            this.printPreviewDialog1.Visible = false;
+            // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument1_PrintPage);
             // 
             // Diğer_Malzeme_Grubları
             // 
@@ -492,5 +509,7 @@
         private System.Windows.Forms.CheckedListBox ürünserino_checklistbox;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox sipariş_numarası_textbox;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Drawing.Printing.PrintDocument printDocument1;
     }
 }

@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.Sql;
 using System.Data.SqlClient;
-using System.Threading;
 using System.IO;
 using System.Diagnostics;
 
@@ -22,7 +14,7 @@ namespace OSBilişim
             InitializeComponent();
         }
 
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.118,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         public void Listeyenile()
         {
             ürün_adi_textbox.Text = "";
@@ -87,23 +79,35 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    SqlCommand versiyonkontrol = new SqlCommand("Select * From version where version='" + Kullanicigirisiform.versiyon + "'", connection);
-                    SqlDataReader versiyonkontrolokuyucu;
-                    versiyonkontrolokuyucu = versiyonkontrol.ExecuteReader();
-                    if (versiyonkontrolokuyucu.Read())
-                    {
-                        MessageBox.Show(versiyonkontrolokuyucu["versiyon_aciklama"].ToString(), "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        System.Diagnostics.Process.Start(versiyonkontrolokuyucu["yeni_program_indirme_linki"].ToString());
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
 
+                FileVersionInfo programversion = FileVersionInfo.GetVersionInfo(@"OSBilişim.exe");
+                SqlCommand üründurum = new SqlCommand("select version,versiyon_aciklama,yeni_program_indirme_linki from version", connection);
+                SqlDataReader üründurumusorgulama;
+                üründurumusorgulama = üründurum.ExecuteReader();
+                if (üründurumusorgulama.Read())
+                {
+                    Kullanicigirisiform.güncelversiyon = ((string)üründurumusorgulama["version"]);
+                    if (Convert.ToInt32(Kullanicigirisiform.güncelversiyon) >= Convert.ToInt32(programversion.FileVersion))
+                    {
+                        DialogResult dialog = new DialogResult();
+                        dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialog == DialogResult.Yes)
+                        {
+                            string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
+                            File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.132/Update/OSUpdate.exe"));
+                            Process.Start("OSUpdate.exe");
+                            System.Threading.Thread.Sleep(1000);
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Uygulamanızı güncellemediğiniz için, program çalışmayacaktır.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Application.Exit();
+                        }
                     }
-                    connection.Close();
                 }
+                connection.Close();
             }
             catch (Exception hata)
             {
@@ -118,20 +122,17 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    SqlCommand komut = new SqlCommand("SELECT * FROM notebook_urunler ", connection);
-                    SqlDataReader veriokuyucu1;
-                    veriokuyucu1 = komut.ExecuteReader();
-                    while (veriokuyucu1.Read())
-                    {
-                        notebook_ürünler_listbox.Items.Add(veriokuyucu1["urun_adi"]);
-                    }
-                    veriokuyucu1.Close();
-                    connection.Close();
+                SqlCommand komut = new SqlCommand("SELECT * FROM notebook_urunler ", connection);
+                SqlDataReader veriokuyucu1;
+                veriokuyucu1 = komut.ExecuteReader();
+                while (veriokuyucu1.Read())
+                {
+                    notebook_ürünler_listbox.Items.Add(veriokuyucu1["urun_adi"]);
                 }
+                veriokuyucu1.Close();
+                connection.Close();
             }
-
             catch (Exception hata)
             {
                 MessageBox.Show("Ürün kodları çekilirken bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -683,5 +684,15 @@ namespace OSBilişim
 
         #endregion
 
+        private void ürün_seri_no_textbox_TextChanged(object sender, EventArgs e)
+        {
+            string serino = "S";
+            string serino2 = "s";
+            if (ürün_seri_no_textbox.Text.StartsWith(serino) || ürün_seri_no_textbox.Text.StartsWith(serino2))
+            {
+                string degistir = ürün_seri_no_textbox.Text.Substring(1, ürün_seri_no_textbox.Text.Length - 1);
+                ürün_seri_no_textbox.Text = degistir;
+            }
+        }
     }
 }

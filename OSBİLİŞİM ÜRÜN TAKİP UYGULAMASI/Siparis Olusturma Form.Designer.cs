@@ -72,6 +72,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.windows_kücültme_label = new System.Windows.Forms.Label();
             this.logout_label = new System.Windows.Forms.Label();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -557,6 +559,22 @@
             this.toolTip1.SetToolTip(this.logout_label, "Uygulamayı kapatmanızı sağlar.");
             this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
             // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument1_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printDocument1;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Text = "Baskı önizleme";
+            this.printPreviewDialog1.Visible = false;
+            // 
             // Siparisolusturmaform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -638,5 +656,7 @@
         private System.Windows.Forms.CheckedListBox ürünserino_checklistbox;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox sipariş_numarası_textbox;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
     }
 }
