@@ -189,7 +189,7 @@ namespace OSBilişim
             {
                 MessageBox.Show("Lütfen ürünün seri numarasını seçip devam ediniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (ürünserino_checklistbox.SelectedItem == "Ürün kalmamıştır")
+            else if ((string)ürünserino_checklistbox.SelectedItem == "Ürün kalmamıştır")
             {
                 MessageBox.Show("Ürün stoğu tükenmiştir, yeni ürün tedarik ediniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

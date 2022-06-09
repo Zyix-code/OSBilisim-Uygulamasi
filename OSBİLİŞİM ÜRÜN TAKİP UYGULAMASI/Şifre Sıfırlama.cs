@@ -207,7 +207,8 @@ namespace OSBilişim
                         mail.To.Add(kime);
                         mail.Subject = konu;
                         mail.IsBodyHtml = true;
-                        string htmlString = "<html>" +
+                        string htmlString =
+                            " <html>" +
                             " <head>" +
                             " <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
                             " <style type='text/css'>" +
@@ -264,15 +265,14 @@ namespace OSBilişim
                             " </div>" +
                             " <div class= 'fotograf'>" +
                             " <img style = ' margin-left: -430px; ' src=\"https://www.osbilisim.com.tr/wp-content/uploads/2021/05/footer.png\" />" +
-                            " </div>"+
-                            " <div class='teknikservis'>"+
+                            " </div>" +
+                            " <div class='teknikservis'>" +
                             " <p style = 'font-size: 19px; text-align: center;  padding-top: 70px;' > SELÇUK ŞAHİN <br> teknik@trentatek.com.tr</br> </p>" +
-                            " </div> "+
+                            " </div> " +
                             " <p> " + kullanıcıadıtextbox.Text + " adlı kullanıcı güvenlik sorusu cevabı talebinde bulunmuştur.<br>Güvenlik sorusu cevabınız: " + güvenliksorusucevabı + " </br></p> " +
                             " <div class='altalan'></div>" +
                             " <p>" +
-                            " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz.<br>" +
-                            " OS BİLİŞİM ile ilgili her türlü sorunuz için selcuksahin158@gmail.com’a e-mail atabilirsiniz." +
+                            " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz." +
                             " </p>" +
                             " </div>" +
                             " </body>" +
@@ -438,8 +438,7 @@ namespace OSBilişim
                             " <p> " + kullanıcıadıtextbox.Text + " adlı kullanıcı şifre sıfırlama talebinde bulunmuştur.<br>Şifre sıfırlama onay kodunuz: " + onaykodu + " </br></p> " +
                             " <div class='altalan'></div>" +
                             " <p>" +
-                            " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz.<br>" +
-                            " OS BİLİŞİM ile ilgili her türlü sorunuz için selcuksahin158@gmail.com’a e-mail atabilirsiniz." +
+                            " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz." +
                             " </p>" +
                             " </div>" +
                             " </body>" +

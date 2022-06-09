@@ -1138,8 +1138,7 @@ namespace OSBilişim
                              " <p> OS BİLİŞİM tarafından kullanıcılara bilgi amaçlı satış raporu ve veritabanı dosyaları gönderilmiştir.</p> " +
                              " <div class='altalan'></div>" +
                              " <p>" +
-                             " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz.<br>" +
-                             " OS BİLİŞİM ile ilgili her türlü sorunuz için selcuksahin158@gmail.com’a e-mail atabilirsiniz." +
+                             " Bu e-posta otomatik oluşturulmuştur. Lütfen cevap vermeyiniz." +
                              " </p>" +
                              " </div>" +
                              " </body>" +
@@ -1183,7 +1182,7 @@ namespace OSBilişim
                             if (üründurumunugüncelle_combobox.SelectedIndex == -1) { }
                             else
                             {
-                                if (üründurumunugüncelle_combobox.SelectedItem == "Sipariş İade" || üründurumunugüncelle_combobox.SelectedItem == "Sipariş Arızalı")
+                                if ((string)üründurumunugüncelle_combobox.SelectedItem == "Sipariş İade" || (string)üründurumunugüncelle_combobox.SelectedItem == "Sipariş Arızalı")
                                 {
                                     SqlCommand ürümdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + üründurumunugüncelle_combobox.SelectedItem + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                     ürümdurumunugüncelle.ExecuteNonQuery();
