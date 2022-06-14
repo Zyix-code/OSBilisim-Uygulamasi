@@ -194,6 +194,7 @@
             this.toolTip1.SetToolTip(this.secili_ürünü_sil_btn, "Seçtiğiniz herhangi bir notebook ürününü silmenizi sağlar, dikkat edin sildiğiniz" +
         " ürünün seri numaraları ve ürün kodlarını da otamatik olarak silinmektedir.");
             this.secili_ürünü_sil_btn.UseVisualStyleBackColor = false;
+            this.secili_ürünü_sil_btn.Visible = false;
             this.secili_ürünü_sil_btn.Click += new System.EventHandler(this.Secili_ürünü_sil_btn_Click);
             // 
             // secili_ürünün_kod_seri_no_sil_btn

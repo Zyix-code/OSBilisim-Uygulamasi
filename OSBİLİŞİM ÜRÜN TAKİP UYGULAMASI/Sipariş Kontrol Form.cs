@@ -277,7 +277,7 @@ namespace OSBilişim
             }
         }
 
-        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.132,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
+        readonly SqlConnection connection = new SqlConnection("Data Source=192.168.1.106,1433;Network Library=DBMSSOCN; Initial Catalog=OSBİLİSİM;User Id=Admin; Password=1; MultipleActiveResultSets=True;");
         private void Sipariskontrol_Load(object sender, EventArgs e)
         {
             string connectionString = connection.ConnectionString;
@@ -312,7 +312,7 @@ namespace OSBilişim
                         if (dialog == DialogResult.Yes)
                         {
                             string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
-                            File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.132/Update/OSUpdate.exe"));
+                            File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.106/Update/OSUpdate.exe"));
                             Process.Start("OSUpdate.exe");
                             System.Threading.Thread.Sleep(1000);
                             Environment.Exit(0);
@@ -358,7 +358,7 @@ namespace OSBilişim
 
         public void Handle_SiparisControl(object sender, System.Timers.ElapsedEventArgs e)
         {
-            string connectionString = "server=192.168.1.132,1433;database=OSBİLİSİM;UId=Admin;Pwd=1;MultipleActiveResultSets=True;";
+            string connectionString = "server=192.168.1.106,1433;database=OSBİLİSİM;UId=Admin;Pwd=1;MultipleActiveResultSets=True;";
 
             var siparisler = new DataContext(connectionString)
                    .ExecuteQuery<int>("select siparis_id from siparisler where siparis_id > {0}", lastId)
@@ -1062,7 +1062,7 @@ namespace OSBilişim
 
                         string kime = "selcuksahin158@gmail.com";
                         string konu = "OSBİLİŞİM - Yedek Dosyaları";
-                        sc.Credentials = new NetworkCredential("teknik@trentatek.com.tr", "H35nYH63RS");
+                        sc.Credentials = new NetworkCredential("teknik@trentatek.com.tr", "M9H8zRS3!");
                         MailMessage mail = new MailMessage
                         {
                             From = new MailAddress("teknik@trentatek.com.tr", "OS BİLİŞİM")
