@@ -10,7 +10,7 @@ namespace OSBilişim
 {
     public partial class Anaform : Form
     {
-        public static string isim,statü;
+        public static string isim, statü;
         public Anaform()
         {
             InitializeComponent();
@@ -64,16 +64,16 @@ namespace OSBilişim
             {
                 aktifkullanicilar_listbox.Items.Clear();
                 if (connection.State == ConnectionState.Closed)
-                connection.Open();
+                    connection.Open();
 
                 SqlCommand kullaniciaktifligi = new SqlCommand("SELECT *FROM kullanicilar where durum = '1' ", connection);
                 SqlDataReader aktifkullanicilar;
                 aktifkullanicilar = kullaniciaktifligi.ExecuteReader();
                 while (aktifkullanicilar.Read())
                 {
-                    aktifkullanicilar_listbox.Items.Add(((string)aktifkullanicilar["kullanici_isim"] + " (" + (string)aktifkullanicilar["kullanici_statü"]+")"));
-                   string kendikullaniciisminikaldirma;
-                    kendikullaniciisminikaldirma = Kullanicigirisiform.username + " (" + (string)aktifkullanicilar["kullanici_statü"]+")";
+                    aktifkullanicilar_listbox.Items.Add(((string)aktifkullanicilar["kullanici_isim"] + " (" + (string)aktifkullanicilar["kullanici_statü"] + ")"));
+                    string kendikullaniciisminikaldirma;
+                    kendikullaniciisminikaldirma = Kullanicigirisiform.username + " (" + (string)aktifkullanicilar["kullanici_statü"] + ")";
                     if (aktifkullanicilar_listbox.Items.Contains(kendikullaniciisminikaldirma))
                     {
                         aktifkullanicilar_listbox.Items.Remove(kendikullaniciisminikaldirma);
@@ -88,11 +88,11 @@ namespace OSBilişim
                 SqlCommand kullanicilar = new SqlCommand("SELECT *FROM kullanicilar where k_adi = '" + Kullanicigirisiform.username + "'", connection);
                 SqlDataReader kullaniciaciklamasi;
                 kullaniciaciklamasi = kullanicilar.ExecuteReader();
-                while (kullaniciaciklamasi.Read ())
+                while (kullaniciaciklamasi.Read())
                 {
                     isim_label.Text = ((string)kullaniciaciklamasi["kullanici_isim"]);
                     soyisim_label.Text = ((string)kullaniciaciklamasi["kullanici_soyisim"]);
-                    statü_label.Text = ((string)kullaniciaciklamasi["kullanici_statü"]); 
+                    statü_label.Text = ((string)kullaniciaciklamasi["kullanici_statü"]);
                     kayit_tarihi_label.Text = ((string)kullaniciaciklamasi["kullanici_kayit_tarihi"]);
 
                 }
@@ -128,14 +128,14 @@ namespace OSBilişim
                 siparis_kontrol_btn.Location = new System.Drawing.Point(591, 216);
                 siparis_olustur_btn.Location = new System.Drawing.Point(474, 216);
                 ürün_ekle_ve_düzenle_btn.Location = new System.Drawing.Point(474, 267);
-               
+
             }
 
 
 
             tarih_label.Text = DateTime.Now.ToLongDateString();
-           
-            
+
+
         }
         private void Anaform_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -302,4 +302,3 @@ namespace OSBilişim
         }
     }
 }
-

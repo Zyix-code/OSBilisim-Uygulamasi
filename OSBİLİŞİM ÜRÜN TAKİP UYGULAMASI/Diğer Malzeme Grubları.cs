@@ -102,7 +102,7 @@ namespace OSBilişim
 
                 SqlCommand komut = new SqlCommand("SELECT * FROM diger_ürünler ", connection);
                 SqlDataReader veriokuyucu;
-            
+
                 veriokuyucu = komut.ExecuteReader();
                 while (veriokuyucu.Read())
                 {
@@ -168,7 +168,7 @@ namespace OSBilişim
             {
                 MessageBox.Show("Lütfen geçerli malzeme kodu seçin.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
             else if (Convert.ToInt32(ürünadetitextbox.Text) < 1)
             {
                 MessageBox.Show("Kullanılacak malzeme adeti 1'den küçük olamaz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -239,10 +239,15 @@ namespace OSBilişim
                             {
                                 cn.Open();
                                 var id = Convert.ToInt32(cmd.ExecuteScalar());
-
+                                int sipno = id + 1;
                                 if (id >= Convert.ToUInt16(sipariş_numarası_textbox.Text))
                                 {
-                                    MessageBox.Show($"Girdiğiniz sipariş numarası geçersizdir girebileceğiniz en düşük sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show($"Girdiğiniz sipariş numarası küçüktür, girebileceğiniz en düşük sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    sipariş_numarası_textbox.Text = $"{id + 1}";
+                                }
+                                else if (Convert.ToInt16(sipariş_numarası_textbox.Text) > sipno)
+                                {
+                                    MessageBox.Show($"Girdiğiniz sipariş numarası büyüktür, girebileceğiniz en yüksek sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     sipariş_numarası_textbox.Text = $"{id + 1}";
                                 }
                                 else
@@ -374,7 +379,7 @@ namespace OSBilişim
                         MessageBox.Show("Siparişiniz oluşturulmadı.\nİnternet bağlantınızı ya da server bağlantınızı kontrol ediniz.\n Hata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Application.Exit();
                     }
-                }   
+                }
                 else
                 {
                     MessageBox.Show("Sipariş oluşturulmadı, gerekli bilgileri tekrar tamamlayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -401,7 +406,7 @@ namespace OSBilişim
                         veriokuyucu3 = komut3.ExecuteReader();
                         while (veriokuyucu3.Read())
                         {
-                          ürünstokkodu.Items.Add(veriokuyucu3["diger_urun_stok_kodu"]);
+                            ürünstokkodu.Items.Add(veriokuyucu3["diger_urun_stok_kodu"]);
                         }
                         if (ürünstokkodu.Items.Count < 1)
                         {
@@ -420,7 +425,7 @@ namespace OSBilişim
 
                         }
                         connection.Close();
-                         if (ürünserino_checklistbox.Items.Count < 1)
+                        if (ürünserino_checklistbox.Items.Count < 1)
                         {
                             ürünserino_checklistbox.Items.Clear();
                             ürünserino_checklistbox.Items.Add("Ürün kalmamıştır");

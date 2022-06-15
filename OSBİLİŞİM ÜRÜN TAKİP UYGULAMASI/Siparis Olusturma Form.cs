@@ -59,7 +59,7 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                connection.Open();
+                    connection.Open();
 
                 SqlCommand komut = new SqlCommand("SELECT * FROM notebook_urunler ", connection);
                 SqlDataReader veriokuyucu;
@@ -70,8 +70,6 @@ namespace OSBilişim
                 }
 
                 veriokuyucu.Close();
-                /* KULLANILACAK MALZEMELER BÖLÜMÜ */
-
                 SqlCommand komut2 = new SqlCommand("SELECT * FROM notebook_kullanilacak_malzemeler ", connection);
                 SqlDataReader veriokuyucu2; ;
                 veriokuyucu2 = komut2.ExecuteReader();
@@ -211,7 +209,7 @@ namespace OSBilişim
             }
             else if (sipariş_numarası_textbox.Text == "")
             {
-                 MessageBox.Show("Sipariş numarasını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Sipariş numarasını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -228,10 +226,15 @@ namespace OSBilişim
                             {
                                 cn.Open();
                                 var id = Convert.ToInt32(cmd.ExecuteScalar());
-                          
+                                int sipno = id + 1;
                                 if (id >= Convert.ToUInt16(sipariş_numarası_textbox.Text))
                                 {
-                                    MessageBox.Show($"Girdiğiniz sipariş numarası geçersizdir girebileceğiniz en düşük sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show($"Girdiğiniz sipariş numarası küçüktür, girebileceğiniz en düşük sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    sipariş_numarası_textbox.Text = $"{id + 1}";
+                                }
+                                else if (Convert.ToInt16(sipariş_numarası_textbox.Text) > sipno)
+                                {
+                                    MessageBox.Show($"Girdiğiniz sipariş numarası büyüktür, girebileceğiniz en yüksek sipariş numarası: {id + 1}\nSizin için sipariş numarası otamatik olarak girilmiştir.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     sipariş_numarası_textbox.Text = $"{id + 1}";
                                 }
                                 else
@@ -651,7 +654,7 @@ namespace OSBilişim
         private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             try
-            { 
+            {
                 Font myFont = new Font("Calibri", 20, FontStyle.Bold);
                 Font tarihfont = new Font("Calibri", 8, FontStyle.Bold);
                 SolidBrush sbrush = new SolidBrush(Color.Black);
@@ -703,11 +706,11 @@ namespace OSBilişim
                     string checkedItem = item.ToString();
                     serino = serino + checkedItem + " / ";
                 }
-                e.Graphics.DrawString(serino.ToUpper().Trim(new Char[] { ' ', '/', '.' }),myFont,sbrush,348,475);
+                e.Graphics.DrawString(serino.ToUpper().Trim(new Char[] { ' ', '/', '.' }), myFont, sbrush, 348, 475);
                 e.Graphics.DrawString(ürünadetitextbox.Text, myFont, sbrush, 336, 510);
 
 
-                e.Graphics.DrawRectangle(myPen, 15, 587, 785,200);
+                e.Graphics.DrawRectangle(myPen, 15, 587, 785, 200);
                 e.Graphics.DrawString("Teslim Eden", myFont, sbrush, 93, 600);
                 e.Graphics.DrawString("Teslim Alan", myFont, sbrush, 600, 600);
             }

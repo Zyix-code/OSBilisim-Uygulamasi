@@ -26,7 +26,7 @@ namespace OSBilişim
                 {
                     connection.Open();
                     int tekrarsec = notebook_ürünler_listbox.SelectedIndex;
-                    
+
                     notebook_ürünler_listbox.Items.Clear();
                     SqlCommand komut = new SqlCommand("SELECT * FROM notebook_urunler ", connection);
                     SqlDataReader veriokuyucu;
@@ -51,7 +51,7 @@ namespace OSBilişim
                     {
                         notebook_ürün_kodlari_listbox.Items.Add(veriokuyucu3["urun_kodu"]);
                     }
-                   
+
                     veriokuyucu3.Close();
 
                     notebook_ürün_seri_no_listbox.Items.Clear();
@@ -65,7 +65,7 @@ namespace OSBilişim
                     üründurumusorgulama.Close();
                     connection.Close();
                 }
-                
+
             }
             catch (Exception hata)
             {
@@ -363,8 +363,8 @@ namespace OSBilişim
                                 Kullanicigirisiform.DumpLog(r);
                             }
 
+                            MessageBox.Show("Yeni ürün stok kodu ve ürün seri numarası başarılı bir şekilde eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             int tekrarsec = notebook_ürünler_listbox.SelectedIndex;
-                            MessageBox.Show("Yeni seri numarası ve ürün stok kodu başarılı bir şekilde eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             notebook_ürünler_listbox.SelectedIndex = tekrarsec;
                             ürün_adi_textbox.Focus();
                         }
@@ -388,7 +388,7 @@ namespace OSBilişim
                     {
                         MessageBox.Show("Ürün adını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    
+
                     else
                     {
                         string yeniürünnotebookkayit = "insert into notebook_urunler(urun_adi) values " + "" + "(@urun_adi)";
@@ -397,15 +397,15 @@ namespace OSBilişim
                         yeniürünnotebookkayitkomut.ExecuteNonQuery();
                         ürün_adi_textbox.Focus();
 
-                        if (ürün_stok_kodu_textbox.Text.Length > 0) 
-                        { 
+                        if (ürün_stok_kodu_textbox.Text.Length > 0)
+                        {
                             string yeniürünkayit = "insert into notebook_urun_kodları(urun_adi,urun_kodu) values " + "" + "(@urun_adi,@urun_kodu)";
                             SqlCommand yeniürünkayitkomut = new SqlCommand(yeniürünkayit, connection);
                             yeniürünkayitkomut.Parameters.AddWithValue("@urun_adi", ürün_adi_textbox.Text);
                             yeniürünkayitkomut.Parameters.AddWithValue("@urun_kodu", ürün_stok_kodu_textbox.Text);
                             yeniürünkayitkomut.ExecuteNonQuery();
                         }
-                        if (ürün_seri_no_textbox.Text.Length > 0 ) 
+                        if (ürün_seri_no_textbox.Text.Length > 0)
                         {
                             string yeniürünserinokayit = "insert into notebook_urun_seri_no_stok(urun_adi,urun_seri_no,urun_adeti,urun_durumu) values " + "" + "(@urun_adi,@urun_seri_no,@urun_adeti,@urun_durumu)";
                             SqlCommand yeniürünserinokayitkomut = new SqlCommand(yeniürünserinokayit, connection);
@@ -424,8 +424,9 @@ namespace OSBilişim
                         {
                             Kullanicigirisiform.DumpLog(r);
                         }
-                  
+
                         MessageBox.Show("Yeni ürün oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ürün_adi_textbox.Focus();
                     }
                 }
                 connection.Close();
@@ -485,7 +486,7 @@ namespace OSBilişim
                             if (connection.State == ConnectionState.Closed)
                             {
                                 connection.Open();
-                                SqlCommand ürünadikontrol = new SqlCommand("Select * From notebook_urunler where urun_adi='" + ürün_adi_textbox.Text +"'",connection);
+                                SqlCommand ürünadikontrol = new SqlCommand("Select * From notebook_urunler where urun_adi='" + ürün_adi_textbox.Text + "'", connection);
                                 SqlDataReader ürünadikontrolokuyucu;
                                 ürünadikontrolokuyucu = ürünadikontrol.ExecuteReader();
                                 if (ürünadikontrolokuyucu.Read())
@@ -525,7 +526,7 @@ namespace OSBilişim
                             Application.Exit();
                         }
                     }
-                }     
+                }
                 Listeyenile();
             }
         }
@@ -555,7 +556,7 @@ namespace OSBilişim
                                 // LOG DOYASI //
                                 using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                                 {
-                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürün_adi_textbox.Text + " ürününün " + ürün_stok_kodu_textbox.Text +" ürün kodunu sildi.", w);
+                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürün_adi_textbox.Text + " ürününün " + ürün_stok_kodu_textbox.Text + " ürün kodunu sildi.", w);
                                 }
                                 using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
                                 {

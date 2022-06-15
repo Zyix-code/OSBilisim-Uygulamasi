@@ -114,7 +114,7 @@ namespace OSBilişim
 
                                         // KULLANILACAK MALZEMELERİN SERİ NUMARALARI GİRİLDİKTEN SONRA SİSTEME AKTARMA
                                         string kullanilacakparçalarlistesi = kullanilacak_malzemeler_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
-                                        SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" +(int)row["siparis_id"] + "'", connection);
+                                        SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                         kullanilanparcalarigüncelle.ExecuteNonQuery();
 
 
@@ -286,7 +286,7 @@ namespace OSBilişim
                    .First();
             lastId = maxId == null ? -1 : (int)maxId;
 
-            var siparisControlTimer = new System.Timers.Timer( 5 * 1000) { Enabled = false };
+            var siparisControlTimer = new System.Timers.Timer(5 * 1000) { Enabled = false };
             siparisControlTimer.Elapsed += Handle_SiparisControl;
             siparisControlTimer.Start();
             //MessageBox.Show($"Son ID:{lastId}");
@@ -426,7 +426,7 @@ namespace OSBilişim
                 using (var komut3 = new SqlCommand("SELECT kullanilacak_malzemeler, urun_cikarilan_parcalar FROM siparisler where siparis_id = @sipId", connection))
                 {
                     //komut3.Parameters.Add("@sipId", SqlDbType.Int).Value = sipariskontrolview.CurrentRow.Cells["siparis_id"].Value;
-                    
+
                     komut3.Parameters.Add("@sipId", SqlDbType.Int).Value = (int)row["siparis_id"];
                     // yapılacak ^^
 
@@ -594,7 +594,7 @@ namespace OSBilişim
                 kullanilacak_malzemeler_seri_no_textbox.Text = "";
                 satis_tarihi_textbox.Text = "";
                 siparis_numarasi_textbox.Text = "";
-                
+
             }
             catch (Exception hata)
             {
@@ -888,7 +888,7 @@ namespace OSBilişim
                     txt = txt.Substring(0, pos);
                     kullanilacak_malzemeler_listbox.Items.Add(txt + "SN: " + kullanilacak_malzemeler_seri_no_textbox.Text);
                     kullanilacak_malzemeler_listbox.Items.RemoveAt(kullanilacak_malzemeler_listbox.SelectedIndex);
-                  
+
                 }
                 else
                 {
@@ -1172,7 +1172,7 @@ namespace OSBilişim
                 if (connection.State == ConnectionState.Closed)
                 {
                     connection.Open();
-                    SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + (int)row["siparis_id"]+ "'", connection);
+                    SqlDataAdapter komut = new SqlDataAdapter("select count(*) from siparisler where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                     DataTable dtablo = new DataTable();
                     komut.Fill(dtablo);
                     if (dtablo.Rows[0][0].ToString() == "1")

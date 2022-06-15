@@ -15,7 +15,7 @@ namespace OSBilişim
         public sifresıfırlamaforum()
         {
             InitializeComponent();
-           
+
         }
 
         private void Logout_label_Click(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace OSBilişim
             if (yenisifretextbox.Text == yenisifretekrartextbox.Text)
             {
                 if (connection.State == ConnectionState.Closed)
-                connection.Open();
+                    connection.Open();
                 SqlCommand komut3 = new SqlCommand("SELECT * FROM kullanicilar where k_adi ='" + kullanıcıadıtextbox.Text + "'", connection);
                 SqlDataReader veriokuyucu3;
                 veriokuyucu3 = komut3.ExecuteReader();
@@ -51,7 +51,7 @@ namespace OSBilişim
                     kullanicieskisifre = veriokuyucu3["sifre"].ToString();
                 }
                 veriokuyucu3.Close();
-                if (güvenliksorusutextbox.Text == güvenliksorusucevabı )
+                if (güvenliksorusutextbox.Text == güvenliksorusucevabı)
                 {
                     if (onaykodu == güvenlikonaykodutextbox.Text)
                     {
@@ -77,7 +77,7 @@ namespace OSBilişim
             yenisifretekrartextbox.UseSystemPasswordChar = true;
             yenisifretextbox.UseSystemPasswordChar = true;
             Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
-            
+
             connection.Open();
 
             FileVersionInfo programversion = FileVersionInfo.GetVersionInfo(@"OSBilişim.exe");
@@ -134,7 +134,7 @@ namespace OSBilişim
             Mouse_Y = e.Y;
             this.Cursor = Cursors.SizeAll;
         }
-     
+
 
         private void Panel2_MouseMove(object sender, MouseEventArgs e)
         {
@@ -353,7 +353,7 @@ namespace OSBilişim
                     if (kullanıcısorgula.Read())
                     {
                         kullanıcısorgula.Close();
-                   
+
                         SqlCommand komut3 = new SqlCommand("SELECT * FROM kullanicilar where k_adi ='" + kullanıcıadıtextbox.Text + "'", connection);
                         SqlDataReader veriokuyucu3;
                         veriokuyucu3 = komut3.ExecuteReader();

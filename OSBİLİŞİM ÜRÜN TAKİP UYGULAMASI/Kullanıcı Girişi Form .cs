@@ -11,12 +11,12 @@ using System.Net;
 
 namespace OSBilişim
 {
- 
+
     public partial class Kullanicigirisiform : Form
     {
         SqlDataReader dr;
         SqlCommand com;
-        readonly Anaform anaform = new Anaform(); 
+        readonly Anaform anaform = new Anaform();
         readonly sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
 
         public static string username;
@@ -25,13 +25,13 @@ namespace OSBilişim
         {
             InitializeComponent();
             Kullanici_Data();
-            
+
         }
         private void Kullanici_Data()
         {
             if (Properties.Settings.Default.kullaniciadi != string.Empty)
             {
-                
+
                 if (Properties.Settings.Default.benihatirla == true)
                 {
                     kullaniciaditextbox.Text = Properties.Settings.Default.kullaniciadi;
@@ -49,7 +49,7 @@ namespace OSBilişim
         {
             if (beni_hatirla_checkbox.Checked)
             {
-                
+
                 Properties.Settings.Default.kullaniciadi = kullaniciaditextbox.Text.Trim();
                 Properties.Settings.Default.sifre = sifretextbox.Text.Trim();
                 Properties.Settings.Default.benihatirla = true;
@@ -69,7 +69,7 @@ namespace OSBilişim
             w.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
             w.WriteLine($"{logMessage}");
         }
-        public static void Parcalarlog (string logMessage, TextWriter x)
+        public static void Parcalarlog(string logMessage, TextWriter x)
         {
             x.WriteLine($"{logMessage}");
         }
@@ -93,7 +93,7 @@ namespace OSBilişim
                     username = kullaniciaditextbox.Text;
                     string password = sifretextbox.Text;
 
-                   
+
                     com = new SqlCommand
                     {
                         Connection = connection,
@@ -139,7 +139,7 @@ namespace OSBilişim
                         username = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Kullanicigirisiform.username);
                         username = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Kullanicigirisiform.username);
 
-                      
+
 
                         anaform.Show();
                         Hide();
@@ -179,7 +179,7 @@ namespace OSBilişim
                 catch (Exception)
                 {
                     MessageBox.Show("Uygulama yönetici olarak çalıştırılmadığından başlatılmayacaktır. ", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Environment.Exit(1);    
+                    Environment.Exit(1);
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace OSBilişim
         {
             System.Diagnostics.Process.Start("https://mail.google.com/");
         }
-        
+
         private void Label3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;

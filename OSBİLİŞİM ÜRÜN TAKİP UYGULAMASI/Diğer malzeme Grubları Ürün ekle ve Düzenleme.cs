@@ -245,7 +245,7 @@ namespace OSBilişim
                             if (connection.State == ConnectionState.Closed)
                             {
                                 connection.Open();
-                                SqlCommand ürünstokverisil = new SqlCommand("delete from diger_ürün_kodları where diger_urun_stok_kodu = '" + diger_ürün_kodu_textbox.Text+ "'", connection);
+                                SqlCommand ürünstokverisil = new SqlCommand("delete from diger_ürün_kodları where diger_urun_stok_kodu = '" + diger_ürün_kodu_textbox.Text + "'", connection);
                                 ürünstokverisil.ExecuteNonQuery();
                                 MessageBox.Show("Seçili ürün kodu kaldırıldı.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 connection.Close();
@@ -399,7 +399,7 @@ namespace OSBilişim
                     {
                         if (diger_ürün_serino_listbox.Items.Contains(diger_ürün_serino_textbox.Text))
                         {
-                            MessageBox.Show("Bu seri numaralı ürün zaten mevcut. Farklı seri numara giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Bu seri numarası mevcuttur. Başka seri numarası kullanınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else if (diger_ürün_adi_textbox.Text == "")
                         {
@@ -423,10 +423,7 @@ namespace OSBilişim
                             yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                             yeniürünserinokayitkomut.ExecuteNonQuery();
                             MessageBox.Show("Yeni seri numaralı ürünün kaydı başarılı şekilde oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            int tekrarsec = diger_ürün_adi_listbox.SelectedIndex;
-                            diger_ürün_adi_listbox.SelectedIndex = tekrarsec;
 
-                            // LOG DOYASI //
                             using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " yeni seri numarasını ekledi.", w);
@@ -435,8 +432,10 @@ namespace OSBilişim
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
-                            // LOG DOSYASI //
 
+                            int tekrarsec = diger_ürün_serino_listbox.SelectedIndex;
+                            MessageBox.Show("Yeni seri numarası başarılı bir şekilde eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            diger_ürün_serino_listbox.SelectedIndex = tekrarsec;
                             diger_ürün_serino_textbox.Focus();
                         }
                     }
@@ -444,15 +443,23 @@ namespace OSBilişim
                     {
                         if (diger_ürün_kodu_listbox.Items.Contains(diger_ürün_kodu_textbox.Text))
                         {
-                            MessageBox.Show("Bu ürün kodu zaten mevcut farklı ürün kodu giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Bu ürün kodu mevcuttur. Başka ürün kodu kullanınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else if (diger_ürün_serino_listbox.Items.Contains(diger_ürün_serino_textbox.Text))
                         {
-                            MessageBox.Show("Bu seri numaralı ürün zaten mevcut. Farklı seri numara giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Bu seri numarası mevcuttur. Başka seri numarası kullanınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else if (diger_ürün_adi_textbox.Text == "")
                         {
                             MessageBox.Show("Ürün adını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else if (diger_ürün_kodu_textbox.Text == "" && diger_ürün_serino_textbox.Text.Length <= 0)
+                        {
+                            MessageBox.Show("Ürün stok kodunu boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else if (diger_ürün_serino_textbox.Text == "" && diger_ürün_kodu_textbox.Text.Length <= 0)
+                        {
+                            MessageBox.Show("Ürün seri numarasını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else if (diger_ürün_serino_textbox.Text == "" && diger_ürün_kodu_textbox.Text.Length > 0)
                         {
@@ -460,12 +467,8 @@ namespace OSBilişim
                             SqlCommand kayitkomut = new SqlCommand(yeniürünkodukayit, connection);
                             kayitkomut.Parameters.AddWithValue("@diger_urun_adi", diger_ürün_adi_textbox.Text);
                             kayitkomut.Parameters.AddWithValue("@diger_urun_stok_kodu", diger_ürün_kodu_textbox.Text);
-                            MessageBox.Show("Yeni ürün stok kodu oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             kayitkomut.ExecuteNonQuery();
-                            int tekrarsec = diger_ürün_adi_listbox.SelectedIndex;
-                            diger_ürün_adi_listbox.SelectedIndex = tekrarsec;
-                            diger_ürün_kodu_textbox.Focus();
-                            // LOG DOYASI //
+
                             using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_kodu_textbox.Text + " yeni ürün kodunu ekledi.", w);
@@ -474,7 +477,11 @@ namespace OSBilişim
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
-                            // LOG DOSYASI //
+
+                            MessageBox.Show("Yeni ürün stok kodu başarılı bir şekilde eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            int tekrarsec = diger_ürün_kodu_listbox.SelectedIndex;
+                            diger_ürün_kodu_listbox.SelectedIndex = tekrarsec;
+                            diger_ürün_kodu_textbox.Focus();
                         }
                         else if (diger_ürün_kodu_textbox.Text == "" && diger_ürün_serino_textbox.Text.Length >= 0)
                         {
@@ -485,10 +492,7 @@ namespace OSBilişim
                             yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_adeti", "1");
                             yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                             yeniürünserinokayitkomut.ExecuteNonQuery();
-                            MessageBox.Show("Yeni ürün seri numarası oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            int tekrarsec = diger_ürün_adi_listbox.SelectedIndex;
-                            diger_ürün_adi_listbox.SelectedIndex = tekrarsec;
-                            // LOG DOYASI //
+
                             using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " yeni seri numarasını ekledi.", w);
@@ -497,7 +501,11 @@ namespace OSBilişim
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
-                            // LOG DOSYASI //
+
+                            MessageBox.Show("Yeni seri numarası başarılı bir şekilde eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            int tekrarsec = diger_ürün_serino_listbox.SelectedIndex;
+                            diger_ürün_serino_listbox.SelectedIndex = tekrarsec;
+                            diger_ürün_serino_textbox.Focus();
                         }
                         else
                         {
@@ -516,7 +524,7 @@ namespace OSBilişim
                                 yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_adeti", "1");
                                 yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                                 yeniürünserinokayitkomut.ExecuteNonQuery();
-                                // LOG DOYASI //
+
                                 using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                                 {
                                     Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " ürün kodunu ve " + diger_ürün_serino_textbox.Text + " yeni seri numarasını ekledi.", w);
@@ -525,25 +533,31 @@ namespace OSBilişim
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
-                                // LOG DOSYASI //
-                                MessageBox.Show("Yeni ürün kodu, seri numarası oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                diger_ürün_serino_textbox.Focus();
+
+                                MessageBox.Show("Yeni ürün stok kodu ve ürün seri numarası başarılı bir şekilde eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int tekrarsec = diger_ürün_adi_listbox.SelectedIndex;
+                                diger_ürün_adi_listbox.SelectedIndex = tekrarsec;
+                                diger_ürün_adi_textbox.Focus();
                             }
                         }
                     }
                     else
                     {
-                        if (diger_ürün_serino_listbox.Items.Contains(diger_ürün_serino_textbox.Text))
+                        if (diger_ürün_adi_listbox.Items.Contains(diger_ürün_adi_textbox.Text))
                         {
-                            MessageBox.Show("Bu seri numaralı ürün zaten mevcut. Farklı seri numara giriniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Bu ürün adı mevcuttur. Başka ürün adı kullanınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else if (diger_ürün_kodu_listbox.Items.Contains(diger_ürün_kodu_textbox.Text))
+                        {
+                            MessageBox.Show("Bu ürün kodu mevcuttur. Başka ürün kodu kullanınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else if (diger_ürün_serino_listbox.Items.Contains(diger_ürün_serino_textbox.Text))
+                        {
+                            MessageBox.Show("Bu seri numarası mevcuttur. Başka seri numarası kullanınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else if (diger_ürün_adi_textbox.Text == "")
                         {
                             MessageBox.Show("Ürün adını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else if (diger_ürün_adi_listbox.Items.Contains(diger_ürün_adi_textbox.Text))
-                        {
-                            MessageBox.Show("Böyle bir ürün zaten mevcut.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
@@ -552,20 +566,16 @@ namespace OSBilişim
                             yeniürünnotebookkayitkomut.Parameters.AddWithValue("@diger_urun_adi", diger_ürün_adi_textbox.Text);
                             yeniürünnotebookkayitkomut.ExecuteNonQuery();
                             diger_ürün_adi_textbox.Focus();
-                            // YENİ ÜRÜN NOTEBOOK İSİM VE KODU KAYİT //
-                            if (diger_ürün_adi_textbox.Text == "") { }
-                            else
+
+                            if (diger_ürün_kodu_textbox.Text.Length > 0)
                             {
                                 string yeniürünkayit = "insert into diger_ürün_kodları(diger_urun_adi,diger_urun_stok_kodu) values " + "" + "(@diger_urun_adi,@diger_urun_stok_kodu)";
                                 SqlCommand yeniürünkayitkomut = new SqlCommand(yeniürünkayit, connection);
                                 yeniürünkayitkomut.Parameters.AddWithValue("@diger_urun_adi", diger_ürün_adi_textbox.Text);
-                                yeniürünkayitkomut.Parameters.AddWithValue("@diger_urun_stok_kodu", diger_ürün_kodu_textbox .Text);
+                                yeniürünkayitkomut.Parameters.AddWithValue("@diger_urun_stok_kodu", diger_ürün_kodu_textbox.Text);
                                 yeniürünkayitkomut.ExecuteNonQuery();
                             }
-                            // YENİ ÜRÜN NOTEBOOK İSİM KAYIT //
-                            // YENİ ÜRÜN NOTEBOOK İSİM VE SERİ NO KAYİT //
-                            if (diger_ürün_serino_textbox.Text == "") { }
-                            else
+                            if (diger_ürün_serino_textbox.Text.Length > 0)
                             {
                                 string yeniürünserinokayit = "insert into diger_ürün_stok(diger_urun_adi,diger_urun_serino,diger_urun_adeti,diger_urun_durumu) values " + "" + "(@diger_urun_adi,@diger_urun_serino,@diger_urun_adeti,@diger_urun_durumu)";
                                 SqlCommand yeniürünserinokayitkomut = new SqlCommand(yeniürünserinokayit, connection);
@@ -575,7 +585,6 @@ namespace OSBilişim
                                 yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                                 yeniürünserinokayitkomut.ExecuteNonQuery();
                             }
-                            // LOG DOYASI //
                             using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " yeni ürünü ekledi.", w);
@@ -584,12 +593,12 @@ namespace OSBilişim
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
-                            // LOG DOSYASI //
+
                             MessageBox.Show("Yeni ürün oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            diger_ürün_adi_textbox.Focus();
                         }
                     }
                 }
-                
                 Listeyenile();
                 connection.Close();
             }
@@ -688,4 +697,3 @@ namespace OSBilişim
         }
     }
 }
-            
