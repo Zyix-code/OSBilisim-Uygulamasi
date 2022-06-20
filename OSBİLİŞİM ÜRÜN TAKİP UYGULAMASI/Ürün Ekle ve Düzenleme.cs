@@ -149,6 +149,21 @@ namespace OSBilişim
             else
             {
                 ürün_adi_textbox.Text = notebook_ürünler_listbox.SelectedItem.ToString();
+                try
+                {
+                    using (var cn = new SqlConnection("server=192.168.1.106,1433;database=OSBİLİSİM;UId=Admin;Pwd=1;MultipleActiveResultSets=True;"))
+                    using (var cmd = new SqlCommand(@"select COUNT(urun_seri_no) from notebook_urun_seri_no_stok where urun_durumu = 'Kullanılmadı' and urun_adi = '" + notebook_ürünler_listbox.SelectedItem.ToString() + "'", cn))
+                    {
+                        cn.Open();
+                        var kalan = Convert.ToInt32(cmd.ExecuteScalar());
+                        ürünkalankullanımlabel.Text = "Kullanılmamış ürün sayısı: " + kalan.ToString();
+                    }
+                }
+                catch (Exception hata)
+                {
+                    MessageBox.Show("Ürün bilgileri çekilirken bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
             }
             ürün_stok_kodu_textbox.Text = "";
             ürün_seri_no_textbox.Text = "";
@@ -693,7 +708,7 @@ namespace OSBilişim
 
         #endregion
 
-        private void ürün_seri_no_textbox_TextChanged(object sender, EventArgs e)
+        private void Ürün_seri_no_textbox_TextChanged(object sender, EventArgs e)
         {
             string serino = "S";
             string serino2 = "s";
@@ -701,6 +716,41 @@ namespace OSBilişim
             {
                 string degistir = ürün_seri_no_textbox.Text.Substring(1, ürün_seri_no_textbox.Text.Length - 1);
                 ürün_seri_no_textbox.Text = degistir;
+            }
+        }
+
+        private void ürünkalankullanımlabel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                 connection.Open();
+                if (notebook_ürünler_listbox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Geçerli bir ürün seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    SqlCommand komut3 = new SqlCommand("SELECT urun_seri_no FROM notebook_urun_seri_no_stok where urun_durumu = 'Kullanılmadı' and urun_adi = '" + notebook_ürünler_listbox.SelectedItem.ToString() + "'", connection);
+                    SqlDataReader veriokuyucu3;
+                    veriokuyucu3 = komut3.ExecuteReader();
+                    notebook_ürün_seri_no_listbox.Items.Clear();
+                    while (veriokuyucu3.Read())
+                    {
+                        notebook_ürün_seri_no_listbox.Items.Add(veriokuyucu3["urun_seri_no"]);
+                    }
+                    if (notebook_ürün_seri_no_listbox.Items.Count < 1)
+                    {
+                        notebook_ürün_seri_no_listbox.Items.Add("Kullanılacak ürün yok.");
+                    }
+                    veriokuyucu3.Close();
+                    connection.Close();
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("Bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
         }
     }

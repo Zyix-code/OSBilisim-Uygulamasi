@@ -10,9 +10,9 @@ using System.Net.Mime;
 
 namespace OSBilişim
 {
-    public partial class sifresıfırlamaforum : Form
+    public partial class Sifresıfırlamaforum : Form
     {
-        public sifresıfırlamaforum()
+        public Sifresıfırlamaforum()
         {
             InitializeComponent();
 

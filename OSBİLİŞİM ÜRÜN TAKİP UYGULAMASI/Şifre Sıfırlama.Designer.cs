@@ -1,6 +1,6 @@
 ﻿namespace OSBilişim
 {
-    partial class sifresıfırlamaforum
+    partial class Sifresıfırlamaforum
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(sifresıfırlamaforum));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sifresıfırlamaforum));
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.loginpanel_hosgeldiniz_label = new System.Windows.Forms.Label();

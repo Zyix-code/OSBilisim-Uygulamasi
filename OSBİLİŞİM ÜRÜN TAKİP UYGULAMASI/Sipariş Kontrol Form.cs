@@ -106,20 +106,34 @@ namespace OSBilişim
                                     dialog = MessageBox.Show("Çıkarılan malzemeler doğruluğunu onaylayıp eklemek istiyor musunuz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                     if (dialog == DialogResult.Yes)
                                     {
-                                        //KULLANILAN MALZEMELERİ SİSTEME AKTARMA
+
                                         string çıkarılanparcalarlistesi = çıkacak_olan_parçalar_listesi_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
                                         SqlCommand ürüncikarilanparcalarıgüncelle = new SqlCommand("update siparisler set urun_cikarilan_parcalar = '" + çıkarılanparcalarlistesi + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                         ürüncikarilanparcalarıgüncelle.ExecuteNonQuery();
 
-
-                                        // KULLANILACAK MALZEMELERİN SERİ NUMARALARI GİRİLDİKTEN SONRA SİSTEME AKTARMA
                                         string kullanilacakparçalarlistesi = kullanilacak_malzemeler_listbox.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}");
                                         SqlCommand kullanilanparcalarigüncelle = new SqlCommand("update siparisler set kullanilacak_malzemeler = '" + kullanilacakparçalarlistesi + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                                         kullanilanparcalarigüncelle.ExecuteNonQuery();
 
+                                        MessageBox.Show("Sipariş onaylandı. Sipariş listesini güncelleyerek siparişinizi kontrol ediniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        SqlCommand siparisdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + "Sipariş Gönderim İçin Hazır" + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
+                                        siparisdurumunugüncelle.ExecuteNonQuery();
+                                        var items = kullanilacak_malzemeler_listbox.Items.Cast<string>();
+                                        var pattern = @"SN: .+";
+                                        var result = items
+                                            .Where(i => Regex.IsMatch(i, pattern))
+                                            .Select(i => Regex.Match(i, pattern).Value.Remove(0, "SN: ".Length))
+                                            .SelectMany(x => x.Split('-'));
+                                        using (var cmd = new SqlCommand(@"update diger_ürün_stok set diger_urun_durumu = 'Ürün Kullanıldı' where diger_urun_serino = @sn", connection))
+                                        {
+                                            cmd.Parameters.Add("@sn", SqlDbType.VarChar);
+                                            foreach (var sn in result)
+                                            {
+                                                cmd.Parameters["@sn"].Value = sn;
+                                                cmd.ExecuteNonQuery();
+                                            }
+                                        }
 
-
-                                        // LOG DOYASI //
                                         using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                                         {
                                             Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı tarafından hazırlanan ürün: " + ürünaditextbox.Text + " / " + ürünstokkodutextbox.Text + " / " + "SN: " + ürün_seri_no_textbox.Text, w);
@@ -179,30 +193,6 @@ namespace OSBilişim
                                         using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
                                         {
                                             Kullanicigirisiform.DumpLog(r);
-                                        }
-                                        // LOG DOSYASI //
-
-                                        MessageBox.Show("Çıkarılan parçaların seri numarası başarılı şekilde eklendi.\nGörmek için sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        MessageBox.Show("Kullanacağınız parçanın seri numarası başarılı şekilde eklendi.\nGörmek için sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                        // SİPARİŞ ONAYLANIRSA SİPARİŞ DURUMUNU DEĞİŞTİRME
-                                        SqlCommand siparisdurumunugüncelle = new SqlCommand("update siparisler set urun_hazirlik_durumu = '" + "Sipariş Gönderim İçin Hazır" + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
-
-                                        siparisdurumunugüncelle.ExecuteNonQuery();
-                                        var items = kullanilacak_malzemeler_listbox.Items.Cast<string>();
-                                        var pattern = @"SN: .+";
-                                        var result = items
-                                            .Where(i => Regex.IsMatch(i, pattern))
-                                            .Select(i => Regex.Match(i, pattern).Value.Remove(0, "SN: ".Length))
-                                            .SelectMany(x => x.Split('-'));
-                                        using (var cmd = new SqlCommand(@"update diger_ürün_stok set diger_urun_durumu = 'Ürün Kullanıldı' where diger_urun_serino = @sn", connection))
-                                        {
-                                            cmd.Parameters.Add("@sn", SqlDbType.VarChar);
-                                            foreach (var sn in result)
-                                            {
-                                                cmd.Parameters["@sn"].Value = sn;
-                                                cmd.ExecuteNonQuery();
-                                            }
                                         }
                                     }
                                     else
@@ -827,7 +817,7 @@ namespace OSBilişim
                 var row = ((DataTable)sipariskontrolview.DataSource).Rows[sipariskontrolview.CurrentRow.Index];
                 if (aciklama_textbox.Text == "")
                 {
-                    MessageBox.Show("Sipariş açıklamasını değiştirmek için sipariş açıklaması girmen gerekmez mi?", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Sipariş açıklamasını boş bırakmayınız.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -841,7 +831,7 @@ namespace OSBilişim
                         {
                             SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hakkinda_aciklama = '" + aciklama_textbox.Text + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                             ürüngüncelle.ExecuteNonQuery();
-                            MessageBox.Show("Ürün açıklaması değiştirildi, lütfen sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Sipariş açıklaması değiştirildi, lütfen sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             // LOG DOYASI //
                             using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                             {

@@ -51,6 +51,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.ürün_seri_no_textbox = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.ürünkalankullanımlabel = new System.Windows.Forms.Label();
             this.loginpanel_gelistiren_label = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -194,7 +195,6 @@
             this.toolTip1.SetToolTip(this.secili_ürünü_sil_btn, "Seçtiğiniz herhangi bir notebook ürününü silmenizi sağlar, dikkat edin sildiğiniz" +
         " ürünün seri numaraları ve ürün kodlarını da otamatik olarak silinmektedir.");
             this.secili_ürünü_sil_btn.UseVisualStyleBackColor = false;
-            this.secili_ürünü_sil_btn.Visible = false;
             this.secili_ürünü_sil_btn.Click += new System.EventHandler(this.Secili_ürünü_sil_btn_Click);
             // 
             // secili_ürünün_kod_seri_no_sil_btn
@@ -296,11 +296,12 @@
             this.ürün_seri_no_textbox.Name = "ürün_seri_no_textbox";
             this.ürün_seri_no_textbox.Size = new System.Drawing.Size(200, 18);
             this.ürün_seri_no_textbox.TabIndex = 31;
-            this.ürün_seri_no_textbox.TextChanged += new System.EventHandler(this.ürün_seri_no_textbox_TextChanged);
+            this.ürün_seri_no_textbox.TextChanged += new System.EventHandler(this.Ürün_seri_no_textbox_TextChanged);
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.panel4.Controls.Add(this.ürünkalankullanımlabel);
             this.panel4.Controls.Add(this.loginpanel_gelistiren_label);
             this.panel4.Controls.Add(this.panel2);
             this.panel4.Controls.Add(this.pictureBox1);
@@ -323,6 +324,19 @@
             this.panel4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel4_MouseDown);
             this.panel4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel4_MouseMove);
             this.panel4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Panel4_MouseUp);
+            // 
+            // ürünkalankullanımlabel
+            // 
+            this.ürünkalankullanımlabel.AutoSize = true;
+            this.ürünkalankullanımlabel.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.ürünkalankullanımlabel.ForeColor = System.Drawing.SystemColors.Window;
+            this.ürünkalankullanımlabel.Location = new System.Drawing.Point(38, 447);
+            this.ürünkalankullanımlabel.Name = "ürünkalankullanımlabel";
+            this.ürünkalankullanımlabel.Size = new System.Drawing.Size(190, 19);
+            this.ürünkalankullanımlabel.TabIndex = 33;
+            this.ürünkalankullanımlabel.Text = "Kullanılmamış ürün sayısı: 0";
+            this.toolTip1.SetToolTip(this.ürünkalankullanımlabel, "Stok\'da kalan henüz kullanılmamış ürünlerin sayısını gösterir.");
+            this.ürünkalankullanımlabel.Click += new System.EventHandler(this.ürünkalankullanımlabel_Click);
             // 
             // loginpanel_gelistiren_label
             // 
@@ -453,5 +467,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label ürünkalankullanımlabel;
     }
 }

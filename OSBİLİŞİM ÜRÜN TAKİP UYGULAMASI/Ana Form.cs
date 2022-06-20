@@ -69,20 +69,19 @@ namespace OSBilişim
                 SqlCommand kullaniciaktifligi = new SqlCommand("SELECT *FROM kullanicilar where durum = '1' ", connection);
                 SqlDataReader aktifkullanicilar;
                 aktifkullanicilar = kullaniciaktifligi.ExecuteReader();
-                while (aktifkullanicilar.Read())
+                if (aktifkullanicilar.Read())
                 {
-                    aktifkullanicilar_listbox.Items.Add(((string)aktifkullanicilar["kullanici_isim"] + " (" + (string)aktifkullanicilar["kullanici_statü"] + ")"));
+                    aktifkullanicilar_listbox.Items.Add(aktifkullanicilar["kullanici_isim"] + " (" + (string)aktifkullanicilar["kullanici_statü"] + ")".ToString());
                     string kendikullaniciisminikaldirma;
                     kendikullaniciisminikaldirma = Kullanicigirisiform.username + " (" + (string)aktifkullanicilar["kullanici_statü"] + ")";
                     if (aktifkullanicilar_listbox.Items.Contains(kendikullaniciisminikaldirma))
                     {
                         aktifkullanicilar_listbox.Items.Remove(kendikullaniciisminikaldirma);
                     }
-                    if (aktifkullanicilar["kullanici_statü"] == DBNull.Value)
-                    {
-                        string result = String.Empty;
-                        aktifkullanicilar_listbox.Items.Add("Aktif kullanıcı yoktur.");
-                    }
+                }
+                else
+                {
+                    aktifkullanicilar_listbox.Items.Add("Aktif kullanıcı bulunmamaktadır.");
                 }
 
                 SqlCommand kullanicilar = new SqlCommand("SELECT *FROM kullanicilar where k_adi = '" + Kullanicigirisiform.username + "'", connection);

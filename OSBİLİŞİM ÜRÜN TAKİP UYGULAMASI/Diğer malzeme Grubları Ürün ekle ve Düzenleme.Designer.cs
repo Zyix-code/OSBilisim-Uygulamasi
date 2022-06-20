@@ -38,6 +38,7 @@
             this.yeni_ürün_ekle_btn = new System.Windows.Forms.Button();
             this.windows_kücültme_label = new System.Windows.Forms.Label();
             this.logout_label = new System.Windows.Forms.Label();
+            this.ürünkalankullanımlabel = new System.Windows.Forms.Label();
             this.loginpanel_gelistiren_label = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -167,6 +168,19 @@
             this.toolTip1.SetToolTip(this.logout_label, "Uygulamayı kapatmanızı sağlar.");
             this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
             // 
+            // ürünkalankullanımlabel
+            // 
+            this.ürünkalankullanımlabel.AutoSize = true;
+            this.ürünkalankullanımlabel.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.ürünkalankullanımlabel.ForeColor = System.Drawing.SystemColors.Window;
+            this.ürünkalankullanımlabel.Location = new System.Drawing.Point(38, 449);
+            this.ürünkalankullanımlabel.Name = "ürünkalankullanımlabel";
+            this.ürünkalankullanımlabel.Size = new System.Drawing.Size(190, 19);
+            this.ürünkalankullanımlabel.TabIndex = 36;
+            this.ürünkalankullanımlabel.Text = "Kullanılmamış ürün sayısı: 0";
+            this.toolTip1.SetToolTip(this.ürünkalankullanımlabel, "Stok\'da kalan henüz kullanılmamış ürünlerin sayısını gösterir.");
+            this.ürünkalankullanımlabel.Click += new System.EventHandler(this.ürünkalankullanımlabel_Click);
+            // 
             // loginpanel_gelistiren_label
             // 
             this.loginpanel_gelistiren_label.AutoSize = true;
@@ -193,6 +207,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.panel4.Controls.Add(this.ürünkalankullanımlabel);
             this.panel4.Controls.Add(this.panel2);
             this.panel4.Controls.Add(this.diger_ürün_serino_textbox);
             this.panel4.Controls.Add(this.label5);
@@ -450,5 +465,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox diger_ürün_serino_textbox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label ürünkalankullanımlabel;
     }
 }

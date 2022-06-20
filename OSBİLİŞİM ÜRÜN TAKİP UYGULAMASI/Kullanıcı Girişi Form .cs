@@ -17,7 +17,7 @@ namespace OSBilişim
         SqlDataReader dr;
         SqlCommand com;
         readonly Anaform anaform = new Anaform();
-        readonly sifresıfırlamaforum sifresıfırlamaforum = new sifresıfırlamaforum();
+        readonly Sifresıfırlamaforum sifresıfırlamaforum = new Sifresıfırlamaforum();
 
         public static string username;
         public string güncelversiyon = "";
@@ -65,7 +65,10 @@ namespace OSBilişim
         }
         public static void Log(string logMessage, TextWriter w)
         {
+            string bilgisayarAdi = Dns.GetHostName();
+            string ipAdresi = Dns.GetHostByName(bilgisayarAdi).AddressList[0].ToString();
             w.WriteLine("-------------------------------");
+            w.WriteLine("Bilgisayar adı: " + bilgisayarAdi + " " + "Ip adresi: " + ipAdresi);
             w.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
             w.WriteLine($"{logMessage}");
         }
@@ -83,6 +86,7 @@ namespace OSBilişim
             }
         }
 
+        [Obsolete]
         private void Btn_giris_Click(object sender, EventArgs e)
         {
             try
@@ -118,16 +122,14 @@ namespace OSBilişim
                             else
                             {
                                 MessageBox.Show("Merhaba hoş geldin, " + adi + " " + soyadi + " sisteme yönlendiriliyorsun.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                // LOG DOSYASI //
-                                using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                 {
                                     Log(adi + " " + soyadi + " sisteme " + "(" + username + ")" + " kullanıcı adı ile giriş yaptı.", w);
                                 }
-                                using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                 {
                                     DumpLog(r);
                                 }
-                                // LOG DOSYASI //
                             }
                         }
 

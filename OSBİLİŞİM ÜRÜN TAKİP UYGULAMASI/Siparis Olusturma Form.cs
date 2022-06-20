@@ -250,7 +250,7 @@ namespace OSBilişim
                                     }
                                     if (connection.State == ConnectionState.Closed)
                                         connection.Open();
-
+                                    string orjinal = "Ürün orjinal hali ile gönderilecektir";
                                     string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
                                     SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
                                     kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
@@ -262,7 +262,17 @@ namespace OSBilişim
                                     kayitkomut.Parameters.AddWithValue("@satis_yapilan_firma", satış_yapılan_firma.SelectedItem);
                                     kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
                                     kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", kullanilacak_malzemeler_listesi.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}"));
-                                    kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
+                                    foreach (string item in kullanilacak_malzemeler_listesi.Items)
+                                    {
+                                        if (item.ToLower().Contains(orjinal.ToLower()))
+                                        {
+                                            kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", "Sipariş Onaylandı");
+                                        }
+                                        else
+                                        {
+                                            kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
+                                        }
+                                    }
                                     kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
                                     string serino = "";
                                     foreach (object item in ürünserino_checklistbox.CheckedItems)
@@ -288,7 +298,7 @@ namespace OSBilişim
                                     }
                                     connection.Close();
 
-                                    // LOG DOYASI //
+                                   
                                     using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
                                     {
                                         Kullanicigirisiform.Log(aliciaditextbox.Text + " " + alicisoyaditextboxt.Text + " adlı alıcı " + ürünadi.SelectedItem.ToString() + " ürününün " + serino.Trim(new Char[] { ' ', '/', '.' }) + " seri numarasını seçerek, " + Kullanicigirisiform.username + " tarafından alıcı için sipariş oluşturuldu.", w);
@@ -297,7 +307,6 @@ namespace OSBilişim
                                     {
                                         Kullanicigirisiform.DumpLog(r);
                                     }
-                                    // LOG DOSYASI //
 
                                     ürünadetitextbox.Text = "0";
                                     ürünadi.SelectedIndex = -1;
@@ -320,7 +329,7 @@ namespace OSBilişim
                         {
                             if (connection.State == ConnectionState.Closed)
                                 connection.Open();
-
+                            string orjinal = "Ürün orjinal hali ile gönderilecektir";
                             string sipariskayit = "insert into siparisler(sip_no,urun_adi,urun_stok_kodu,urun_seri_no,urun_adeti,teslim_alacak_kisi_adi,teslim_alacak_kisi_soyadi,satis_yapilan_firma,urunun_satildigi_firma,kullanilacak_malzemeler,urun_hazirlik_durumu,urun_hakkinda_aciklama,siparis_tarihi) values " + "" + "(@sip_no,@urun_adi,@urun_stok_kodu,@urun_seri_no,@urun_adeti,@teslim_alacak_kisi_adi,@teslim_alacak_kisi_soyadi,@satis_yapilan_firma,@urunun_satildigi_firma,@kullanilacak_malzemeler,@urun_hazirlik_durumu,@urun_hakkinda_aciklama,@siparis_tarihi)";
                             SqlCommand kayitkomut = new SqlCommand(sipariskayit, connection);
                             kayitkomut.Parameters.AddWithValue("@sip_no", sipariş_numarası_textbox.Text);
@@ -332,7 +341,17 @@ namespace OSBilişim
                             kayitkomut.Parameters.AddWithValue("@satis_yapilan_firma", satış_yapılan_firma.SelectedItem);
                             kayitkomut.Parameters.AddWithValue("@urunun_satildigi_firma", ürünün_satıldığı_firma.SelectedItem);
                             kayitkomut.Parameters.AddWithValue("@kullanilacak_malzemeler", kullanilacak_malzemeler_listesi.Items.Cast<string>().Aggregate((current, next) => $"{current} {"/"} {next}"));
-                            kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
+                            foreach (string item in kullanilacak_malzemeler_listesi.Items)
+                            {
+                                if (item.ToLower().Contains(orjinal.ToLower()))
+                                {
+                                    kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", "Sipariş Onaylandı");
+                                }
+                                else
+                                {
+                                    kayitkomut.Parameters.AddWithValue("@urun_hazirlik_durumu", ürün_hazirlik_durumu_textbox.Text);
+                                }
+                            }
                             kayitkomut.Parameters.AddWithValue("@siparis_tarihi", DateTime.Now);
                             string serino = "";
                             foreach (object item in ürünserino_checklistbox.CheckedItems)
