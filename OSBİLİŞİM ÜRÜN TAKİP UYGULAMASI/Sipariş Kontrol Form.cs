@@ -134,65 +134,57 @@ namespace OSBilişim
                                             }
                                         }
 
-                                        using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                        using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                         {
                                             Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı tarafından hazırlanan ürün: " + ürünaditextbox.Text + " / " + ürünstokkodutextbox.Text + " / " + "SN: " + ürün_seri_no_textbox.Text, w);
                                         }
-                                        using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                        using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                         {
                                             Kullanicigirisiform.DumpLog(r);
                                         }
-                                        using (StreamWriter x = File.AppendText("OSBilisim-log.xml"))
+                                        using (StreamWriter x = File.AppendText("OSBilisim-log.log"))
                                         {
                                             Kullanicigirisiform.Parcalarlog("-------------------------------", x);
                                             Kullanicigirisiform.Parcalarlog("Sipariş için takılacak parçalar; ", x);
                                             Kullanicigirisiform.Parcalarlog("-------------------------------", x);
                                         }
-                                        using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                        using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                         {
                                             Kullanicigirisiform.DumpLog(r);
                                         }
                                         for (int i = 0; kullanilacak_malzemeler_listbox.Items.Count > i; i++)
                                         {
-                                            using (StreamWriter x = File.AppendText("OSBilisim-log.xml"))
+                                            using (StreamWriter x = File.AppendText("OSBilisim-log.log"))
                                             {
                                                 Kullanicigirisiform.Parcalarlog(kullanilacak_malzemeler_listbox.Items[i].ToString(), x);
                                             }
-                                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                             {
                                                 Kullanicigirisiform.DumpLog(r);
                                             }
                                         }
-                                        using (StreamWriter x = File.AppendText("OSBilisim-log.xml"))
+                                        using (StreamWriter x = File.AppendText("OSBilisim-log.log"))
                                         {
                                             Kullanicigirisiform.Parcalarlog("-------------------------------", x);
                                             Kullanicigirisiform.Parcalarlog("Sipariş için çıkarılacak parçalar; ", x);
                                             Kullanicigirisiform.Parcalarlog("-------------------------------", x);
                                         }
-                                        using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                        using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                         {
                                             Kullanicigirisiform.DumpLog(r);
                                         }
                                         for (int i = 0; çıkacak_olan_parçalar_listesi_listbox.Items.Count > i; i++)
                                         {
-                                            using (StreamWriter x = File.AppendText("OSBilisim-log.xml"))
+                                            using (StreamWriter x = File.AppendText("OSBilisim-log.log"))
                                             {
                                                 Kullanicigirisiform.Parcalarlog(çıkacak_olan_parçalar_listesi_listbox.Items[i].ToString(), x);
 
 
                                             }
-                                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                             {
                                                 Kullanicigirisiform.DumpLog(r);
                                             }
-                                        }
-                                        using (StreamWriter x = File.AppendText("OSBilisim-log.xml"))
-                                        {
-                                            Kullanicigirisiform.Parcalarlog("-------------------------------", x);
-                                        }
-                                        using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
-                                        {
-                                            Kullanicigirisiform.DumpLog(r);
                                         }
                                     }
                                     else
@@ -376,12 +368,13 @@ namespace OSBilişim
             }
 
             sipariskontrolview.BorderStyle = BorderStyle.None;
-            sipariskontrolview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(118, 195, 215);
-            sipariskontrolview.DefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 215);
+            sipariskontrolview.AlternatingRowsDefaultCellStyle.BackColor = Color.MediumSeaGreen;
+            sipariskontrolview.DefaultCellStyle.SelectionBackColor = Color.DarkGreen;
             sipariskontrolview.DefaultCellStyle.SelectionForeColor = Color.White;
+            sipariskontrolview.DefaultCellStyle.BackColor = Color.MediumSeaGreen;
             sipariskontrolview.EnableHeadersVisualStyles = false;
             sipariskontrolview.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            sipariskontrolview.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(118, 195, 215);
+            sipariskontrolview.ColumnHeadersDefaultCellStyle.BackColor = Color.MediumSeaGreen;
             sipariskontrolview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             sipariskontrolview.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             sipariskontrolview.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -619,11 +612,11 @@ namespace OSBilişim
 
                         MessageBox.Show("Siparişiniz başarılı ile silindi ve stok olarak geri eklendi.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // LOG DOYASI //
-                        using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                        using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                         {
                             Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " / " + ürün_seri_no_textbox.Text + " / " + ürünstokkodutextbox.Text + " ürünün siparişini sildi.", w);
                         }
-                        using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                        using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                         {
                             Kullanicigirisiform.DumpLog(r);
                         }
@@ -832,16 +825,15 @@ namespace OSBilişim
                             SqlCommand ürüngüncelle = new SqlCommand("update siparisler set urun_hakkinda_aciklama = '" + aciklama_textbox.Text + "' where siparis_id = '" + (int)row["siparis_id"] + "'", connection);
                             ürüngüncelle.ExecuteNonQuery();
                             MessageBox.Show("Sipariş açıklaması değiştirildi, lütfen sipariş listesini güncelleyiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            // LOG DOYASI //
-                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " ürünün açıklamasını şu şekilde değiştirdi: " + aciklama_textbox.Text, w);
                             }
-                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
-                            // LOG DOSYASI //
                         }
                         else
                         {
@@ -894,18 +886,15 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    Kullanicigirisiform Kullanicigirisiform = new Kullanicigirisiform();
-                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
-                    kullanicidurumgüncelle.ExecuteNonQuery();
-                    Kullanicigirisiform.Show();
-                    Hide();
-                }
+
+                Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                kullanicidurumgüncelle.ExecuteNonQuery();
             }
             catch (Exception kullaniciaktifligi)
             {
-                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Kullanıcı bilgileri çekilirken bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             Application.Exit();
@@ -922,60 +911,6 @@ namespace OSBilişim
             Anaform.Show();
             Hide();
         }
-
-        new
-        #region forumharaketettirme
-        int Move;
-        int Mouse_X;
-        int Mouse_Y;
-        private void Sipariskontrolform_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Move == 1)
-            {
-                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
-            }
-        }
-
-        private void Sipariskontrolform_MouseUp(object sender, MouseEventArgs e)
-        {
-            Move = 0;
-            this.Cursor = Cursors.Default;
-        }
-
-        private void Sipariskontrolform_MouseDown(object sender, MouseEventArgs e)
-        {
-            Move = 1;
-            Mouse_X = e.X;
-            Mouse_Y = e.Y;
-            this.Cursor = Cursors.SizeAll;
-        }
-        #endregion
-
-        #region forumharaketettirme2 
-        private void Panel2_MouseUp(object sender, MouseEventArgs e)
-        {
-            Move = 0;
-            this.Cursor = Cursors.Default;
-        }
-
-        private void Panel2_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Move == 1)
-            {
-                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
-            }
-        }
-
-        private void Panel2_MouseDown(object sender, MouseEventArgs e)
-        {
-            Move = 1;
-            Mouse_X = e.X;
-            Mouse_Y = e.Y;
-            this.Cursor = Cursors.SizeAll;
-
-        }
-        #endregion
-
         public void PDF_Disa_Aktar(DataGridView sipariskontrolview)
         {
             PdfPTable pdfTable = new PdfPTable(sipariskontrolview.ColumnCount);
@@ -1203,11 +1138,11 @@ namespace OSBilişim
                                     }
                                 }
                                 // LOG DOSYASI
-                                using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                 {
                                     Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + ürünaditextbox.Text + " ürününün, " + ürünhazirlikdurumu_combobox.SelectedItem + " durumundan " + üründurumunugüncelle_combobox.SelectedItem + " durumuna çevirdi.", w);
                                 }
-                                using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
@@ -1232,5 +1167,163 @@ namespace OSBilişim
         {
             üründurumukontrol = true;
         }
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://mail.google.com/");
+        }
+
+
+        new
+        #region forumharaketettirme
+        int Move;
+        int Mouse_X;
+        int Mouse_Y;
+        private void Sipariskontrolform_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Move == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
+            }
+        }
+
+        private void Sipariskontrolform_MouseUp(object sender, MouseEventArgs e)
+        {
+            Move = 0;
+            this.Cursor = Cursors.Default;
+        }
+
+        private void Sipariskontrolform_MouseDown(object sender, MouseEventArgs e)
+        {
+            Move = 1;
+            Mouse_X = e.X;
+            Mouse_Y = e.Y;
+            this.Cursor = Cursors.SizeAll;
+        }
+        #endregion
+        #region forumharaketettirme2 
+        private void Panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            Move = 0;
+            this.Cursor = Cursors.Default;
+        }
+
+        private void Panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Move == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
+            }
+        }
+
+        private void Panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            Move = 1;
+            Mouse_X = e.X;
+            Mouse_Y = e.Y;
+            this.Cursor = Cursors.SizeAll;
+
+        }
+        #endregion
+        #region renkayarları
+        private void Kullanilacak_malzeme_serino_ekle_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            kullanilacak_malzeme_serino_ekle_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Siparis_aciklama_güncelleme_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            siparis_aciklama_güncelleme_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Siparisi_onayla_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            Siparisi_onayla_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Siparis_sil_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            siparis_sil_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Siparis_listesi_güncelle_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            siparis_listesi_güncelle_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Malzeme_ekle_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            malzeme_ekle_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Kullanilmayacak_malzemeyi_sil_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            kullanilmayacak_malzemeyi_sil_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Ana_menü_btnn_MouseMove(object sender, MouseEventArgs e)
+        {
+            ana_menü_btnn.BackColor = Color.DarkGreen;
+        }
+
+        private void Kullanilacak_malzeme_serino_ekle_btn_MouseLeave(object sender, EventArgs e)
+        {
+            kullanilacak_malzeme_serino_ekle_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Siparis_aciklama_güncelleme_btn_MouseLeave(object sender, EventArgs e)
+        {
+            siparis_aciklama_güncelleme_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Siparisi_onayla_btn_MouseLeave(object sender, EventArgs e)
+        {
+            Siparisi_onayla_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Siparis_sil_btn_MouseLeave(object sender, EventArgs e)
+        {
+            siparis_sil_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Siparis_listesi_güncelle_btn_MouseLeave(object sender, EventArgs e)
+        {
+            siparis_listesi_güncelle_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Kullanilmayacak_malzemeyi_sil_btn_MouseLeave(object sender, EventArgs e)
+        {
+            kullanilmayacak_malzemeyi_sil_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Malzeme_ekle_btn_MouseLeave(object sender, EventArgs e)
+        {
+            malzeme_ekle_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Ana_menü_btnn_MouseLeave(object sender, EventArgs e)
+        {
+            ana_menü_btnn.BackColor = Color.MediumSeaGreen;
+            
+        }
+        private void Logout_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            logout_label.ForeColor = Color.Black;
+        }
+
+        private void Windows_kücültme_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            windows_kücültme_label.ForeColor = Color.Black;
+        }
+
+        private void Logout_label_MouseLeave(object sender, EventArgs e)
+        {
+            logout_label.ForeColor = Color.Gray;
+        }
+
+        private void Windows_kücültme_label_MouseLeave(object sender, EventArgs e)
+        {
+            windows_kücültme_label.ForeColor = Color.Gray;
+        }
+        #endregion
     }
 }

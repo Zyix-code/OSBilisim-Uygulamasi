@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Mime;
+using System.Drawing;
 
 namespace OSBilişim
 {
@@ -37,7 +38,6 @@ namespace OSBilişim
         string kullanicieskisifre;
         private void Btn_giris_Click(object sender, EventArgs e)
         {
-            Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
             if (yenisifretextbox.Text == yenisifretekrartextbox.Text)
             {
                 if (connection.State == ConnectionState.Closed)
@@ -92,7 +92,7 @@ namespace OSBilişim
                     DialogResult dialog = MessageBox.Show("Uygulamanızın yeni sürümünü indirmek ister misiniz?", "OS BİLİŞİM", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dialog == DialogResult.Yes)
                     {
-                        string dosya_dizini = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
+                        _ = AppDomain.CurrentDomain.BaseDirectory.ToString() + "OSUpdate.exe";
                         File.WriteAllBytes(@"OSUpdate.exe", new System.Net.WebClient().DownloadData("http://192.168.1.106/Update/OSUpdate.exe"));
                         Process.Start("OSUpdate.exe");
                         System.Threading.Thread.Sleep(1000);
@@ -107,57 +107,6 @@ namespace OSBilişim
             }
             connection.Close();
         }
-
-        new
-        #region forumharaket
-        int Move;
-        int Mouse_X;
-        int Mouse_Y;
-        private void Sifresıfırlamaforum_MouseUp(object sender, MouseEventArgs e)
-        {
-            Move = 0;
-            this.Cursor = Cursors.Default;
-        }
-
-        private void Sifresıfırlamaforum_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Move == 1)
-            {
-                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
-            }
-        }
-
-        private void Sifresıfırlamaforum_MouseDown(object sender, MouseEventArgs e)
-        {
-            Move = 1;
-            Mouse_X = e.X;
-            Mouse_Y = e.Y;
-            this.Cursor = Cursors.SizeAll;
-        }
-
-
-        private void Panel2_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Move == 1)
-            {
-                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
-            }
-        }
-
-        private void Panel2_MouseUp(object sender, MouseEventArgs e)
-        {
-            Move = 0;
-            this.Cursor = Cursors.Default;
-        }
-
-        private void Panel2_MouseDown(object sender, MouseEventArgs e)
-        {
-            Move = 1;
-            Mouse_X = e.X;
-            Mouse_Y = e.Y;
-            this.Cursor = Cursors.SizeAll;
-        }
-        #endregion
         private void Sifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -323,6 +272,10 @@ namespace OSBilişim
             k3 = Convert.ToChar(h3);
             onaykodu = s1.ToString() + s2.ToString() + k1 + s3.ToString() + k2 + s4.ToString() + k3;
         }
+        private void LinkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://mail.google.com/");
+        }
         private void Btn_onaykodugönder_Click(object sender, EventArgs e)
         {
             try
@@ -457,5 +410,95 @@ namespace OSBilişim
             }
             connection.Close();
         }
+
+        new
+        #region forumharaket
+        int Move;
+        int Mouse_X;
+        int Mouse_Y;
+        private void Sifresıfırlamaforum_MouseUp(object sender, MouseEventArgs e)
+        {
+            Move = 0;
+            this.Cursor = Cursors.Default;
+        }
+
+        private void Sifresıfırlamaforum_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Move == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
+            }
+        }
+
+        private void Sifresıfırlamaforum_MouseDown(object sender, MouseEventArgs e)
+        {
+            Move = 1;
+            Mouse_X = e.X;
+            Mouse_Y = e.Y;
+            this.Cursor = Cursors.SizeAll;
+        }
+
+
+        private void Panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Move == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
+            }
+        }
+
+        private void Panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            Move = 0;
+            this.Cursor = Cursors.Default;
+        }
+
+        private void Panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            Move = 1;
+            Mouse_X = e.X;
+            Mouse_Y = e.Y;
+            this.Cursor = Cursors.SizeAll;
+        }
+        #endregion
+        #region renkayarları
+        private void Btn_sıfırla_MouseMove(object sender, MouseEventArgs e)
+        {
+            btn_sıfırla.BackColor = Color.DarkGreen;
+        }
+
+        private void Btn_onaykodugönder_MouseMove(object sender, MouseEventArgs e)
+        {
+            btn_onaykodugönder.BackColor = Color.DarkGreen;
+        }
+
+        private void Btn_onaykodugönder_MouseLeave(object sender, EventArgs e)
+        {
+            btn_onaykodugönder.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Btn_sıfırla_MouseLeave(object sender, EventArgs e)
+        {
+            btn_sıfırla.BackColor = Color.MediumSeaGreen;
+        }
+        private void Logout_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            logout_label.ForeColor = Color.Black;
+        }
+
+        private void Label3_MouseMove(object sender, MouseEventArgs e)
+        {
+            label3.ForeColor = Color.Black;
+        }
+        private void Label3_MouseLeave(object sender, EventArgs e)
+        {
+            label3.ForeColor = Color.Gray;
+        }
+
+        private void Logout_label_MouseLeave(object sender, EventArgs e)
+        {
+            logout_label.ForeColor = Color.Gray;
+        }
+        #endregion
     }
 }

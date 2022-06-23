@@ -8,6 +8,7 @@ using System.Security.Principal;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Drawing;
 
 namespace OSBilişim
 {
@@ -63,11 +64,14 @@ namespace OSBilişim
                 Properties.Settings.Default.Save();
             }
         }
+
+        [Obsolete]
         public static void Log(string logMessage, TextWriter w)
         {
             string bilgisayarAdi = Dns.GetHostName();
             string ipAdresi = Dns.GetHostByName(bilgisayarAdi).AddressList[0].ToString();
-            w.WriteLine("-------------------------------");
+            File.SetAttributes(@"OSBilisim-log.log", FileAttributes.Hidden); 
+            w.WriteLine("---------------------------------");
             w.WriteLine("Bilgisayar adı: " + bilgisayarAdi + " " + "Ip adresi: " + ipAdresi);
             w.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
             w.WriteLine($"{logMessage}");
@@ -125,6 +129,7 @@ namespace OSBilişim
                                 using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                 {
                                     Log(adi + " " + soyadi + " sisteme " + "(" + username + ")" + " kullanıcı adı ile giriş yaptı.", w);
+                                  
                                 }
                                 using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                 {
@@ -274,9 +279,12 @@ namespace OSBilişim
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://mail.google.com/");
+            Process.Start("https://mail.google.com/");
         }
-
+        private void Şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            sifresıfırlamaforum.Show();
+        }
         private void Label3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -342,7 +350,7 @@ namespace OSBilişim
 
           string sifrele(string text)
           {
-             string path = @"OSBilisim-log.xml";
+             string path = @"OSBilisim-log.log";
              byte[] data = Encoding.Default.GetBytes(path);
               using (MD5CryptoServiceProvider mD5 = new MD5CryptoServiceProvider())
               {
@@ -383,9 +391,37 @@ namespace OSBilişim
              // MessageBox.Show(sifrecöz(kullaniciaditextbox.text)); kullanımı
           }*/
         #endregion
-        private void Şifremiunuttumlinklabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+
+        #region renkayarları
+        private void Btn_giris_MouseMove(object sender, MouseEventArgs e)
         {
-            sifresıfırlamaforum.Show();
+            btn_giris.BackColor = Color.DarkGreen;
         }
+
+        private void Btn_giris_MouseLeave(object sender, EventArgs e)
+        {
+            btn_giris.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Logout_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            logout_label.ForeColor = Color.Black;
+        }
+
+        private void Label3_MouseMove(object sender, MouseEventArgs e)
+        {
+            label3.ForeColor = Color.Black;
+        }
+
+        private void Logout_label_MouseLeave(object sender, EventArgs e)
+        {
+            logout_label.ForeColor = Color.Gray;
+        }
+
+        private void Label3_MouseLeave(object sender, EventArgs e)
+        {
+            label3.ForeColor = Color.Gray;
+        }
+        #endregion
     }
 }

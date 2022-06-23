@@ -74,6 +74,8 @@
             this.logout_label = new System.Windows.Forms.Label();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label14 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -88,6 +90,7 @@
             this.ürünadi.Location = new System.Drawing.Point(113, 20);
             this.ürünadi.Name = "ürünadi";
             this.ürünadi.Size = new System.Drawing.Size(180, 24);
+            this.ürünadi.Sorted = true;
             this.ürünadi.TabIndex = 1;
             this.ürünadi.SelectedIndexChanged += new System.EventHandler(this.Ürunadi_SelectedIndexChanged);
             // 
@@ -175,6 +178,7 @@
             this.ürünstokkodu.Location = new System.Drawing.Point(113, 50);
             this.ürünstokkodu.Name = "ürünstokkodu";
             this.ürünstokkodu.Size = new System.Drawing.Size(180, 24);
+            this.ürünstokkodu.Sorted = true;
             this.ürünstokkodu.TabIndex = 6;
             // 
             // label5
@@ -258,14 +262,15 @@
             this.ürünün_satıldığı_firma.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ürünün_satıldığı_firma.FormattingEnabled = true;
             this.ürünün_satıldığı_firma.Items.AddRange(new object[] {
-            "Hepsiburada",
+            "Diğer",
             "Gittigidiyor",
-            "Trendyol",
+            "Hepsiburada",
             "N11",
-            "Diğer"});
+            "Trendyol"});
             this.ürünün_satıldığı_firma.Location = new System.Drawing.Point(158, 106);
             this.ürünün_satıldığı_firma.Name = "ürünün_satıldığı_firma";
             this.ürünün_satıldığı_firma.Size = new System.Drawing.Size(162, 24);
+            this.ürünün_satıldığı_firma.Sorted = true;
             this.ürünün_satıldığı_firma.TabIndex = 14;
             // 
             // label8
@@ -287,6 +292,7 @@
             this.satış_yapılan_firma.Location = new System.Drawing.Point(158, 76);
             this.satış_yapılan_firma.Name = "satış_yapılan_firma";
             this.satış_yapılan_firma.Size = new System.Drawing.Size(162, 24);
+            this.satış_yapılan_firma.Sorted = true;
             this.satış_yapılan_firma.TabIndex = 12;
             // 
             // label7
@@ -343,7 +349,7 @@
             this.groupBox3.Controls.Add(this.kullanilacak_malzemeler_listesi);
             this.groupBox3.Controls.Add(this.silbtn);
             this.groupBox3.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.groupBox3.Location = new System.Drawing.Point(396, 393);
+            this.groupBox3.Location = new System.Drawing.Point(396, 378);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(696, 277);
             this.groupBox3.TabIndex = 6;
@@ -361,10 +367,11 @@
             // 
             // malzeme_ekle_btn
             // 
-            this.malzeme_ekle_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.malzeme_ekle_btn.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.malzeme_ekle_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.malzeme_ekle_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.malzeme_ekle_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.malzeme_ekle_btn.ForeColor = System.Drawing.Color.Black;
+            this.malzeme_ekle_btn.ForeColor = System.Drawing.SystemColors.Window;
             this.malzeme_ekle_btn.Location = new System.Drawing.Point(147, 226);
             this.malzeme_ekle_btn.Name = "malzeme_ekle_btn";
             this.malzeme_ekle_btn.Size = new System.Drawing.Size(121, 32);
@@ -374,13 +381,16 @@
         "ağlar.");
             this.malzeme_ekle_btn.UseVisualStyleBackColor = false;
             this.malzeme_ekle_btn.Click += new System.EventHandler(this.Malzeme_ekle_btn_Click);
+            this.malzeme_ekle_btn.MouseLeave += new System.EventHandler(this.Malzeme_ekle_btn_MouseLeave);
+            this.malzeme_ekle_btn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Malzeme_ekle_btn_MouseMove);
             // 
             // siparis_gonder
             // 
-            this.siparis_gonder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.siparis_gonder.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.siparis_gonder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.siparis_gonder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_gonder.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.siparis_gonder.ForeColor = System.Drawing.Color.Black;
+            this.siparis_gonder.ForeColor = System.Drawing.SystemColors.Window;
             this.siparis_gonder.Location = new System.Drawing.Point(446, 236);
             this.siparis_gonder.Name = "siparis_gonder";
             this.siparis_gonder.Size = new System.Drawing.Size(121, 32);
@@ -389,6 +399,8 @@
             this.toolTip1.SetToolTip(this.siparis_gonder, "Siparişi tamamladıktan sonra oluşturmanızı sağlar.");
             this.siparis_gonder.UseVisualStyleBackColor = false;
             this.siparis_gonder.Click += new System.EventHandler(this.Siparis_gonder_Click);
+            this.siparis_gonder.MouseLeave += new System.EventHandler(this.Siparis_gonder_MouseLeave);
+            this.siparis_gonder.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Siparis_gonder_MouseMove);
             // 
             // kullanilacak_malzeme_adeti_textbox
             // 
@@ -401,10 +413,11 @@
             // 
             // liste_temizle
             // 
-            this.liste_temizle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.liste_temizle.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.liste_temizle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.liste_temizle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.liste_temizle.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.liste_temizle.ForeColor = System.Drawing.Color.Black;
+            this.liste_temizle.ForeColor = System.Drawing.SystemColors.Window;
             this.liste_temizle.Location = new System.Drawing.Point(504, 198);
             this.liste_temizle.Name = "liste_temizle";
             this.liste_temizle.Size = new System.Drawing.Size(121, 32);
@@ -413,6 +426,8 @@
             this.toolTip1.SetToolTip(this.liste_temizle, "Bütün listeyi temizlemenizi sağlar.");
             this.liste_temizle.UseVisualStyleBackColor = false;
             this.liste_temizle.Click += new System.EventHandler(this.Liste_temizle_Click);
+            this.liste_temizle.MouseLeave += new System.EventHandler(this.Liste_temizle_MouseLeave);
+            this.liste_temizle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Liste_temizle_MouseMove);
             // 
             // kullanilacak_malzemeler_listbox
             // 
@@ -436,10 +451,11 @@
             // 
             // silbtn
             // 
-            this.silbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.silbtn.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.silbtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.silbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.silbtn.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.silbtn.ForeColor = System.Drawing.Color.Black;
+            this.silbtn.ForeColor = System.Drawing.SystemColors.Window;
             this.silbtn.Location = new System.Drawing.Point(377, 198);
             this.silbtn.Name = "silbtn";
             this.silbtn.Size = new System.Drawing.Size(121, 32);
@@ -448,6 +464,8 @@
             this.toolTip1.SetToolTip(this.silbtn, "Seçtiğiniz bir ürünü listeden silmenizi sağlar.");
             this.silbtn.UseVisualStyleBackColor = false;
             this.silbtn.Click += new System.EventHandler(this.Silbtn_Click);
+            this.silbtn.MouseLeave += new System.EventHandler(this.Silbtn_MouseLeave);
+            this.silbtn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Silbtn_MouseMove);
             // 
             // panel2
             // 
@@ -459,7 +477,7 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Location = new System.Drawing.Point(-2, -4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(377, 703);
+            this.panel2.Size = new System.Drawing.Size(377, 734);
             this.panel2.TabIndex = 14;
             this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseDown);
             this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel2_MouseMove);
@@ -467,11 +485,12 @@
             // 
             // ana_menü_btn
             // 
-            this.ana_menü_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.ana_menü_btn.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.ana_menü_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ana_menü_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ana_menü_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.ana_menü_btn.ForeColor = System.Drawing.SystemColors.Window;
-            this.ana_menü_btn.Location = new System.Drawing.Point(14, 641);
+            this.ana_menü_btn.Location = new System.Drawing.Point(14, 680);
             this.ana_menü_btn.Name = "ana_menü_btn";
             this.ana_menü_btn.Size = new System.Drawing.Size(121, 32);
             this.ana_menü_btn.TabIndex = 12;
@@ -479,6 +498,8 @@
             this.toolTip1.SetToolTip(this.ana_menü_btn, "Ana menüye dönmenizi sağlar.");
             this.ana_menü_btn.UseVisualStyleBackColor = false;
             this.ana_menü_btn.Click += new System.EventHandler(this.Ana_menü_btn_Click);
+            this.ana_menü_btn.MouseLeave += new System.EventHandler(this.Ana_menü_btn_MouseLeave);
+            this.ana_menü_btn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ana_menü_btn_MouseMove);
             // 
             // label12
             // 
@@ -486,11 +507,11 @@
             this.label12.Font = new System.Drawing.Font("Century Gothic", 16F);
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(81, 333);
+            this.label12.Location = new System.Drawing.Point(90, 333);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(229, 25);
+            this.label12.Size = new System.Drawing.Size(195, 25);
             this.label12.TabIndex = 10;
-            this.label12.Text = "SİPARİŞ OLUŞTURMA";
+            this.label12.Text = "Sipariş Oluşturma";
             // 
             // loginpanel_hosgeldiniz_label
             // 
@@ -510,7 +531,7 @@
             this.loginpanel_gelistiren_label.Font = new System.Drawing.Font("Century Gothic", 7F);
             this.loginpanel_gelistiren_label.ForeColor = System.Drawing.Color.White;
             this.loginpanel_gelistiren_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(267, 646);
+            this.loginpanel_gelistiren_label.Location = new System.Drawing.Point(267, 685);
             this.loginpanel_gelistiren_label.Name = "loginpanel_gelistiren_label";
             this.loginpanel_gelistiren_label.Size = new System.Drawing.Size(107, 30);
             this.loginpanel_gelistiren_label.TabIndex = 7;
@@ -518,7 +539,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImage = global::OSBilişim.Properties.Resources.footer_green;
             this.pictureBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.pictureBox1.Location = new System.Drawing.Point(47, 85);
             this.pictureBox1.Name = "pictureBox1";
@@ -536,6 +557,7 @@
             this.windows_kücültme_label.AutoSize = true;
             this.windows_kücültme_label.Cursor = System.Windows.Forms.Cursors.Hand;
             this.windows_kücültme_label.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.windows_kücültme_label.ForeColor = System.Drawing.Color.Gray;
             this.windows_kücültme_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.windows_kücültme_label.Location = new System.Drawing.Point(1104, 7);
             this.windows_kücültme_label.Name = "windows_kücültme_label";
@@ -544,12 +566,15 @@
             this.windows_kücültme_label.Text = "-";
             this.toolTip1.SetToolTip(this.windows_kücültme_label, "Uygulamayı küçültmenizi sağlar.");
             this.windows_kücültme_label.Click += new System.EventHandler(this.Windows_kücültme_label_Click);
+            this.windows_kücültme_label.MouseLeave += new System.EventHandler(this.Windows_kücültme_label_MouseLeave);
+            this.windows_kücültme_label.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Windows_kücültme_label_MouseMove);
             // 
             // logout_label
             // 
             this.logout_label.AutoSize = true;
             this.logout_label.Cursor = System.Windows.Forms.Cursors.Hand;
             this.logout_label.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.logout_label.ForeColor = System.Drawing.Color.Gray;
             this.logout_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.logout_label.Location = new System.Drawing.Point(1124, 8);
             this.logout_label.Name = "logout_label";
@@ -558,6 +583,8 @@
             this.logout_label.Text = "X";
             this.toolTip1.SetToolTip(this.logout_label, "Uygulamayı kapatmanızı sağlar.");
             this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
+            this.logout_label.MouseLeave += new System.EventHandler(this.Logout_label_MouseLeave);
+            this.logout_label.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Logout_label_MouseMove);
             // 
             // printDocument1
             // 
@@ -575,12 +602,43 @@
             this.printPreviewDialog1.Text = "Baskı önizleme";
             this.printPreviewDialog1.Visible = false;
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.DarkGreen;
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkLabel1.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.linkLabel1.LinkColor = System.Drawing.Color.MediumSeaGreen;
+            this.linkLabel1.Location = new System.Drawing.Point(577, 695);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(151, 16);
+            this.linkLabel1.TabIndex = 40;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "selcuksahin158@gmail.com";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label14.Location = new System.Drawing.Point(393, 664);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(212, 48);
+            this.label14.TabIndex = 39;
+            this.label14.Text = "Bu uygulamaya ilgili \r\nherhangi bir sorun, şikayet ve öneri için\r\nbir -eposta mes" +
+    "aji gönderebilirsiniz";
+            // 
             // Siparisolusturmaform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1159, 681);
+            this.ClientSize = new System.Drawing.Size(1159, 721);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.windows_kücültme_label);
             this.Controls.Add(this.logout_label);
             this.Controls.Add(this.panel2);
@@ -658,5 +716,7 @@
         private System.Windows.Forms.TextBox sipariş_numarası_textbox;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label14;
     }
 }

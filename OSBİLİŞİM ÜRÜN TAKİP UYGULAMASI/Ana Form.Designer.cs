@@ -64,11 +64,11 @@
             // 
             // siparis_kontrol_btn
             // 
-            this.siparis_kontrol_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.siparis_kontrol_btn.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.siparis_kontrol_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.siparis_kontrol_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_kontrol_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.siparis_kontrol_btn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.siparis_kontrol_btn.ForeColor = System.Drawing.SystemColors.Window;
             this.siparis_kontrol_btn.Location = new System.Drawing.Point(591, 216);
             this.siparis_kontrol_btn.Name = "siparis_kontrol_btn";
             this.siparis_kontrol_btn.Size = new System.Drawing.Size(111, 45);
@@ -77,14 +77,16 @@
             this.toolTip1.SetToolTip(this.siparis_kontrol_btn, "Siparişleri kontrol edebileceğiniz sayfaya yönlendirir.");
             this.siparis_kontrol_btn.UseVisualStyleBackColor = false;
             this.siparis_kontrol_btn.Click += new System.EventHandler(this.Siparis_kontrol_btn_Click);
+            this.siparis_kontrol_btn.MouseLeave += new System.EventHandler(this.Siparis_kontrol_btn_MouseLeave);
+            this.siparis_kontrol_btn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Siparis_kontrol_btn_MouseMove);
             // 
             // ürün_ekle_ve_düzenle_btn
             // 
-            this.ürün_ekle_ve_düzenle_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.ürün_ekle_ve_düzenle_btn.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.ürün_ekle_ve_düzenle_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ürün_ekle_ve_düzenle_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ürün_ekle_ve_düzenle_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.ürün_ekle_ve_düzenle_btn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ürün_ekle_ve_düzenle_btn.ForeColor = System.Drawing.SystemColors.Window;
             this.ürün_ekle_ve_düzenle_btn.Location = new System.Drawing.Point(474, 267);
             this.ürün_ekle_ve_düzenle_btn.Name = "ürün_ekle_ve_düzenle_btn";
             this.ürün_ekle_ve_düzenle_btn.Size = new System.Drawing.Size(111, 45);
@@ -93,6 +95,8 @@
             this.toolTip1.SetToolTip(this.ürün_ekle_ve_düzenle_btn, "Ürünleri düzenleyebileceğiniz sayfaya yönlendirir.\r\n");
             this.ürün_ekle_ve_düzenle_btn.UseVisualStyleBackColor = false;
             this.ürün_ekle_ve_düzenle_btn.Click += new System.EventHandler(this.Ürün_ekle_ve_düzenle_btn_Click);
+            this.ürün_ekle_ve_düzenle_btn.MouseLeave += new System.EventHandler(this.Ürün_ekle_ve_düzenle_btn_MouseLeave);
+            this.ürün_ekle_ve_düzenle_btn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ürün_ekle_ve_düzenle_btn_MouseMove);
             // 
             // panel2
             // 
@@ -147,7 +151,7 @@
             // 
             // btn_cikis
             // 
-            this.btn_cikis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.btn_cikis.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btn_cikis.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_cikis.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cikis.Font = new System.Drawing.Font("Century Gothic", 8F);
@@ -161,6 +165,8 @@
             this.toolTip1.SetToolTip(this.btn_cikis, "Farklı bir hesap ile giriş yapmanız için mevcut hesabınızdan çıkış yapar.");
             this.btn_cikis.UseVisualStyleBackColor = false;
             this.btn_cikis.Click += new System.EventHandler(this.Btn_cikis_Click);
+            this.btn_cikis.MouseLeave += new System.EventHandler(this.Btn_cikis_MouseLeave);
+            this.btn_cikis.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_cikis_MouseMove);
             // 
             // tarih_label
             // 
@@ -248,7 +254,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::OSBilişim.Properties.Resources.person_icon;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(122, 51);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(128, 128);
@@ -318,13 +324,15 @@
             // 
             // linkLabel1
             // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.DarkGreen;
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkLabel1.Font = new System.Drawing.Font("Century Gothic", 8F);
             this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(117)))), ((int)(((byte)(189)))));
-            this.linkLabel1.Location = new System.Drawing.Point(568, 532);
+            this.linkLabel1.LinkColor = System.Drawing.Color.MediumSeaGreen;
+            this.linkLabel1.Location = new System.Drawing.Point(566, 531);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(139, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(151, 16);
             this.linkLabel1.TabIndex = 18;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "selcuksahin158@gmail.com";
@@ -348,6 +356,7 @@
             this.label3.AutoSize = true;
             this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label3.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.label3.ForeColor = System.Drawing.Color.Gray;
             this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label3.Location = new System.Drawing.Point(745, 7);
             this.label3.Name = "label3";
@@ -356,12 +365,15 @@
             this.label3.Text = "-";
             this.toolTip1.SetToolTip(this.label3, "Uygulamayı küçültmenizi sağlar.");
             this.label3.Click += new System.EventHandler(this.Label3_Click);
+            this.label3.MouseLeave += new System.EventHandler(this.Label3_MouseLeave);
+            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Label3_MouseMove);
             // 
             // logout_label
             // 
             this.logout_label.AutoSize = true;
             this.logout_label.Cursor = System.Windows.Forms.Cursors.Hand;
             this.logout_label.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.logout_label.ForeColor = System.Drawing.Color.Gray;
             this.logout_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.logout_label.Location = new System.Drawing.Point(765, 8);
             this.logout_label.Name = "logout_label";
@@ -370,14 +382,16 @@
             this.logout_label.Text = "X";
             this.toolTip1.SetToolTip(this.logout_label, "Uygulamayı kapatmanızı sağlar.");
             this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
+            this.logout_label.MouseLeave += new System.EventHandler(this.Logout_label_MouseLeave);
+            this.logout_label.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Logout_label_MouseMove);
             // 
             // siparis_olustur_btn
             // 
-            this.siparis_olustur_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.siparis_olustur_btn.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.siparis_olustur_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.siparis_olustur_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.siparis_olustur_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.siparis_olustur_btn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.siparis_olustur_btn.ForeColor = System.Drawing.SystemColors.Window;
             this.siparis_olustur_btn.Location = new System.Drawing.Point(474, 216);
             this.siparis_olustur_btn.Name = "siparis_olustur_btn";
             this.siparis_olustur_btn.Size = new System.Drawing.Size(111, 45);
@@ -386,6 +400,8 @@
             this.toolTip1.SetToolTip(this.siparis_olustur_btn, "Sipariş oluşturabileceğiniz sayfaya yönlendirir.");
             this.siparis_olustur_btn.UseVisualStyleBackColor = false;
             this.siparis_olustur_btn.Click += new System.EventHandler(this.Siparis_olustur_btn_Click);
+            this.siparis_olustur_btn.MouseLeave += new System.EventHandler(this.Siparis_olustur_btn_MouseLeave);
+            this.siparis_olustur_btn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Siparis_olustur_btn_MouseMove);
             // 
             // toolTip1
             // 
@@ -393,11 +409,11 @@
             // 
             // diğer_malzeme_grubları
             // 
-            this.diğer_malzeme_grubları.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.diğer_malzeme_grubları.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.diğer_malzeme_grubları.Cursor = System.Windows.Forms.Cursors.Hand;
             this.diğer_malzeme_grubları.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.diğer_malzeme_grubları.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.diğer_malzeme_grubları.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.diğer_malzeme_grubları.ForeColor = System.Drawing.SystemColors.Window;
             this.diğer_malzeme_grubları.Location = new System.Drawing.Point(591, 267);
             this.diğer_malzeme_grubları.Name = "diğer_malzeme_grubları";
             this.diğer_malzeme_grubları.Size = new System.Drawing.Size(111, 45);
@@ -406,14 +422,16 @@
             this.toolTip1.SetToolTip(this.diğer_malzeme_grubları, "Diğer malzeme,ürünlerin siparişini oluşturmanız için sayfaya yönlendirir.\r\n");
             this.diğer_malzeme_grubları.UseVisualStyleBackColor = false;
             this.diğer_malzeme_grubları.Click += new System.EventHandler(this.Diğer_malzeme_grubları_Click);
+            this.diğer_malzeme_grubları.MouseLeave += new System.EventHandler(this.Diğer_malzeme_grubları_MouseLeave);
+            this.diğer_malzeme_grubları.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Diğer_malzeme_grubları_MouseMove);
             // 
             // Diğer_malzeme_grubları_ekle_ve_düzenleme_btn
             // 
-            this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.ForeColor = System.Drawing.SystemColors.Window;
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Location = new System.Drawing.Point(522, 318);
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Name = "Diğer_malzeme_grubları_ekle_ve_düzenleme_btn";
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Size = new System.Drawing.Size(124, 63);
@@ -422,6 +440,8 @@
             this.toolTip1.SetToolTip(this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn, "Diğer malzeme,ürünlerin siparişini oluşturmanız için sayfaya yönlendirir.\r\n");
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.UseVisualStyleBackColor = false;
             this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.Click += new System.EventHandler(this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn_Click);
+            this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.MouseLeave += new System.EventHandler(this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn_MouseLeave);
+            this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Diğer_malzeme_grubları_ekle_ve_düzenleme_btn_MouseMove);
             // 
             // Anaform
             // 

@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\alt-logo.ico</ApplicationIcon>
+    <ApplicationIcon>alt-logo-green.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -126,6 +126,11 @@
     <Compile Include="Kullanıcı Girişi Form .Designer.cs">
       <DependentUpon>Kullanıcı Girişi Form .cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Siparis Olusturma Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,14 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Sipariş Kontrol Form.resx">
       <DependentUpon>Sipariş Kontrol Form.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -225,14 +225,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="alt-logo-green.ico" />
     <Content Include="alt-logo.ico" />
     <Content Include="Resources\alt-logo.ico" />
-    <None Include="Resources\logo.bmp" />
-    <None Include="Resources\Adsız.png" />
-    <None Include="Resources\business-ions-g2d4da277c_640.png" />
-    <None Include="Resources\laptop-5820171_960_720.png" />
-    <None Include="Resources\png-transparent-online-shopping-computer-icons-e-commerce-retail-business-web-design-text-retail.png" />
-    <None Include="Resources\sale-icon.png" />
+    <None Include="Resources\footer-green.png" />
+    <None Include="Resources\person-icon-green.png" />
     <None Include="Resources\person-icon.png" />
     <None Include="Resources\footer.png" />
   </ItemGroup>

@@ -37,8 +37,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.logout_label = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -60,6 +58,8 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.şifremiunuttumlinklabel = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -117,7 +117,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImage = global::OSBilişim.Properties.Resources.footer_green;
             this.pictureBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.pictureBox1.Location = new System.Drawing.Point(47, 85);
             this.pictureBox1.Name = "pictureBox1";
@@ -131,6 +131,7 @@
             this.label3.AutoSize = true;
             this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label3.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.label3.ForeColor = System.Drawing.Color.Gray;
             this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label3.Location = new System.Drawing.Point(743, 7);
             this.label3.Name = "label3";
@@ -139,12 +140,15 @@
             this.label3.Text = "-";
             this.toolTip1.SetToolTip(this.label3, "Formu küçültmenizi sağlar.");
             this.label3.Click += new System.EventHandler(this.Label3_Click);
+            this.label3.MouseLeave += new System.EventHandler(this.Label3_MouseLeave);
+            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Label3_MouseMove);
             // 
             // logout_label
             // 
             this.logout_label.AutoSize = true;
             this.logout_label.Cursor = System.Windows.Forms.Cursors.Hand;
             this.logout_label.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.logout_label.ForeColor = System.Drawing.Color.Gray;
             this.logout_label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.logout_label.Location = new System.Drawing.Point(763, 8);
             this.logout_label.Name = "logout_label";
@@ -153,33 +157,8 @@
             this.logout_label.Text = "X";
             this.toolTip1.SetToolTip(this.logout_label, "Formu kapatmanızı sağlar.");
             this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(117)))), ((int)(((byte)(189)))));
-            this.linkLabel1.Location = new System.Drawing.Point(567, 406);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(139, 13);
-            this.linkLabel1.TabIndex = 21;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "selcuksahin158@gmail.com";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
-            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label2.Location = new System.Drawing.Point(381, 374);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(212, 48);
-            this.label2.TabIndex = 20;
-            this.label2.Text = "Bu uygulamaya ilgili \r\nherhangi bir sorun, şikayet ve öneri için\r\nbir -eposta mes" +
-    "aji gönderebilirsiniz\r\n";
+            this.logout_label.MouseLeave += new System.EventHandler(this.Logout_label_MouseLeave);
+            this.logout_label.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Logout_label_MouseMove);
             // 
             // label4
             // 
@@ -258,11 +237,11 @@
             // 
             // btn_sıfırla
             // 
-            this.btn_sıfırla.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.btn_sıfırla.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btn_sıfırla.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_sıfırla.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_sıfırla.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.btn_sıfırla.ForeColor = System.Drawing.Color.Black;
+            this.btn_sıfırla.ForeColor = System.Drawing.SystemColors.Window;
             this.btn_sıfırla.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btn_sıfırla.Location = new System.Drawing.Point(512, 279);
             this.btn_sıfırla.Name = "btn_sıfırla";
@@ -273,6 +252,8 @@
         "ifrenizi sıfırlamanızı sağlar.");
             this.btn_sıfırla.UseVisualStyleBackColor = false;
             this.btn_sıfırla.Click += new System.EventHandler(this.Btn_giris_Click);
+            this.btn_sıfırla.MouseLeave += new System.EventHandler(this.Btn_sıfırla_MouseLeave);
+            this.btn_sıfırla.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_sıfırla_MouseMove);
             // 
             // panel4
             // 
@@ -322,11 +303,11 @@
             // 
             // btn_onaykodugönder
             // 
-            this.btn_onaykodugönder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.btn_onaykodugönder.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btn_onaykodugönder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_onaykodugönder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_onaykodugönder.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.btn_onaykodugönder.ForeColor = System.Drawing.Color.Black;
+            this.btn_onaykodugönder.ForeColor = System.Drawing.SystemColors.Window;
             this.btn_onaykodugönder.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btn_onaykodugönder.Location = new System.Drawing.Point(630, 279);
             this.btn_onaykodugönder.Name = "btn_onaykodugönder";
@@ -337,6 +318,8 @@
         "ifrenizi sıfırlamanızı sağlar.");
             this.btn_onaykodugönder.UseVisualStyleBackColor = false;
             this.btn_onaykodugönder.Click += new System.EventHandler(this.Btn_onaykodugönder_Click);
+            this.btn_onaykodugönder.MouseLeave += new System.EventHandler(this.Btn_onaykodugönder_MouseLeave);
+            this.btn_onaykodugönder.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_onaykodugönder_MouseMove);
             // 
             // kullanıcıadıtextbox
             // 
@@ -408,8 +391,12 @@
             // 
             // şifremiunuttumlinklabel
             // 
+            this.şifremiunuttumlinklabel.ActiveLinkColor = System.Drawing.Color.DarkGreen;
             this.şifremiunuttumlinklabel.AutoSize = true;
+            this.şifremiunuttumlinklabel.BackColor = System.Drawing.Color.Transparent;
+            this.şifremiunuttumlinklabel.ForeColor = System.Drawing.Color.MediumSeaGreen;
             this.şifremiunuttumlinklabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.şifremiunuttumlinklabel.LinkColor = System.Drawing.Color.MediumSeaGreen;
             this.şifremiunuttumlinklabel.Location = new System.Drawing.Point(468, 327);
             this.şifremiunuttumlinklabel.Name = "şifremiunuttumlinklabel";
             this.şifremiunuttumlinklabel.Size = new System.Drawing.Size(191, 13);
@@ -418,12 +405,43 @@
             this.şifremiunuttumlinklabel.Text = "Güvenlik sorusunun cevabını unuttum?";
             this.şifremiunuttumlinklabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Sifremiunuttumlinklabel_LinkClicked);
             // 
-            // sifresıfırlamaforum
+            // linkLabel1
+            // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.DarkGreen;
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkLabel1.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.linkLabel1.LinkColor = System.Drawing.Color.MediumSeaGreen;
+            this.linkLabel1.Location = new System.Drawing.Point(565, 405);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(151, 16);
+            this.linkLabel1.TabIndex = 44;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "selcuksahin158@gmail.com";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked_1);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(26)))), ((int)(((byte)(27)))));
+            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label2.Location = new System.Drawing.Point(381, 374);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(212, 48);
+            this.label2.TabIndex = 43;
+            this.label2.Text = "Bu uygulamaya ilgili \r\nherhangi bir sorun, şikayet ve öneri için\r\nbir -eposta mes" +
+    "aji gönderebilirsiniz";
+            // 
+            // Sifresıfırlamaforum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(798, 431);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.sifre_goster_gizle_checkbox);
             this.Controls.Add(this.şifremiunuttumlinklabel);
             this.Controls.Add(this.panel6);
@@ -444,14 +462,12 @@
             this.Controls.Add(this.yenisifretekrartextbox);
             this.Controls.Add(this.yenisifretextbox);
             this.Controls.Add(this.btn_sıfırla);
-            this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.logout_label);
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "sifresıfırlamaforum";
+            this.Name = "Sifresıfırlamaforum";
             this.Opacity = 0.95D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Şifre Sıfırlama Forum";
@@ -476,8 +492,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label logout_label;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel1;
@@ -499,5 +513,7 @@
         private System.Windows.Forms.TextBox kullanıcıadıtextbox;
         private System.Windows.Forms.LinkLabel şifremiunuttumlinklabel;
         private System.Windows.Forms.CheckBox sifre_goster_gizle_checkbox;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label2;
     }
 }

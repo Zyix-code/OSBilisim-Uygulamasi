@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -225,18 +226,15 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
-                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
-                    kullanicidurumgüncelle.ExecuteNonQuery();
-                    kullanicigirisiform.Show();
-                    Hide();
-                }
+
+                Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                kullanicidurumgüncelle.ExecuteNonQuery();
             }
             catch (Exception kullaniciaktifligi)
             {
-                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Kullanıcı bilgileri çekilirken bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             Application.Exit();
@@ -264,16 +262,15 @@ namespace OSBilişim
                                 ürünstokverisil.ExecuteNonQuery();
                                 MessageBox.Show("Seçili ürün kodu kaldırıldı.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 connection.Close();
-                                // LOG DOYASI //
-                                using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+
+                                using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                 {
-                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_kodu_listbox.SelectedItem.ToString() + " ürün kodunu sildi.", w);
+                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_listbox.SelectedItem.ToString() + " ürününün " + diger_ürün_kodu_listbox.SelectedItem.ToString() + " ürün kodunu sildi.", w);
                                 }
-                                using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
-                                // LOG DOSYASI //
                             }
                             else
                             {
@@ -303,16 +300,15 @@ namespace OSBilişim
                                 ürünstokverisil.ExecuteNonQuery();
                                 MessageBox.Show("Seçili ürün seri numarası kaldırıldı.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 connection.Close();
-                                // LOG DOYASI //
-                                using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                               
+                                using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                 {
-                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " seri numarasını sildi.", w);
+                                    Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_listbox.SelectedItem.ToString() + " ürününün " + diger_ürün_serino_listbox.SelectedItem.ToString() + " seri numarasını sildi.", w);
                                 }
-                                using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
-                                // LOG DOSYASI //
                             }
                         }
                         catch (Exception hata)
@@ -369,16 +365,14 @@ namespace OSBilişim
                                     SqlCommand notebookürünkodverisil = new SqlCommand("delete from diger_ürün_kodları where diger_urun_adi = '" + diger_ürün_adi_textbox.Text + "'", connection);
                                     notebookürünkodverisil.ExecuteNonQuery();
 
-                                    // LOG DOYASI //
-                                    using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                    using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                     {
-                                        Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününü sildi.", w);
+                                        Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_listbox.SelectedItem.ToString() + " ürününü sildi.", w);
                                     }
-                                    using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                    using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                     {
                                         Kullanicigirisiform.DumpLog(r);
                                     }
-                                    // LOG DOSYASI //
                                 }
                                 else
                                 {
@@ -439,11 +433,11 @@ namespace OSBilişim
                             yeniürünserinokayitkomut.ExecuteNonQuery();
                             MessageBox.Show("Yeni seri numaralı ürünün kaydı başarılı şekilde oluşturuldu.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " yeni seri numarasını ekledi.", w);
                             }
-                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
@@ -484,11 +478,11 @@ namespace OSBilişim
                             kayitkomut.Parameters.AddWithValue("@diger_urun_stok_kodu", diger_ürün_kodu_textbox.Text);
                             kayitkomut.ExecuteNonQuery();
 
-                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_kodu_textbox.Text + " yeni ürün kodunu ekledi.", w);
                             }
-                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
@@ -508,11 +502,11 @@ namespace OSBilişim
                             yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                             yeniürünserinokayitkomut.ExecuteNonQuery();
 
-                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " yeni seri numarasını ekledi.", w);
                             }
-                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
@@ -540,11 +534,11 @@ namespace OSBilişim
                                 yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                                 yeniürünserinokayitkomut.ExecuteNonQuery();
 
-                                using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                                using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                 {
                                     Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " ürününün " + diger_ürün_serino_textbox.Text + " ürün kodunu ve " + diger_ürün_serino_textbox.Text + " yeni seri numarasını ekledi.", w);
                                 }
-                                using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                 {
                                     Kullanicigirisiform.DumpLog(r);
                                 }
@@ -600,11 +594,11 @@ namespace OSBilişim
                                 yeniürünserinokayitkomut.Parameters.AddWithValue("@diger_urun_durumu", "Kullanılmadı");
                                 yeniürünserinokayitkomut.ExecuteNonQuery();
                             }
-                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.Log(Kullanicigirisiform.username + " adlı kullanıcı " + diger_ürün_adi_textbox.Text + " yeni ürünü ekledi.", w);
                             }
-                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
@@ -633,6 +627,72 @@ namespace OSBilişim
             {
                 diger_ürün_serino_textbox.Text = diger_ürün_serino_listbox.SelectedItem.ToString();
             }
+        }
+
+       
+
+        private void Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();
+                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                    kullanicidurumgüncelle.ExecuteNonQuery();
+                    kullanicigirisiform.Show();
+                    Hide();
+                }
+            }
+            catch (Exception kullaniciaktifligi)
+            {
+                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            foreach (var process in Process.GetProcessesByName("OSBilişim"))
+            {
+                process.Kill();
+            }
+        }
+
+        private void Ürünkalankullanımlabel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                if (diger_ürün_adi_listbox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Geçerli bir ürün seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    SqlCommand komut3 = new SqlCommand("SELECT diger_urun_serino FROM diger_ürün_stok where diger_urun_durumu = 'Kullanılmadı' and diger_urun_adi = '" + diger_ürün_adi_listbox.SelectedItem.ToString() + "'", connection);
+                    SqlDataReader veriokuyucu3;
+                    veriokuyucu3 = komut3.ExecuteReader();
+                    diger_ürün_serino_listbox.Items.Clear();
+                    while (veriokuyucu3.Read())
+                    {
+                        diger_ürün_serino_listbox.Items.Add(veriokuyucu3["diger_urun_serino"]);
+                    }
+                    if (diger_ürün_serino_listbox.Items.Count < 1)
+                    {
+                        diger_ürün_serino_listbox.Items.Add("Kullanılacak ürün yok.");
+                    }
+                    veriokuyucu3.Close();
+                    connection.Close();
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("Bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+        }
+        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://mail.google.com/");
         }
 
         #region forumharaketettirme
@@ -685,65 +745,65 @@ namespace OSBilişim
         }
 
         #endregion
-
-        private void Diğer_malzeme_Grubları_Ürün_ekle_ve_Düzenleme_FormClosed(object sender, FormClosedEventArgs e)
+        #region renkayarları
+        private void Secili_ürünün_kod_seri_no_sil_btn_MouseMove(object sender, MouseEventArgs e)
         {
-            try
-            {
-                if (connection.State == ConnectionState.Closed)
-                {
-                    connection.Open();
-                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
-                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
-                    kullanicidurumgüncelle.ExecuteNonQuery();
-                    kullanicigirisiform.Show();
-                    Hide();
-                }
-            }
-            catch (Exception kullaniciaktifligi)
-            {
-                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
-            foreach (var process in Process.GetProcessesByName("OSBilişim"))
-            {
-                process.Kill();
-            }
+            secili_ürünün_kod_seri_no_sil_btn.BackColor = Color.DarkGreen;
         }
 
-        private void ürünkalankullanımlabel_Click(object sender, EventArgs e)
+        private void Yeni_ürün_ekle_btn_MouseMove(object sender, MouseEventArgs e)
         {
-            try
-            {
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                if (diger_ürün_adi_listbox.SelectedIndex == -1)
-                {
-                    MessageBox.Show("Geçerli bir ürün seçiniz.", "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    SqlCommand komut3 = new SqlCommand("SELECT diger_urun_serino FROM diger_ürün_stok where diger_urun_durumu = 'Kullanılmadı' and diger_urun_adi = '" + diger_ürün_adi_listbox.SelectedItem.ToString() + "'", connection);
-                    SqlDataReader veriokuyucu3;
-                    veriokuyucu3 = komut3.ExecuteReader();
-                    diger_ürün_serino_listbox.Items.Clear();
-                    while (veriokuyucu3.Read())
-                    {
-                        diger_ürün_serino_listbox.Items.Add(veriokuyucu3["diger_urun_serino"]);
-                    }
-                    if (diger_ürün_serino_listbox.Items.Count < 1)
-                    {
-                        diger_ürün_serino_listbox.Items.Add("Kullanılacak ürün yok.");
-                    }
-                    veriokuyucu3.Close();
-                    connection.Close();
-                }
-            }
-            catch (Exception hata)
-            {
-                MessageBox.Show("Bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + hata.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
+           yeni_ürün_ekle_btn.BackColor = Color.DarkGreen;
         }
+
+        private void Secili_ürünü_sil_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            secili_ürünü_sil_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Ana_menü_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            ana_menü_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Yeni_ürün_ekle_btn_MouseLeave(object sender, EventArgs e)
+        {
+            yeni_ürün_ekle_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Secili_ürünün_kod_seri_no_sil_btn_MouseLeave(object sender, EventArgs e)
+        {
+             secili_ürünün_kod_seri_no_sil_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Secili_ürünü_sil_btn_MouseLeave(object sender, EventArgs e)
+        {
+             secili_ürünü_sil_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Ana_menü_btn_MouseLeave(object sender, EventArgs e)
+        {
+             ana_menü_btn.BackColor = Color.MediumSeaGreen;
+        }
+        private void Logout_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            logout_label.ForeColor = Color.Black;
+        }
+
+        private void Windows_kücültme_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            windows_kücültme_label.ForeColor = Color.Black;
+        }
+
+        private void Logout_label_MouseLeave(object sender, EventArgs e)
+        {
+            logout_label.ForeColor = Color.Gray;
+        }
+
+        private void Windows_kücültme_label_MouseLeave(object sender, EventArgs e)
+        {
+            windows_kücültme_label.ForeColor = Color.Gray;
+        }
+        #endregion
     }
 }

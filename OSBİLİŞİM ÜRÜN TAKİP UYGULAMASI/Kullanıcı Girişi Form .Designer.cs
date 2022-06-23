@@ -56,14 +56,16 @@
             // 
             // btn_giris
             // 
-            this.btn_giris.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(195)))), ((int)(((byte)(215)))));
+            this.btn_giris.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btn_giris.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.btn_giris, "btn_giris");
-            this.btn_giris.ForeColor = System.Drawing.Color.Black;
+            this.btn_giris.ForeColor = System.Drawing.SystemColors.Window;
             this.btn_giris.Name = "btn_giris";
             this.toolTip1.SetToolTip(this.btn_giris, resources.GetString("btn_giris.ToolTip"));
             this.btn_giris.UseVisualStyleBackColor = false;
             this.btn_giris.Click += new System.EventHandler(this.Btn_giris_Click);
+            this.btn_giris.MouseLeave += new System.EventHandler(this.Btn_giris_MouseLeave);
+            this.btn_giris.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Btn_giris_MouseMove);
             // 
             // kullaniciaditextbox
             // 
@@ -120,21 +122,29 @@
             // 
             resources.ApplyResources(this.logout_label, "logout_label");
             this.logout_label.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.logout_label.ForeColor = System.Drawing.Color.Gray;
             this.logout_label.Name = "logout_label";
             this.toolTip1.SetToolTip(this.logout_label, resources.GetString("logout_label.ToolTip"));
             this.logout_label.Click += new System.EventHandler(this.Logout_label_Click);
+            this.logout_label.MouseLeave += new System.EventHandler(this.Logout_label_MouseLeave);
+            this.logout_label.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Logout_label_MouseMove);
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label3.ForeColor = System.Drawing.Color.Gray;
             this.label3.Name = "label3";
             this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
             this.label3.Click += new System.EventHandler(this.Label3_Click);
+            this.label3.MouseLeave += new System.EventHandler(this.Label3_MouseLeave);
+            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Label3_MouseMove);
             // 
             // şifremiunuttumlinklabel
             // 
+            this.şifremiunuttumlinklabel.ActiveLinkColor = System.Drawing.Color.DarkGreen;
             resources.ApplyResources(this.şifremiunuttumlinklabel, "şifremiunuttumlinklabel");
+            this.şifremiunuttumlinklabel.LinkColor = System.Drawing.Color.MediumSeaGreen;
             this.şifremiunuttumlinklabel.Name = "şifremiunuttumlinklabel";
             this.şifremiunuttumlinklabel.TabStop = true;
             this.toolTip1.SetToolTip(this.şifremiunuttumlinklabel, resources.GetString("şifremiunuttumlinklabel.ToolTip"));
@@ -172,6 +182,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackgroundImage = global::OSBilişim.Properties.Resources.footer_green;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
@@ -196,9 +207,10 @@
             // 
             // linkLabel1
             // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.DarkGreen;
             resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(117)))), ((int)(((byte)(189)))));
+            this.linkLabel1.LinkColor = System.Drawing.Color.MediumSeaGreen;
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);

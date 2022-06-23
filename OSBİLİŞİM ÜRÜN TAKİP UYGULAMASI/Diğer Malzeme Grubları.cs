@@ -29,24 +29,18 @@ namespace OSBilişim
             try
             {
                 if (connection.State == ConnectionState.Closed)
-                {
                     connection.Open();
-                    Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
-                    SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
-                    kullanicidurumgüncelle.ExecuteNonQuery();
-                    kullanicigirisiform.Show();
-                    Hide();
-                }
+
+                Kullanicigirisiform kullanicigirisiform = new Kullanicigirisiform();
+                SqlCommand kullanicidurumgüncelle = new SqlCommand("Update kullanicilar set durum='" + 0 + "' where k_adi = '" + Kullanicigirisiform.username + "'", connection);
+                kullanicidurumgüncelle.ExecuteNonQuery();
             }
             catch (Exception kullaniciaktifligi)
             {
-                MessageBox.Show("Kullanıcı bilgileri çekilmedi tekrar deneyiniz.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Kullanıcı bilgileri çekilirken bir hata oluştu.\nİnternet bağlantınızı ya da server bağlantınızı kontrol edin.\nHata kodu: " + kullaniciaktifligi.Message, "OS BİLİŞİM", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-            foreach (var process in Process.GetProcessesByName("OSBilişim"))
-            {
-                process.Kill();
-            }
+            Application.Exit();
 
         }
 
@@ -288,20 +282,20 @@ namespace OSBilişim
 
                                     for (int i = 0; i < ürünserino_checklistbox.CheckedItems.Count; i++)
                                     {
-                                        SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
+                                        SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün Kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
                                         ürüngüncelle.ExecuteNonQuery();
                                     }
                                     connection.Close();
-                                    // LOG DOYASI //
-                                    using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+
+                                    using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                                     {
                                         Kullanicigirisiform.Log(aliciaditextbox.Text + " " + alicisoyaditextboxt.Text + " adlı alıcı " + ürünadi.SelectedItem.ToString() + " ürününün " + serino.Trim(new Char[] { ' ', '/', '.' }) + " seri numarasını girerek, " + Kullanicigirisiform.username + " tarafından alıcı için sipariş oluşturuldu.", w);
                                     }
-                                    using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                                    using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                                     {
                                         Kullanicigirisiform.DumpLog(r);
                                     }
-                                    // LOG DOSYASI //
+
                                     ürünadetitextbox.Text = "0";
                                     ürünadi.SelectedIndex = -1;
                                     ürünstokkodu.SelectedIndex = -1;
@@ -347,20 +341,20 @@ namespace OSBilişim
 
                             for (int i = 0; i < ürünserino_checklistbox.CheckedItems.Count; i++)
                             {
-                                SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
+                                SqlCommand ürüngüncelle = new SqlCommand("update diger_ürün_stok set diger_urun_durumu = '" + "Ürün Kullanıldı" + "' where diger_urun_serino = '" + ürünserino_checklistbox.CheckedItems[i] + "'", connection);
                                 ürüngüncelle.ExecuteNonQuery();
                             }
                             connection.Close();
-                            // LOG DOYASI //
-                            using (StreamWriter w = File.AppendText("OSBilisim-log.xml"))
+
+                            using (StreamWriter w = File.AppendText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.Log(aliciaditextbox.Text + " " + alicisoyaditextboxt.Text + " adlı alıcı " + ürünadi.SelectedItem.ToString() + " ürününün " + serino.Trim(new Char[] { ' ', '/', '.' }) + " seri numarasını girerek, " + Kullanicigirisiform.username + " tarafından alıcı için sipariş oluşturuldu.", w);
                             }
-                            using (StreamReader r = File.OpenText("OSBilisim-log.xml"))
+                            using (StreamReader r = File.OpenText("OSBilisim-log.log"))
                             {
                                 Kullanicigirisiform.DumpLog(r);
                             }
-                            // LOG DOSYASI //
+
                             ürünadetitextbox.Text = "0";
                             ürünadi.SelectedIndex = -1;
                             ürünstokkodu.SelectedIndex = -1;
@@ -440,57 +434,6 @@ namespace OSBilişim
                 Application.Exit();
             }
         }
-        #region forumharaketettirme
-        new
-        int Move;
-        int Mouse_X;
-        int Mouse_Y;
-        private void Diğer_Malzeme_Grubları_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Move == 1)
-            {
-                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
-            }
-        }
-
-        private void Diğer_Malzeme_Grubları_MouseUp(object sender, MouseEventArgs e)
-        {
-            Move = 0;
-            this.Cursor = Cursors.Default;
-        }
-
-        private void Diğer_Malzeme_Grubları_MouseDown(object sender, MouseEventArgs e)
-        {
-            Move = 1;
-            Mouse_X = e.X;
-            Mouse_Y = e.Y;
-            this.Cursor = Cursors.SizeAll;
-        }
-        #endregion
-
-        #region forumharaketettirme2 
-        private void Panel2_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Move == 1)
-            {
-                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
-            }
-        }
-        private void Panel2_MouseUp(object sender, MouseEventArgs e)
-        {
-            Move = 0;
-            this.Cursor = Cursors.Default;
-        }
-
-        private void Panel2_MouseDown(object sender, MouseEventArgs e)
-        {
-            Move = 1;
-            Mouse_X = e.X;
-            Mouse_Y = e.Y;
-            this.Cursor = Cursors.SizeAll;
-        }
-        #endregion
-
         private void Diğer_Malzeme_Grubları_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
@@ -589,5 +532,96 @@ namespace OSBilişim
 
             }
         }
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://mail.google.com/");
+        }
+        #region forumharaketettirme
+        new
+        int Move;
+        int Mouse_X;
+        int Mouse_Y;
+        private void Diğer_Malzeme_Grubları_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Move == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
+            }
+        }
+
+        private void Diğer_Malzeme_Grubları_MouseUp(object sender, MouseEventArgs e)
+        {
+            Move = 0;
+            this.Cursor = Cursors.Default;
+        }
+
+        private void Diğer_Malzeme_Grubları_MouseDown(object sender, MouseEventArgs e)
+        {
+            Move = 1;
+            Mouse_X = e.X;
+            Mouse_Y = e.Y;
+            this.Cursor = Cursors.SizeAll;
+        }
+        #endregion
+        #region forumharaketettirme2 
+        private void Panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Move == 1)
+            {
+                this.SetDesktopLocation(MousePosition.X - Mouse_X, MousePosition.Y - Mouse_Y);
+            }
+        }
+        private void Panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            Move = 0;
+            this.Cursor = Cursors.Default;
+        }
+
+        private void Panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            Move = 1;
+            Mouse_X = e.X;
+            Mouse_Y = e.Y;
+            this.Cursor = Cursors.SizeAll;
+        }
+        #endregion
+        #region renkayarı
+        private void Siparis_gonder_MouseMove(object sender, MouseEventArgs e)
+        {
+            siparis_gonder.BackColor = Color.DarkGreen;
+        }
+
+        private void Ana_menü_btn_MouseMove(object sender, MouseEventArgs e)
+        {
+            ana_menü_btn.BackColor = Color.DarkGreen;
+        }
+
+        private void Ana_menü_btn_MouseLeave(object sender, EventArgs e)
+        {
+            ana_menü_btn.BackColor = Color.MediumSeaGreen;
+        }
+
+        private void Siparis_gonder_MouseLeave(object sender, EventArgs e)
+        {
+            siparis_gonder.BackColor = Color.MediumSeaGreen;
+        }
+        private void Logout_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            logout_label.ForeColor = Color.Black;
+        }
+        private void Logout_label_MouseLeave(object sender, EventArgs e)
+        {
+            logout_label.ForeColor = Color.Gray;
+        }
+        private void Windows_kücültme_label_MouseMove(object sender, MouseEventArgs e)
+        {
+            windows_kücültme_label.ForeColor = Color.Black;
+        }
+
+        private void Windows_kücültme_label_MouseLeave(object sender, EventArgs e)
+        {
+            windows_kücültme_label.ForeColor = Color.Gray;
+        }
+        #endregion
     }
 }
